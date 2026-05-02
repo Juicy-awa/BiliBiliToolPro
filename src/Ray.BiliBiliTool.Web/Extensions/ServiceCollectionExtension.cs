@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components.Authorization;
+using Ray.BiliBiliTool.Agent.Extensions;
+using Ray.BiliBiliTool.Application.Extensions;
+using Ray.BiliBiliTool.Config.Extensions;
+using Ray.BiliBiliTool.DomainService.Extensions;
 using Ray.BiliBiliTool.Web.Auth;
 using Ray.BiliBiliTool.Web.Services;
 
@@ -33,5 +37,17 @@ public static class ServiceCollectionExtension
         services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
 
         return services;
+    }
+
+    public static IServiceCollection AddCoreModuleServices(
+        this IServiceCollection services,
+        IConfiguration configuration
+    )
+    {
+        return services
+            .AddBiliBiliConfigs(configuration)
+            .AddBiliBiliClientApi(configuration)
+            .AddDomainServices()
+            .AddAppServices();
     }
 }

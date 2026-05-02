@@ -5,6 +5,7 @@ using Ray.BiliBiliTool.Agent;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos;
 using Ray.BiliBiliTool.Application.Attributes;
 using Ray.BiliBiliTool.Application.Contracts;
+using Ray.BiliBiliTool.Application.Diagnostics;
 using Ray.BiliBiliTool.Config.Options;
 using Ray.BiliBiliTool.DomainService.Interfaces;
 using Ray.BiliBiliTool.Infrastructure.Cookie;
@@ -34,23 +35,30 @@ public class DailyTaskAppService(
         CancellationToken cancellationToken = default
     )
     {
-        if (!_dailyTaskOptions.IsEnable)
-        {
-            logger.LogInformation("已配置为关闭，跳过");
-            return;
-        }
+        await TaskFlowDiagnosticScope.ExecuteAsync(
+            logger,
+            "DailyTask",
+            async () =>
+            {
+                if (!_dailyTaskOptions.IsEnable)
+                {
+                    logger.LogInformation("已配置为关闭，跳过");
+                    return;
+                }
 
-        await SetCookiesAsync(ck, cancellationToken);
+                await SetCookiesAsync(ck, cancellationToken);
 
-        //每日任务赚经验：
-        UserInfo userInfo = await Login(ck);
+                //每日任务赚经验：
+                UserInfo userInfo = await Login(ck);
 
-        DailyTaskInfo dailyTaskInfo = await GetDailyTaskStatus(ck);
-        await WatchAndShareVideo(dailyTaskInfo, ck);
+                DailyTaskInfo dailyTaskInfo = await GetDailyTaskStatus(ck);
+                await WatchAndShareVideo(dailyTaskInfo, ck);
 
-        await AddCoins(userInfo, ck);
+                await AddCoins(userInfo, ck);
 
-        await ReceiveVipPrivilege(userInfo, ck);
+                await ReceiveVipPrivilege(userInfo, ck);
+            }
+        );
     }
 
     [TaskInterceptor("Set Cookie")]

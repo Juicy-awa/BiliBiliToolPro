@@ -1,4 +1,5 @@
 using Quartz;
+using Quartz.Impl.AdoJobStore;
 using Ray.BiliBiliTool.Web.Jobs;
 
 namespace Ray.BiliBiliTool.Web.Extensions;
@@ -6,6 +7,34 @@ namespace Ray.BiliBiliTool.Web.Extensions;
 public static class ServiceCollectionQuartzConfiguratorExtensions
 {
     private const string DefaultCron = "0 0 0 1 1 ?";
+
+    public static IServiceCollection AddBiliScheduler(
+        this IServiceCollection services,
+        IConfiguration configuration
+    )
+    {
+        var sqliteConnStr =
+            configuration.GetConnectionString("Sqlite") ?? throw new InvalidOperationException();
+
+        services.AddQuartz(q =>
+        {
+            q.UsePersistentStore(storeOptions =>
+            {
+                storeOptions.UseMicrosoftSQLite(sqlLiteOptions =>
+                {
+                    sqlLiteOptions.UseDriverDelegate<SQLiteDelegate>();
+                    sqlLiteOptions.ConnectionString = sqliteConnStr;
+                    sqlLiteOptions.TablePrefix = "QRTZ_";
+                });
+                storeOptions.UseSystemTextJsonSerializer();
+            });
+
+            q.AddBiliJobs(configuration);
+        });
+        services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
+
+        return services;
+    }
 
     public static IServiceCollectionQuartzConfigurator AddBiliJobs(
         this IServiceCollectionQuartzConfigurator quartz,
@@ -49,9 +78,7 @@ public static class ServiceCollectionQuartzConfiguratorExtensions
         quartz.AddTrigger(opts =>
             opts.ForJob(VipPrivilegeJob.Key)
                 .WithIdentity($"{VipPrivilegeJob.Key}.Cron.Trigger", Constants.BiliJobGroup)
-                .WithCronSchedule(
-                    configuration["VipPrivilegeConfig:Cron"] ?? DefaultCron
-                )
+                .WithCronSchedule(configuration["VipPrivilegeConfig:Cron"] ?? DefaultCron)
         );
 
         // Silver2Coin job

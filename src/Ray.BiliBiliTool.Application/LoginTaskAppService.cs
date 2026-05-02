@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Ray.BiliBiliTool.Agent;
 using Ray.BiliBiliTool.Application.Attributes;
 using Ray.BiliBiliTool.Application.Contracts;
+using Ray.BiliBiliTool.Application.Diagnostics;
 using Ray.BiliBiliTool.DomainService.Interfaces;
 using Ray.BiliBiliTool.Infrastructure.Enums;
 
@@ -17,16 +18,23 @@ public class LoginTaskAppService(
     [TaskInterceptor("扫码登录", TaskLevel.One)]
     public override async Task DoTaskAsync(CancellationToken cancellationToken = default)
     {
-        //扫码登录
-        var cookieInfo = await QrCodeLoginAsync(cancellationToken);
-        if (cookieInfo == null)
-            return;
+        await TaskFlowDiagnosticScope.ExecuteAsync(
+            logger,
+            "LoginTask",
+            async () =>
+            {
+                //扫码登录
+                var cookieInfo = await QrCodeLoginAsync(cancellationToken);
+                if (cookieInfo == null)
+                    return;
 
-        //set cookie
-        cookieInfo = await SetCookiesAsync(cookieInfo, cancellationToken);
+                //set cookie
+                cookieInfo = await SetCookiesAsync(cookieInfo, cancellationToken);
 
-        //持久化cookie
-        await SaveCookieAsync(cookieInfo, cancellationToken);
+                //持久化cookie
+                await SaveCookieAsync(cookieInfo, cancellationToken);
+            }
+        );
     }
 
     [TaskInterceptor("获取二维码")]
