@@ -1,6 +1,7 @@
 ## 4.0.0
 - 升级bruno到v3
 - bruno实现APP的sign签名算法和Web的WBI签名算法
+- Refactor by GSD
 ## 3.8.2
 - Fix[#1026]: 更新文档
 ## 3.8.1
