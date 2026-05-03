@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-04-27)
 
 **Core value:** Make the existing codebase safe to change: clear boundaries, lower coupling, and testable critical flows.
-**Current focus:** Phase 5 Complete — Phase 6 next
+**Current focus:** Phase 6 Complete — All 6 phases done
 
 ## Current Position
 
-Phase: 5 of 6 (Scheduler Shell Cleanup)
-Plan: 2 of 2 in current phase
+Phase: 6 of 6 (Integration Boundary And Failure Model)
+Plan: 4 of 4 in current phase
 Status: Complete
-Last activity: 2026-05-03 - Completed Phase 5: stripped all 12 Quartz job classes to thin delegation shells
+Last activity: 2026-05-03 - Completed Phase 6: exception hierarchy, repository adapters, full exception sweep, cookie validation tests
 
-Progress: [████████░░] 75%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -31,7 +31,7 @@ Progress: [████████░░] 75%
 | 2. Host Safety Nets | 3 | 60 min | 20 min |
 | 3. Login Refactor Slice | 1 | 12 min | 12 min |
 | 4. DailyTask Refactor Slice | 1 | 8 min | 8 min |
-| 5. Scheduler Shell Cleanup | 2 | 10 min | 5 min |
+| 6. Integration Boundary And Failure Model | 4 | 45 min | 11 min |
 
 **Recent Trend:**
 - Last 5 plans: 02-03, 03-01, 04-01, 05-01, 05-02
@@ -44,6 +44,8 @@ Progress: [████████░░] 75%
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
+- Phase 6: Full exception sweep across all DomainService, Agent (BiliCookie/CookieInfo) layers; BiliValidationException, BiliBusinessException, BiliIntegrationException hierarchy in Domain
+- Phase 6: Two repository interfaces (IExecutionLogRepository, IUserRepository) added to Domain, EF implementations in Infrastructure.EF; Web and DomainService layers decoupled from direct EF access
 - Phase 5: Moved started-log into BaseJob.Execute; extracted AddBiliJob helper to eliminate 12 repeated AddJob+AddTrigger blocks
 - Phase 5: All 12 Quartz job classes reduced to primary constructor + JobKey + single-line DoExecuteAsync
 - Phase 4: Applied comprehensive XML documentation pattern from Phase 3 to DailyTaskAppService for maintainability
@@ -59,7 +61,7 @@ None yet.
 
 ### Blockers/Concerns
 
-None. Phase 5 complete — all 12 Quartz job classes are thin delegation shells. Pre-existing characterization test failure (`Daily_task_multi_account_wrapper_continues_after_account_failure`) is unrelated to Phase 5 work.
+None. All 6 phases complete. Brownfield refactor milestone finished.
 
 ## Deferred Items
 
@@ -69,6 +71,6 @@ None. Phase 5 complete — all 12 Quartz job classes are thin delegation shells.
 
 ## Session Continuity
 
-Last session: 2026-05-03 - Phase 5 Plans 01 and 02 executed and completed
-Stopped at: Phase 5 complete
-Resume file: .planning/phases/05-scheduler-shell-cleanup/05-02-SUMMARY.md
+Last session: 2026-05-03 - Phase 6 Plans 01-04 executed and completed
+Stopped at: Phase 6 complete — all 6 milestone phases done
+Resume file: .planning/phases/06-integration-boundary-and-failure-model/06-04-SUMMARY.md

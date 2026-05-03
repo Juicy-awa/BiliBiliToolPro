@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 3: Login Refactor Slice** - Move Login behind a clearer application boundary without changing outcomes.
 - [ ] **Phase 4: DailyTask Refactor Slice** - Move DailyTask behind a testable application flow without changing outcomes.
 - [x] **Phase 5: Scheduler Shell Cleanup** - Reduce Quartz jobs to thin delegation shells over application use cases.
-- [ ] **Phase 6: Integration Boundary And Failure Model** - Normalize adapter boundaries and typed failure handling around critical integrations.
+- [x] **Phase 6: Integration Boundary And Failure Model** - Normalize adapter boundaries and typed failure handling around critical integrations.
 
 ## Phase Details
 
@@ -103,10 +103,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 06-01-PLAN.md — Create BiliException hierarchy in Domain + extract BiliResiliencePolicies with split policies and 30s timeout
-- [ ] 06-02-PLAN.md — Introduce IExecutionLogRepository and IUserRepository; remove direct EF factory injection from LogsDialog and AuthService
-- [ ] 06-03-PLAN.md — Replace all generic Exception throws in seven DomainService files with typed BiliBusinessException/BiliIntegrationException
-- [ ] 06-04-PLAN.md — Convert BiliCookie.cs and CookieInfo.cs to BiliValidationException; add unit tests for typed exceptions and resilience constants
+- [x] 06-01-PLAN.md — Create BiliException hierarchy in Domain + extract BiliResiliencePolicies with split policies and 30s timeout
+- [x] 06-02-PLAN.md — Introduce IExecutionLogRepository and IUserRepository; remove direct EF factory injection from LogsDialog and AuthService
+- [x] 06-03-PLAN.md — Replace all generic Exception throws in seven DomainService files with typed BiliBusinessException/BiliIntegrationException
+- [x] 06-04-PLAN.md — Convert BiliCookie.cs and CookieInfo.cs to BiliValidationException; add unit tests for typed exceptions and resilience constants
 
 ## Progress
 
@@ -116,5 +116,5 @@ Plans:
 | 2. Host Safety Nets | 3/3 | Complete | 2026-05-03 |
 | 3. Login Refactor Slice | 1/1 | Complete | 2026-05-03 |
 | 4. DailyTask Refactor Slice | 1/1 | Complete | 2026-05-03 |
-| 5. Scheduler Shell Cleanup | 0/2 | Not started | - |
-| 6. Integration Boundary And Failure Model | 0/TBD | Not started | - |
+| 5. Scheduler Shell Cleanup | 2/2 | Complete | 2026-05-03 |
+| 6. Integration Boundary And Failure Model | 4/4 | Complete | 2026-05-03 |
