@@ -6,6 +6,7 @@ using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Relation;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Video;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Interfaces;
 using Ray.BiliBiliTool.Config.Options;
+using Ray.BiliBiliTool.Domain.Exceptions;
 using Ray.BiliBiliTool.DomainService.Dtos;
 using Ray.BiliBiliTool.DomainService.Interfaces;
 
@@ -67,7 +68,7 @@ public class VideoDomainService(
 
         if (re.Code != 0)
         {
-            throw new Exception(re.Message);
+            throw new BiliBusinessException(re.Message);
         }
 
         return re.Data?.List?.Vlist.FirstOrDefault();
@@ -88,7 +89,7 @@ public class VideoDomainService(
         );
         if (re.Code != 0)
         {
-            throw new Exception(re.Message);
+            throw new BiliBusinessException(re.Message);
         }
 
         return re.Data!.Page.Count;

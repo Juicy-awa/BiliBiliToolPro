@@ -12,6 +12,7 @@ using Ray.BiliBiliTool.Agent.BiliBiliAgent.Interfaces;
 using Ray.BiliBiliTool.Agent.QingLong;
 using Ray.BiliBiliTool.Agent.QingLong.Dtos;
 using Ray.BiliBiliTool.Config.Options;
+using Ray.BiliBiliTool.Domain.Exceptions;
 using Ray.BiliBiliTool.DomainService.Interfaces;
 using Ray.BiliBiliTool.Infrastructure.Cookie;
 
@@ -37,7 +38,7 @@ public class LoginDomainService(
         var re = await passportApi.GenerateQrCode();
         if (re.Code != 0)
         {
-            throw new Exception($"获取二维码失败：{re.ToJsonStr()}");
+            throw new BiliBusinessException($"获取二维码失败：{re.ToJsonStr()}");
         }
 
         var url = re.Data.Url;
@@ -99,7 +100,7 @@ public class LoginDomainService(
 
         if (cookieInfo == null)
         {
-            throw new Exception("登录超时");
+            throw new BiliIntegrationException("登录超时");
         }
 
         return cookieInfo;
@@ -237,13 +238,13 @@ public class LoginDomainService(
             var token = await GetQingLongAuthTokenAsync();
             if (string.IsNullOrEmpty(token))
             {
-                throw new Exception("获取青龙token失败");
+                throw new BiliIntegrationException("获取青龙token失败");
             }
 
             var qlEnvList = await qingLongApi.GetEnvsAsync("Ray_BiliBiliCookies__", token);
             if (qlEnvList.Code != 200)
             {
-                throw new Exception($"查询环境变量失败：{qlEnvList.ToJsonStr()}");
+                throw new BiliIntegrationException($"查询环境变量失败：{qlEnvList.ToJsonStr()}");
             }
 
             logger.LogDebug(qlEnvList.Data.ToJsonStr());

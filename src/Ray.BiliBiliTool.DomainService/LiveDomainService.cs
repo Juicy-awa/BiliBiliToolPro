@@ -7,6 +7,7 @@ using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Live;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Relation;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Interfaces;
 using Ray.BiliBiliTool.Config.Options;
+using Ray.BiliBiliTool.Domain.Exceptions;
 using Ray.BiliBiliTool.DomainService.Dtos;
 using Ray.BiliBiliTool.DomainService.Interfaces;
 using Ray.BiliBiliTool.Infrastructure.Extensions;
@@ -725,7 +726,9 @@ public class LiveDomainService(
             );
             if (liveHomeContent?.Code != 0)
             {
-                throw new Exception(liveHomeContent?.Message);
+                throw new BiliBusinessException(
+                    liveHomeContent?.Message ?? "Live API returned failure"
+                );
             }
 
             var setHeader = liveHome.Headers.FirstOrDefault(header => header.Key == "Set-Cookie");
