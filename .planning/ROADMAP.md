@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Host Safety Nets** - Freeze critical behavior with tests and diagnostics while thinning host orchestration.
 - [ ] **Phase 3: Login Refactor Slice** - Move Login behind a clearer application boundary without changing outcomes.
 - [ ] **Phase 4: DailyTask Refactor Slice** - Move DailyTask behind a testable application flow without changing outcomes.
-- [ ] **Phase 5: Scheduler Shell Cleanup** - Reduce Quartz jobs to thin delegation shells over application use cases.
+- [x] **Phase 5: Scheduler Shell Cleanup** - Reduce Quartz jobs to thin delegation shells over application use cases.
 - [ ] **Phase 6: Integration Boundary And Failure Model** - Normalize adapter boundaries and typed failure handling around critical integrations.
 
 ## Phase Details
@@ -88,8 +88,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — Enhance BaseJob with Logger property and started log; extract AddBiliJob registration helper
-- [ ] 05-02-PLAN.md — Strip redundant _logger fields and started-log calls from all 12 Quartz job classes
+- [x] 05-01-PLAN.md — Enhance BaseJob with Logger property and started log; extract AddBiliJob registration helper
+- [x] 05-02-PLAN.md — Strip redundant _logger fields and started-log calls from all 12 Quartz job classes
 
 ### Phase 6: Integration Boundary And Failure Model
 **Goal**: External integrations and failures sit behind consistent adapters with diagnosable outcomes for critical flows.
