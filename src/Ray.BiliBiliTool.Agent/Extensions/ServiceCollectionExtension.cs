@@ -50,6 +50,7 @@ public static class ServiceCollectionExtension
                 "User-Agent",
                 sp.GetRequiredService<IOptionsMonitor<SecurityOptions>>().CurrentValue.UserAgent
             );
+            c.Timeout = BiliResiliencePolicies.HttpTimeout;
         };
         Action<IServiceProvider, HttpClient> configApp = (sp, c) =>
         {
@@ -57,6 +58,7 @@ public static class ServiceCollectionExtension
                 "User-Agent",
                 sp.GetRequiredService<IOptionsMonitor<SecurityOptions>>().CurrentValue.UserAgentApp
             );
+            c.Timeout = BiliResiliencePolicies.HttpTimeout;
         };
 
         services.AddBiliBiliClientApi<IUserInfoApi>(BiliHosts.Api, config, true);
@@ -64,8 +66,16 @@ public static class ServiceCollectionExtension
         services.AddBiliBiliClientApi<IUpInfoApi>(BiliHosts.Api, config);
         services.AddBiliBiliClientApi<IDailyTaskApi>(BiliHosts.Api, config);
         services.AddBiliBiliClientApi<IRelationApi>(BiliHosts.Api, config);
-        services.AddBiliBiliClientApi<IChargeApi>(BiliHosts.Api, config);
-        services.AddBiliBiliClientApi<IVideoApi>(BiliHosts.Api, config);
+        services.AddBiliBiliClientApi<IChargeApi>(
+            BiliHosts.Api,
+            config,
+            policy: BiliResiliencePolicies.MutatingPolicy()
+        );
+        services.AddBiliBiliClientApi<IVideoApi>(
+            BiliHosts.Api,
+            config,
+            policy: BiliResiliencePolicies.MutatingPolicy()
+        );
         services.AddBiliBiliClientApi<IVideoWithoutCookieApi>(BiliHosts.Api, config);
         services.AddBiliBiliClientApi<IArticleApi>(BiliHosts.Api, config);
 
@@ -75,10 +85,18 @@ public static class ServiceCollectionExtension
         services.AddBiliBiliClientApi<IHomeApi>(BiliHosts.Www, config);
         services.AddBiliBiliClientApi<IMangaApi>(BiliHosts.Manga, config);
         services.AddBiliBiliClientApi<IAccountApi>(BiliHosts.Account, config);
-        services.AddBiliBiliClientApi<ILiveApi>(BiliHosts.Live, config);
+        services.AddBiliBiliClientApi<ILiveApi>(
+            BiliHosts.Live,
+            config,
+            policy: BiliResiliencePolicies.MutatingPolicy()
+        );
 
         services.AddBiliBiliClientApi<IVipBigPointApi>(BiliHosts.App, configApp);
-        services.AddBiliBiliClientApi<IMallApi>(BiliHosts.Mall, configApp);
+        services.AddBiliBiliClientApi<IMallApi>(
+            BiliHosts.Mall,
+            configApp,
+            policy: BiliResiliencePolicies.MutatingPolicy()
+        );
 
         //qinglong
         var qinglongHost = configuration["QL_URL"] ?? "http://localhost:5600";
@@ -97,9 +115,10 @@ public static class ServiceCollectionExtension
                             IOptionsMonitor<SecurityOptions>
                         >().CurrentValue.UserAgent
                     );
+                    c.Timeout = BiliResiliencePolicies.HttpTimeout;
                 }
             )
-            .AddPolicyHandler(GetRetryPolicy());
+            .AddPolicyHandler(BiliResiliencePolicies.ReadOnlyPolicy());
 
         return services;
     }
@@ -115,7 +134,8 @@ public static class ServiceCollectionExtension
         this IServiceCollection services,
         string host,
         Action<IServiceProvider, HttpClient> config,
-        bool ignorWrid = false
+        bool ignorWrid = false,
+        IAsyncPolicy<HttpResponseMessage>? policy = null
     )
         where TInterface : class
     {
@@ -128,7 +148,7 @@ public static class ServiceCollectionExtension
             })
             .ConfigureHttpClient(config)
             .AddHttpMessageHandler<IntervalDelegatingHandler>()
-            .AddPolicyHandler(GetRetryPolicy());
+            .AddPolicyHandler(policy ?? BiliResiliencePolicies.ReadOnlyPolicy());
 
         if (!ignorWrid)
         {
@@ -179,13 +199,5 @@ public static class ServiceCollectionExtension
         }
 
         return services;
-    }
-
-    static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
-    {
-        return HttpPolicyExtensions
-            .HandleTransientHttpError()
-            .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
-            .WaitAndRetryAsync(1, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
     }
 }
