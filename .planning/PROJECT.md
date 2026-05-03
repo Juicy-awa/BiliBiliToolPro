@@ -50,11 +50,11 @@ Make the existing codebase safe to change: clear boundaries, lower coupling, and
 
 ## Key Decisions
 
-| Decision | Rationale | Outcome |
-|----------|-----------|---------|
-| Treat this as a brownfield refactor project, not a new product | The user wants to improve the current system rather than replace it | — Pending |
-| Prioritize architecture boundaries, code quality, and testability first | These are the main pain points blocking safe changes today | — Pending |
-| Use gradual, phase-based refactoring instead of a rewrite | The user explicitly wants low-risk incremental change | — Pending |
+| Decision                                                                | Rationale                                                           | Outcome   |
+| ----------------------------------------------------------------------- | ------------------------------------------------------------------- | --------- |
+| Treat this as a brownfield refactor project, not a new product          | The user wants to improve the current system rather than replace it | — Pending |
+| Prioritize architecture boundaries, code quality, and testability first | These are the main pain points blocking safe changes today          | — Pending |
+| Use gradual, phase-based refactoring instead of a rewrite               | The user explicitly wants low-risk incremental change               | — Pending |
 
 ## Evolution
 
