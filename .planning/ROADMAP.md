@@ -36,12 +36,12 @@
 **Plans:** 4 plans
 
 Plans:
-- [ ] 07-01-PLAN.md — Upgrade BaseMultiAccountsAppService with ILoginDomainService + IConfiguration + two protected virtual cookie methods
-- [ ] 07-02-PLAN.md — Migrate Group A (6 services with existing private copies): remove private methods, update base ctor call, add DiagnosticScope
-- [ ] 07-03-PLAN.md — Migrate Group B (5 services missing SetCookiesAsync): add ctor deps, add SetCookiesAsync call, add DiagnosticScope
-- [ ] 07-04-PLAN.md — Full solution build + all three test suites verification
+- [x] 07-01-PLAN.md — Upgrade BaseMultiAccountsAppService with ILoginDomainService + IConfiguration + two protected virtual cookie methods
+- [x] 07-02-PLAN.md — Migrate Group A (6 services with existing private copies): remove private methods, update base ctor call, add DiagnosticScope
+- [x] 07-03-PLAN.md — Migrate Group B (5 services missing SetCookiesAsync): add ctor deps, add SetCookiesAsync call, add DiagnosticScope
+- [x] 07-04-PLAN.md — Full solution build + all three test suites verification
 
-**Status:** 🔲 Not started
+**Status:** ✅ Complete
 
 ## Progress
 
@@ -53,3 +53,4 @@ Plans:
 | 4. DailyTask Refactor Slice | v4.0.0.1 | 1/1 | Complete | 2026-05-03 |
 | 5. Scheduler Shell Cleanup | v4.0.0.1 | 2/2 | Complete | 2026-05-03 |
 | 6. Integration Boundary And Failure Model | v4.0.0.1 | 4/4 | Complete | 2026-05-03 |
+| 7. AppService Cookie Handling Extraction | v4.0.0.2 | 4/4 | Complete | 2026-05-10 |
