@@ -59,7 +59,10 @@ Plans:
   1. Existing Login entry points continue to produce the same observable success and failure outcomes after the refactor.
   2. Login orchestration is invoked through a dedicated application-facing boundary that can be exercised without booting unrelated task flows.
   3. The Login slice remains covered by the characterization and integration checks established earlier in the roadmap.
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [x] 03-01-PLAN.md — Clarify LoginTaskAppService internal structure and validate against characterization tests
 
 ### Phase 4: DailyTask Refactor Slice
 **Goal**: DailyTask execution is isolated behind a testable application flow while preserving current automation behavior.
@@ -98,7 +101,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Boundary Guardrails | 2/2 | Complete | 2026-05-02 |
 | 2. Host Safety Nets | 3/3 | Complete | 2026-05-03 |
-| 3. Login Refactor Slice | 0/TBD | Not started | - |
+| 3. Login Refactor Slice | 1/1 | Complete | 2026-05-03 |
 | 4. DailyTask Refactor Slice | 0/TBD | Not started | - |
 | 5. Scheduler Shell Cleanup | 0/TBD | Not started | - |
 | 6. Integration Boundary And Failure Model | 0/TBD | Not started | - |
