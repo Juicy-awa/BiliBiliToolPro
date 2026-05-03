@@ -22,7 +22,7 @@ public class UnfollowBatchedTaskAppService(
     : BaseMultiAccountsAppService(logger, cookieStrFactory, loginDomainService, configuration),
         IUnfollowBatchedTaskAppService
 {
-    [TaskInterceptor("����ȡ��", TaskLevel.One)]
+    [TaskInterceptor("批量取关", TaskLevel.One)]
     protected override async Task DoTaskAccountAsync(
         BiliCookie ck,
         CancellationToken cancellationToken = default
@@ -30,12 +30,12 @@ public class UnfollowBatchedTaskAppService(
     {
         await TaskFlowDiagnosticScope.ExecuteAsync(
             logger,
-            "����ȡ��",
+            "批量取关",
             async () =>
             {
                 if (!unfollowBatchedTaskOptions.CurrentValue.IsEnable)
                 {
-                    logger.LogInformation("������Ϊ�رգ�����");
+                    logger.LogInformation("已配置为关闭，跳过");
                     return;
                 }
 

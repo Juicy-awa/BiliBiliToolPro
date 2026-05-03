@@ -24,7 +24,7 @@ public class Silver2CoinTaskAppService(
     : BaseMultiAccountsAppService(logger, cookieStrFactory, loginDomainService, configuration),
         ISilver2CoinTaskAppService
 {
-    [TaskInterceptor("�����Ӷһ�Ӳ������", TaskLevel.One)]
+    [TaskInterceptor("银瓜子兑换硬币任务", TaskLevel.One)]
     protected override async Task DoTaskAccountAsync(
         BiliCookie ck,
         CancellationToken cancellationToken = default
@@ -32,12 +32,12 @@ public class Silver2CoinTaskAppService(
     {
         await TaskFlowDiagnosticScope.ExecuteAsync(
             logger,
-            "�����Ӷһ�Ӳ������",
+            "银瓜子兑换硬币任务",
             async () =>
             {
                 if (!silver2CoinTaskOptions.CurrentValue.IsEnable)
                 {
-                    logger.LogInformation("������Ϊ�رգ�����");
+                    logger.LogInformation("已配置为关闭，跳过");
                     return;
                 }
 
@@ -50,27 +50,27 @@ public class Silver2CoinTaskAppService(
     }
 
     /// <summary>
-    /// ��¼
+    /// 登录
     /// </summary>
     /// <returns></returns>
-    [TaskInterceptor("��¼")]
+    [TaskInterceptor("登录")]
     private async Task Login(BiliCookie ck)
     {
         await accountDomainService.LoginByCookie(ck);
     }
 
     /// <summary>
-    /// ֱ�����ĵ������Ӷһ�Ӳ��
+    /// 直播中心的银瓜子兑换硬币
     /// </summary>
-    [TaskInterceptor("�����Ӷһ�Ӳ��", rethrowWhenException: false)]
+    [TaskInterceptor("银瓜子兑换硬币", rethrowWhenException: false)]
     private async Task ExchangeSilver2Coin(BiliCookie ck)
     {
         var success = await liveDomainService.ExchangeSilver2Coin(ck);
         if (!success)
             return;
 
-        //����һ��ɹ������ӡӲ�����
+        //如果兑换成功，则打印硬币余额
         var coinBalance = coinDomainService.GetCoinBalance(ck);
-        logger.LogInformation("��Ӳ���� {coin}", coinBalance);
+        logger.LogInformation("【硬币余额】 {coin}", coinBalance);
     }
 }

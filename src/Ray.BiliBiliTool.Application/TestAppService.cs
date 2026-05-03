@@ -19,7 +19,7 @@ public class TestAppService(
     : BaseMultiAccountsAppService(logger, cookieStrFactory, loginDomainService, configuration),
         ITestAppService
 {
-    [TaskInterceptor("����Cookie")]
+    [TaskInterceptor("测试Cookie")]
     protected override async Task DoTaskAccountAsync(
         BiliCookie ck,
         CancellationToken cancellationToken = default
@@ -27,7 +27,7 @@ public class TestAppService(
     {
         await TaskFlowDiagnosticScope.ExecuteAsync(
             logger,
-            "����Cookie",
+            "测试Cookie",
             async () =>
             {
                 await SetCookiesAsync(ck, cancellationToken);

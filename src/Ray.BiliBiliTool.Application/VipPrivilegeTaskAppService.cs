@@ -24,7 +24,7 @@ public class VipPrivilegeTaskAppService(
     : BaseMultiAccountsAppService(logger, cookieStrFactory, loginDomainService, configuration),
         IVipPrivilegeTaskAppService
 {
-    [TaskInterceptor("��ȡ���Ա��������", TaskLevel.One)]
+    [TaskInterceptor("领取大会员福利任务", TaskLevel.One)]
     protected override async Task DoTaskAccountAsync(
         BiliCookie ck,
         CancellationToken cancellationToken = default
@@ -32,12 +32,12 @@ public class VipPrivilegeTaskAppService(
     {
         await TaskFlowDiagnosticScope.ExecuteAsync(
             logger,
-            "���Ա��������",
+            "大会员福利任务",
             async () =>
             {
                 if (!vipPrivilegeOptions.CurrentValue.IsEnable)
                 {
-                    logger.LogInformation("������Ϊ�رգ�����");
+                    logger.LogInformation("已配置为关闭，跳过");
                     return;
                 }
 
@@ -50,10 +50,10 @@ public class VipPrivilegeTaskAppService(
     }
 
     /// <summary>
-    /// ��¼
+    /// 登录
     /// </summary>
     /// <returns></returns>
-    [TaskInterceptor("��¼")]
+    [TaskInterceptor("登录")]
     private async Task<UserInfo> Login(BiliCookie ck)
     {
         UserInfo userInfo = await accountDomainService.LoginByCookie(ck);
@@ -61,14 +61,14 @@ public class VipPrivilegeTaskAppService(
     }
 
     /// <summary>
-    /// ÿ����ȡ���Ա����
+    /// 每月领取大会员福利
     /// </summary>
-    [TaskInterceptor("��ȡ", rethrowWhenException: false)]
+    [TaskInterceptor("领取", rethrowWhenException: false)]
     private async Task ReceiveVipPrivilege(UserInfo userInfo, BiliCookie ck)
     {
         var suc = await vipPrivilegeDomainService.ReceiveVipPrivilege(userInfo, ck);
 
-        //�����ȡ�ɹ�����Ҫˢ���˻���Ϣ������B����
+        //如果领取成功，需要刷新账户信息（比如B币余额）
         if (suc)
         {
             try
@@ -77,7 +77,7 @@ public class VipPrivilegeTaskAppService(
             }
             catch (Exception ex)
             {
-                logger.LogError("��ȡ�����ɹ�����֮��ˢ���û���Ϣʱ�쳣����Ϣ��{msg}", ex.Message);
+                logger.LogError("领取福利成功，但之后刷新用户信息时异常，信息：{msg}", ex.Message);
             }
         }
     }

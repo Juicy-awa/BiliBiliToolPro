@@ -26,7 +26,7 @@ public class LiveLotteryTaskAppService(
     private readonly LiveLotteryTaskOptions _liveLotteryTaskOptions =
         liveLotteryTaskOptions.CurrentValue;
 
-    [TaskInterceptor("��ѡʱ�̳齱", TaskLevel.One)]
+    [TaskInterceptor("天选时刻抽奖", TaskLevel.One)]
     protected override async Task DoTaskAccountAsync(
         BiliCookie ck,
         CancellationToken cancellationToken = default
@@ -34,12 +34,12 @@ public class LiveLotteryTaskAppService(
     {
         await TaskFlowDiagnosticScope.ExecuteAsync(
             logger,
-            "��ѡʱ�̳齱",
+            "天选时刻抽奖",
             async () =>
             {
                 if (!liveLotteryTaskOptions.CurrentValue.IsEnable)
                 {
-                    logger.LogInformation("������Ϊ�رգ�����");
+                    logger.LogInformation("已配置为关闭，跳过");
                     return;
                 }
 
@@ -51,19 +51,19 @@ public class LiveLotteryTaskAppService(
         );
     }
 
-    [TaskInterceptor("��ӡ�û���Ϣ")]
+    [TaskInterceptor("打印用户信息")]
     private async Task LogUserInfo(BiliCookie ck)
     {
         await accountDomainService.LoginByCookie(ck);
     }
 
-    [TaskInterceptor("�齱")]
+    [TaskInterceptor("抽奖")]
     private async Task LotteryTianXuan(BiliCookie ck)
     {
         await liveDomainService.TianXuan(ck);
     }
 
-    [TaskInterceptor("�Զ������ע������")]
+    [TaskInterceptor("自动分组关注的主播")]
     private async Task AutoGroupFollowings(BiliCookie ck)
     {
         if (_liveLotteryTaskOptions.AutoGroupFollowings)
@@ -72,7 +72,7 @@ public class LiveLotteryTaskAppService(
         }
         else
         {
-            logger.LogInformation("����δ����������");
+            logger.LogInformation("配置未开启，跳过");
         }
     }
 }

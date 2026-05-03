@@ -22,7 +22,7 @@ public class LiveFansMedalAppService(
     : BaseMultiAccountsAppService(logger, cookieStrFactory, loginDomainService, configuration),
         ILiveFansMedalAppService
 {
-    [TaskInterceptor("ֱ���以��", TaskLevel.One)]
+    [TaskInterceptor("直播间互动", TaskLevel.One)]
     protected override async Task DoTaskAccountAsync(
         BiliCookie ck,
         CancellationToken cancellationToken = default
@@ -30,12 +30,12 @@ public class LiveFansMedalAppService(
     {
         await TaskFlowDiagnosticScope.ExecuteAsync(
             logger,
-            "ֱ���以��",
+            "直播间互动",
             async () =>
             {
                 if (!liveFansMedalTaskOptions.CurrentValue.IsEnable)
                 {
-                    logger.LogInformation("������Ϊ�رգ�����");
+                    logger.LogInformation("已配置为关闭，跳过");
                     return;
                 }
 
@@ -47,19 +47,19 @@ public class LiveFansMedalAppService(
         );
     }
 
-    [TaskInterceptor("���͵�Ļ", TaskLevel.Two, false)]
+    [TaskInterceptor("发送弹幕", TaskLevel.Two, false)]
     private async Task SendDanmaku(BiliCookie ck)
     {
         await liveDomainService.SendDanmakuToFansMedalLive(ck);
     }
 
-    [TaskInterceptor("����ֱ����", TaskLevel.Two, false)]
+    [TaskInterceptor("点赞直播间", TaskLevel.Two, false)]
     private async Task Like(BiliCookie ck)
     {
         await liveDomainService.LikeFansMedalLive(ck);
     }
 
-    [TaskInterceptor("ֱ��ʱ���һ�", TaskLevel.Two, false)]
+    [TaskInterceptor("直播时长挂机", TaskLevel.Two, false)]
     private async Task HeartBeat(BiliCookie ck)
     {
         await liveDomainService.SendHeartBeatToFansMedalLive(ck);
