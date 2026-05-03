@@ -9,10 +9,12 @@ See: .planning/PROJECT.md (updated 2026-05-04)
 
 ## Current Position
 
-Phase: 07-appservice-cookie-handling-extraction
+Phase: —
 Plan: —
-Status: Shipped — PR open (feature/gsd-appservice → develop)
-Last activity: 2026-05-04 — Phase 7 shipped
+Status: Milestone v4.0.0.2 complete — ready for v4.0.0.3 planning
+Last activity: 2026-05-04 — v4.0.0.2 milestone archived
+
+Progress: [██████████] 100% — v4.0.0.2 shipped
 
 Progress: [██████████] 100% — Phase 7 complete
 

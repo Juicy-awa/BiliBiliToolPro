@@ -1,5 +1,34 @@
 # Retrospectives
 
+## v4.0.0.2 — AppService Refactor Continuation (2026-05-04)
+
+### What Was Built
+
+Centralized `SetCookiesAsync` and `SaveCookieAsync` into `BaseMultiAccountsAppService` as `protected virtual` methods. Migrated all 11 in-scope AppServices (6 Group A with existing private copies, 5 Group B missing the call entirely). Added `TaskFlowDiagnosticScope` to all 11.
+
+### What Worked
+
+- **Group A / Group B split was the right decomposition.** Separating services that had wrong implementations (Group A) from services that had no implementation at all (Group B) made the migration ordered and safe. No service was left in an ambiguous state.
+- **Existing test harnesses caught nothing new.** ArchitectureTests and IntegrationTests stayed green throughout — which means the structural refactor was genuinely behavior-preserving. The test investment from v4.0.0.1 paid off immediately.
+- **UAT was fast because the change was mechanical.** 7 checks, all structural — no UI, no API behavior changes. Verification took minutes.
+
+### What Was Inefficient
+
+- **VERIFICATION.md still not written.** Despite a lesson from v4.0.0.1, no VERIFICATION.md was generated during execute-phase. The pattern hasn't been embedded in the workflow yet.
+- **Milestone audit required manual grep work.** Without VERIFICATION.md, the audit step had to perform fresh grep verification rather than reading already-captured evidence. Extra work that compounds over phases.
+
+### Patterns Established
+
+- **`protected virtual` on base class for shared behavior.** The pattern of putting shared cookie logic on the base class as overridable methods is now established. Future AppService additions should follow this without debate.
+- **Group-based migration.** When many services need the same change, classifying them by their current state (has/missing/wrong) and handling each group in its own plan is faster and clearer than treating all services uniformly.
+
+### Key Lessons
+
+- **Write VERIFICATION.md in the plan itself.** Add it as an explicit task in the final plan of every phase — not as an afterthought. The lesson from v4.0.0.1 was not followed; make it structural.
+- **Scope decisions (out-of-scope items) should be in PLAN.md decisions.** `LoginTaskAppService` being out of scope was correct but required re-explanation in the audit. If D-01 had explicitly said "LoginTaskAppService excluded," the audit would have been instantaneous.
+
+---
+
 ## v4.0.0.1 — Brownfield Refactor (2026-04-20 → 2026-05-03)
 
 ### What Went Well
