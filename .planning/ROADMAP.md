@@ -29,17 +29,17 @@
 
 #### Phase 7: AppService Cookie Handling Extraction
 
-**Goal:** The duplicated `SetCookiesAsync` and `SaveCookieAsync` private methods that exist verbatim in 6 AppServices are replaced by a single protected implementation in a new intermediate base class.
+**Goal:** The duplicated `SetCookiesAsync` and `SaveCookieAsync` private methods that exist verbatim across AppServices are replaced by a single protected implementation in `BaseMultiAccountsAppService`, and all 11 applicable AppServices are migrated (per D-01: no new intermediate class).
 
 **Requirements:** FLOW-06, FLOW-07
 
-**Affected services:** `DailyTaskAppService`, `ChargeTaskAppService`, `MangaPrivilegeTaskAppService`, `MangaTaskAppService`, `Silver2CoinTaskAppService`, `VipPrivilegeTaskAppService`
+**Plans:** 4 plans
 
-**Success criteria:**
-1. `BaseCookieAwareAppService` class exists in `Ray.BiliBiliTool.Application`, extending `BaseMultiAccountsAppService`, with protected `SetCookiesAsync` and `SaveCookieAsync`
-2. All 6 affected AppServices no longer define their own private `SetCookiesAsync` or `SaveCookieAsync` — they inherit from `BaseCookieAwareAppService`
-3. `dotnet build` succeeds with no errors
-4. All characterization and integration tests that were green before remain green
+Plans:
+- [ ] 07-01-PLAN.md — Upgrade BaseMultiAccountsAppService with ILoginDomainService + IConfiguration + two protected virtual cookie methods
+- [ ] 07-02-PLAN.md — Migrate Group A (6 services with existing private copies): remove private methods, update base ctor call, add DiagnosticScope
+- [ ] 07-03-PLAN.md — Migrate Group B (5 services missing SetCookiesAsync): add ctor deps, add SetCookiesAsync call, add DiagnosticScope
+- [ ] 07-04-PLAN.md — Full solution build + all three test suites verification
 
 **Status:** 🔲 Not started
 
