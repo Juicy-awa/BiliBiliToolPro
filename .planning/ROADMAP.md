@@ -85,7 +85,11 @@ Plans:
   1. Quartz job classes are thin enough that their purpose is limited to schedule context and delegation.
   2. Existing scheduled Login and DailyTask behavior still runs through current job identities and schedules while delegating to application use cases.
   3. Maintainers can change scheduling concerns without editing core orchestration logic, and can change orchestration logic without rewriting Quartz job shells.
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 05-01-PLAN.md — Enhance BaseJob with Logger property and started log; extract AddBiliJob registration helper
+- [ ] 05-02-PLAN.md — Strip redundant _logger fields and started-log calls from all 12 Quartz job classes
 
 ### Phase 6: Integration Boundary And Failure Model
 **Goal**: External integrations and failures sit behind consistent adapters with diagnosable outcomes for critical flows.
@@ -106,5 +110,5 @@ Plans:
 | 2. Host Safety Nets | 3/3 | Complete | 2026-05-03 |
 | 3. Login Refactor Slice | 1/1 | Complete | 2026-05-03 |
 | 4. DailyTask Refactor Slice | 1/1 | Complete | 2026-05-03 |
-| 5. Scheduler Shell Cleanup | 0/TBD | Not started | - |
+| 5. Scheduler Shell Cleanup | 0/2 | Not started | - |
 | 6. Integration Boundary And Failure Model | 0/TBD | Not started | - |
