@@ -100,7 +100,13 @@ Plans:
   2. Maintainers can distinguish expected business failures, integration failures, and unexpected crashes in critical paths from typed failures and logs.
   3. EF, HTTP Agent, and notification-facing dependencies are reachable through clearer adapter boundaries so implementations can change without host or flow rewiring.
   4. Outbound API policies and handlers are explicit enough that resilience behavior can be verified at the boundary.
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 06-01-PLAN.md — Create BiliException hierarchy in Domain + extract BiliResiliencePolicies with split policies and 30s timeout
+- [ ] 06-02-PLAN.md — Introduce IExecutionLogRepository and IUserRepository; remove direct EF factory injection from LogsDialog and AuthService
+- [ ] 06-03-PLAN.md — Replace all generic Exception throws in seven DomainService files with typed BiliBusinessException/BiliIntegrationException
+- [ ] 06-04-PLAN.md — Convert BiliCookie.cs and CookieInfo.cs to BiliValidationException; add unit tests for typed exceptions and resilience constants
 
 ## Progress
 
