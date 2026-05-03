@@ -8,6 +8,7 @@ using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.VipTask;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.VipTask.ThreeDaysSign;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Interfaces;
 using Ray.BiliBiliTool.Config.Options;
+using Ray.BiliBiliTool.Domain.Exceptions;
 using Ray.BiliBiliTool.DomainService.Dtos;
 using Ray.BiliBiliTool.DomainService.Interfaces;
 
@@ -33,7 +34,7 @@ public class VipBigPointDomainService(
             ck.ToString()
         );
         if (allTasks.Code != 0)
-            throw new Exception(allTasks.ToJsonStr());
+            throw new BiliBusinessException(allTasks.ToJsonStr());
         return allTasks.Data;
     }
 
@@ -114,7 +115,7 @@ public class VipBigPointDomainService(
             ck.ToString()
         );
         if (re.Code != 0)
-            throw new Exception(re.ToJsonStr());
+            throw new BiliBusinessException(re.ToJsonStr());
 
         logger.LogInformation("签到成功");
         logger.LogInformation(re.Data.ToString());
@@ -241,7 +242,7 @@ public class VipBigPointDomainService(
             ck.ToString()
         );
         if (re.Code != 0)
-            throw new Exception(re.ToJsonStr());
+            throw new BiliBusinessException(re.ToJsonStr());
         return true;
     }
 

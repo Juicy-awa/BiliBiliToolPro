@@ -1,10 +1,8 @@
 using BlazingQuartz.Core.Models;
 using BlazingQuartz.Core.Services;
 using Microsoft.AspNetCore.Components;
-using Microsoft.EntityFrameworkCore;
 using MudBlazor;
 using Ray.BiliBiliTool.Domain;
-using Ray.BiliBiliTool.Infrastructure.EF;
 
 namespace Ray.BiliBiliTool.Web.Components.Pages.Schedules;
 
@@ -20,7 +18,7 @@ public partial class LogsDialog : ComponentBase
     IExecutionLogService LogSvc { get; set; } = null!;
 
     [Inject]
-    private IDbContextFactory<BiliDbContext> DbFactory { get; set; } = null!;
+    private IExecutionLogRepository LogRepository { get; set; } = null!;
 
     [EditorRequired]
     [Parameter]
@@ -41,12 +39,10 @@ public partial class LogsDialog : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        await using var context = await DbFactory.CreateDbContextAsync();
-        var execution = await context
-            .ExecutionLogs.Where(x => x.JobName == JobKey.Name && x.TriggerName == TriggerKey!.Name)
-            .OrderByDescending(x => x.FireTimeUtc)
-            .FirstOrDefaultAsync();
-        _fireInstanceId = execution?.RunInstanceId;
+        _fireInstanceId = await LogRepository.GetLatestRunInstanceIdAsync(
+            JobKey.Name,
+            TriggerKey!.Name
+        );
 
         if (_fireInstanceId == null)
         {
@@ -77,12 +73,11 @@ public partial class LogsDialog : ComponentBase
 
         try
         {
-            await using var context = await DbFactory.CreateDbContextAsync();
-            _logs = await context
-                .BiliLogs.Where(x => x.FireInstanceIdComputed == _fireInstanceId)
-                .OrderBy(l => l.Timestamp)
-                .Take(300) // 限制记录数量，避免加载过多数据
-                .ToListAsync(_cancellationTokenSource.Token);
+            _logs = await LogRepository.GetLogsForRunAsync(
+                _fireInstanceId!,
+                300,
+                _cancellationTokenSource.Token
+            );
         }
         catch (Exception ex)
         {

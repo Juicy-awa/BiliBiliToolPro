@@ -5,6 +5,7 @@ using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Article;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Interfaces;
 using Ray.BiliBiliTool.Config.Options;
+using Ray.BiliBiliTool.Domain.Exceptions;
 using Ray.BiliBiliTool.DomainService.Interfaces;
 
 namespace Ray.BiliBiliTool.DomainService;
@@ -168,7 +169,7 @@ public class ArticleDomainService(
 
         if (re.Code != 0)
         {
-            throw new Exception(re.Message);
+            throw new BiliBusinessException(re.Message);
         }
 
         var articleInfo = re.Data.Articles.FirstOrDefault();
@@ -241,7 +242,7 @@ public class ArticleDomainService(
 
         if (re.Code != 0)
         {
-            throw new Exception(re.Message);
+            throw new BiliBusinessException(re.Message);
         }
 
         return re.Data.Count;

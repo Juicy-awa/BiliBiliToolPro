@@ -5,6 +5,7 @@ using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Relation;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Interfaces;
 using Ray.BiliBiliTool.Config.Options;
+using Ray.BiliBiliTool.Domain.Exceptions;
 using Ray.BiliBiliTool.DomainService.Interfaces;
 
 namespace Ray.BiliBiliTool.DomainService;
@@ -187,7 +188,7 @@ public class DonateCoinDomainService(
         {
             string errorMsg = $"投币发生未预计异常：{result.Message}";
             logger.LogError(errorMsg);
-            throw new Exception(errorMsg);
+            throw new BiliBusinessException(errorMsg);
         }
     }
 

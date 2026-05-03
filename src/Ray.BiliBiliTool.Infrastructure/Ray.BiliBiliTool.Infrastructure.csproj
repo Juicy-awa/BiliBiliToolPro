@@ -9,4 +9,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
     <PackageReference Include="Ray.Infrastructure" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ray.BiliBiliTool.Domain\Ray.BiliBiliTool.Domain.csproj" />
+  </ItemGroup>
 </Project>
