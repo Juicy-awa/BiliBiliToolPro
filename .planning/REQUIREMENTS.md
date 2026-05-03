@@ -9,8 +9,8 @@ AppService refactor continuation — eliminate duplicated cookie-handling boiler
 
 ### Application Layer
 
-- [ ] **FLOW-06**: Maintainer can see shared SetCookie/SaveCookie behavior defined exactly once in a protected base class (`BaseCookieAwareAppService`), not copied across 6 AppServices
-- [ ] **FLOW-07**: Maintainer can verify the refactored AppService hierarchy produces the same observable behavior as before (all existing characterization and integration tests continue to pass)
+- [x] **FLOW-06**: Maintainer can see shared SetCookie/SaveCookie behavior defined exactly once in a protected base class (`BaseCookieAwareAppService`), not copied across 6 AppServices
+- [x] **FLOW-07**: Maintainer can verify the refactored AppService hierarchy produces the same observable behavior as before (all existing characterization and integration tests continue to pass)
 
 ## Deferred Requirements
 
@@ -47,8 +47,8 @@ Captured from v4.0.0.1 — not in scope for v4.0.0.2. Tracked for future milesto
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FLOW-06 | Phase 7 | Pending |
-| FLOW-07 | Phase 7 | Pending |
+| FLOW-06 | Phase 7 | ✅ Satisfied |
+| FLOW-07 | Phase 7 | ✅ Satisfied |
 
 **Coverage:**
 - v4.0.0.2 requirements: 2 total
