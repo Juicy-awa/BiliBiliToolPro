@@ -19,13 +19,29 @@
 
 </details>
 
-### 📋 v4.0.0.2 (Planned)
+### 📋 v4.0.0.2 AppService Refactor Continuation (Phase 7)
 
-Phases 7+ — to be defined. Candidates from v2 requirements:
-- Notification adapter/port boundary (ARCH-04 partial gap)
-- Blazor component tests and CI coverage thresholds (TEST-04, TEST-05)
-- Unified Console/Web configuration paths (FLOW-05)
-- Default credential risk removal (QUAL-03)
+**Goal:** Eliminate duplicated SetCookie/SaveCookie boilerplate across 6 AppServices.
+
+| # | Phase | Goal | Requirements | Success Criteria |
+|---|-------|------|--------------|-----------------|
+| 7 | AppService Cookie Handling Extraction | Extract shared SetCookiesAsync + SaveCookieAsync into `BaseCookieAwareAppService`; migrate all 6 affected AppServices | FLOW-06, FLOW-07 | 4 |
+
+#### Phase 7: AppService Cookie Handling Extraction
+
+**Goal:** The duplicated `SetCookiesAsync` and `SaveCookieAsync` private methods that exist verbatim in 6 AppServices are replaced by a single protected implementation in a new intermediate base class.
+
+**Requirements:** FLOW-06, FLOW-07
+
+**Affected services:** `DailyTaskAppService`, `ChargeTaskAppService`, `MangaPrivilegeTaskAppService`, `MangaTaskAppService`, `Silver2CoinTaskAppService`, `VipPrivilegeTaskAppService`
+
+**Success criteria:**
+1. `BaseCookieAwareAppService` class exists in `Ray.BiliBiliTool.Application`, extending `BaseMultiAccountsAppService`, with protected `SetCookiesAsync` and `SaveCookieAsync`
+2. All 6 affected AppServices no longer define their own private `SetCookiesAsync` or `SaveCookieAsync` — they inherit from `BaseCookieAwareAppService`
+3. `dotnet build` succeeds with no errors
+4. All characterization and integration tests that were green before remain green
+
+**Status:** 🔲 Not started
 
 ## Progress
 

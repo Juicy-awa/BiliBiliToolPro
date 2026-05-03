@@ -10,6 +10,15 @@ The product being preserved is an automated Bilibili task execution system with 
 
 Make the existing codebase safe to change: clear boundaries, lower coupling, and testable critical flows.
 
+## Current Milestone: v4.0.0.2 AppService Refactor Continuation
+
+**Goal:** Eliminate the duplicated SetCookie/SaveCookie boilerplate across 6 AppServices by extracting shared behavior into a single protected base class.
+
+**Target features:**
+- Create `BaseCookieAwareAppService` extending `BaseMultiAccountsAppService` with shared cookie-enrichment and persistence
+- Migrate `DailyTaskAppService`, `ChargeTaskAppService`, `MangaPrivilegeTaskAppService`, `MangaTaskAppService`, `Silver2CoinTaskAppService`, `VipPrivilegeTaskAppService`
+- Verify all existing characterization and integration tests continue to pass
+
 ## Requirements
 
 ### Validated
@@ -31,7 +40,12 @@ Make the existing codebase safe to change: clear boundaries, lower coupling, and
 - ✓ QUAL-01: BiliException typed hierarchy (Business/Integration/Validation) with 14 DomainService conversions — v4.0.0.1
 - ✓ QUAL-02: TaskFlowDiagnosticScope diagnostic markers for Login and DailyTask comparison — v4.0.0.1
 
-### Active (v4.0.0.2 candidates)
+### Active (v4.0.0.2)
+
+- [ ] FLOW-06: Maintainer can see shared SetCookie/SaveCookie behavior defined exactly once in a protected base class, not copied across 6 AppServices
+- [ ] FLOW-07: Maintainer can verify the refactored AppService hierarchy produces the same observable behavior as before
+
+### Deferred (future milestones)
 
 - [ ] TEST-04: Maintainer can verify key Web or Blazor components with dedicated component tests
 - [ ] TEST-05: Maintainer can enforce focused coverage thresholds for critical modules in CI
@@ -75,7 +89,8 @@ Make the existing codebase safe to change: clear boundaries, lower coupling, and
 | ArchUnitNET for executable dependency enforcement | Provides CI-enforced compile-time-adjacent guardrail without custom tooling | Shipped Phase 1 |
 | TaskFlowDiagnosticScope for flow comparison | Enables comparing old vs. refactored critical paths through structured log markers | Shipped Phase 2 |
 | BiliException hierarchy (Business/Integration/Validation) | Enables distinguishable failure modes across DomainService and Agent layers | Shipped Phase 6 |
-| ARCH-04 notification boundary deferred | Current Serilog sink works; establishing an explicit port adds scope without urgent payoff | Deferred to v4.0.0.2 |
+| ARCH-04 notification boundary deferred | Current Serilog sink works; establishing an explicit port adds scope without urgent payoff | Deferred beyond v4.0.0.2 |
+| Extract shared AppService cookie handling into base class | 6 AppServices copy identical SetCookie/SaveCookie private methods — DRY violation targets a single base class | v4.0.0.2 Phase 7 |
 
 ## Evolution
 
@@ -95,4 +110,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-04 after v4.0.0.1 milestone*
+*Last updated: 2026-05-04 — milestone v4.0.0.2 started*
