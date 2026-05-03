@@ -72,7 +72,10 @@ Plans:
   1. Existing DailyTask triggers continue to run the same observable task workflow and result reporting after the refactor.
   2. DailyTask orchestration is available through a dedicated application flow that can be exercised with focused tests.
   3. Host and scheduler callers delegate DailyTask work through the same application entry point instead of duplicating orchestration logic.
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [ ] 04-01-PLAN.md — Clarify DailyTaskAppService internal structure and validate against characterization tests
 
 ### Phase 5: Scheduler Shell Cleanup
 **Goal**: Scheduled work is triggered by thin Quartz shells that schedule and delegate instead of owning business orchestration.
