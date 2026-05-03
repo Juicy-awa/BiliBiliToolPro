@@ -46,7 +46,9 @@ public class DailyTaskAppService(
     ILoginDomainService loginDomainService,
     IConfiguration configuration,
     CookieStrFactory<BiliCookie> cookieStrFactory
-) : BaseMultiAccountsAppService(logger, cookieStrFactory), IDailyTaskAppService
+)
+    : BaseMultiAccountsAppService(logger, cookieStrFactory, loginDomainService, configuration),
+        IDailyTaskAppService
 {
     private readonly DailyTaskOptions _dailyTaskOptions = dailyTaskOptions.CurrentValue;
     private readonly Dictionary<string, int> _expDic = Config.Constants.ExpDic;
@@ -93,32 +95,6 @@ public class DailyTaskAppService(
                 await ReceiveVipPrivilege(userInfo, ck);
             }
         );
-    }
-
-    /// <summary>
-    /// Step 1: Validates cookie completeness and enriches context if needed.
-    /// Checks for the presence of Buvid field to determine if cookie context requires enrichment.
-    /// Delegates to domain service for cookie validation and enrichment, then persists via platform-aware routing.
-    /// </summary>
-    /// <param name="biliCookie">BiliBili cookie to validate and potentially enrich</param>
-    /// <param name="cancellationToken">Cancellation token for async operation control</param>
-    [TaskInterceptor("Set Cookie")]
-    private async Task SetCookiesAsync(BiliCookie biliCookie, CancellationToken cancellationToken)
-    {
-        //判断cookie是否完整
-        if (!string.IsNullOrWhiteSpace(biliCookie.Buvid))
-        {
-            logger.LogInformation("Cookie完整，不需要Set Cookie");
-            return;
-        }
-
-        //Set
-        logger.LogInformation("开始Set Cookie");
-        var ck = await loginDomainService.SetCookieAsync(biliCookie, cancellationToken);
-
-        //持久化
-        logger.LogInformation("持久化Cookie");
-        await SaveCookieAsync(ck, cancellationToken);
     }
 
     /// <summary>
@@ -235,31 +211,5 @@ public class DailyTaskAppService(
                 logger.LogError("领取福利成功，但之后刷新用户信息时异常，信息：{msg}", ex.Message);
             }
         }
-    }
-
-    /// <summary>
-    /// Persists enriched cookie to platform-specific storage.
-    /// Platform routing:
-    /// - QingLong: Updates environment variables in automation platform for scheduled task execution
-    /// - Other platforms: Writes to JSON file for local/standalone execution
-    /// Delegates actual persistence operations to login domain service.
-    /// </summary>
-    /// <param name="ckInfo">Enriched cookie ready for persistence</param>
-    /// <param name="cancellationToken">Cancellation token for async operation control</param>
-    private async Task SaveCookieAsync(BiliCookie ckInfo, CancellationToken cancellationToken)
-    {
-        var platformType = configuration.GetSection("PlatformType").Get<PlatformType>();
-        logger.LogInformation("当前运行平台：{platform}", platformType);
-
-        // Platform-aware persistence routing: QingLong uses environment variables, others use JSON file
-        //更新cookie到青龙env
-        if (platformType == PlatformType.QingLong)
-        {
-            await loginDomainService.SaveCookieToQinLongAsync(ckInfo, cancellationToken);
-            return;
-        }
-
-        //更新cookie到json
-        await loginDomainService.SaveCookieToJsonFileAsync(ckInfo, cancellationToken);
     }
 }
