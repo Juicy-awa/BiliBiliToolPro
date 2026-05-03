@@ -11,8 +11,8 @@ See: .planning/PROJECT.md (updated 2026-05-04)
 
 Phase: 07-appservice-cookie-handling-extraction
 Plan: —
-Status: UAT complete
-Last activity: 2026-05-04 — Phase 7 UAT passed (7/7)
+Status: Shipped — PR open (feature/gsd-appservice → develop)
+Last activity: 2026-05-04 — Phase 7 shipped
 
 Progress: [██████████] 100% — Phase 7 complete
 
