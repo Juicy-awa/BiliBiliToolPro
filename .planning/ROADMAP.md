@@ -75,7 +75,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 04-01-PLAN.md — Clarify DailyTaskAppService internal structure and validate against characterization tests
+- [x] 04-01-PLAN.md — Clarify DailyTaskAppService internal structure and validate against characterization tests
 
 ### Phase 5: Scheduler Shell Cleanup
 **Goal**: Scheduled work is triggered by thin Quartz shells that schedule and delegate instead of owning business orchestration.
@@ -105,6 +105,6 @@ Plans:
 | 1. Boundary Guardrails | 2/2 | Complete | 2026-05-02 |
 | 2. Host Safety Nets | 3/3 | Complete | 2026-05-03 |
 | 3. Login Refactor Slice | 1/1 | Complete | 2026-05-03 |
-| 4. DailyTask Refactor Slice | 0/TBD | Not started | - |
+| 4. DailyTask Refactor Slice | 1/1 | Complete | 2026-05-03 |
 | 5. Scheduler Shell Cleanup | 0/TBD | Not started | - |
 | 6. Integration Boundary And Failure Model | 0/TBD | Not started | - |
