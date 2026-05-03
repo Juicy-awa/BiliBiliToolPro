@@ -17,14 +17,27 @@ Make the existing codebase safe to change: clear boundaries, lower coupling, and
 - ✓ The system can execute Bilibili automation tasks through existing Console and Web hosts — existing
 - ✓ The system already integrates with Bilibili APIs, scheduling, persistence, and multiple deployment targets — existing
 - ✓ The system already supports operational workflows such as login, daily tasks, manga/live tasks, notifications, and multi-environment deployment — existing
+- ✓ ARCH-01: Maintainer can enforce explicit dependency direction between all 5 layers — v4.0.0.1
+- ✓ ARCH-02: Web and Console hosts stay thin; startup code no longer owns business orchestration — v4.0.0.1
+- ✓ ARCH-03: Core modules compose through module-level registration entry points — v4.0.0.1
+- ⚠ ARCH-04 (partial): EF + HTTP Agent boundaries established; notification boundary deferred — v4.0.0.1
+- ✓ TEST-01: Login and DailyTask observable behavior frozen with characterization tests — v4.0.0.1
+- ✓ TEST-02: Startup, config, EF, HTTP, and scheduling validated via host integration tests — v4.0.0.1
+- ✓ TEST-03: Cross-layer dependency violations detected through ArchUnitNET architecture tests — v4.0.0.1
+- ✓ FLOW-01: Login flow refactored behind a clearer application boundary — v4.0.0.1
+- ✓ FLOW-02: DailyTask flow refactored behind a testable application boundary — v4.0.0.1
+- ✓ FLOW-03: All 12 Quartz job classes reduced to thin delegation shells — v4.0.0.1
+- ✓ FLOW-04: Bilibili HTTP integrations normalized through consistent Agent boundary with explicit policies — v4.0.0.1
+- ✓ QUAL-01: BiliException typed hierarchy (Business/Integration/Validation) with 14 DomainService conversions — v4.0.0.1
+- ✓ QUAL-02: TaskFlowDiagnosticScope diagnostic markers for Login and DailyTask comparison — v4.0.0.1
 
-### Active
+### Active (v4.0.0.2 candidates)
 
-- [ ] Clarify architectural boundaries between Agent, Application, DomainService, Infrastructure, and Web layers
-- [ ] Reduce cross-module coupling so changes in one area do not cascade across unrelated areas
-- [ ] Introduce test coverage around critical execution paths so refactors can be validated safely
-- [ ] Make the refactor incremental and phase-based rather than a one-shot rewrite
-- [ ] Establish cleaner error-handling and service-boundary patterns in core execution flows
+- [ ] TEST-04: Maintainer can verify key Web or Blazor components with dedicated component tests
+- [ ] TEST-05: Maintainer can enforce focused coverage thresholds for critical modules in CI
+- [ ] FLOW-05: Maintainer can unify Console and Web configuration and startup composition paths where behavior meaningfully overlaps
+- [ ] QUAL-03: Maintainer can remove default credential risks and similar obvious safety issues from bootstrap flows
+- [ ] QUAL-04: Maintainer can reduce repository noise from generated outputs so searches and reviews focus on source of truth files
 
 ### Out of Scope
 
@@ -35,10 +48,14 @@ Make the existing codebase safe to change: clear boundaries, lower coupling, and
 ## Context
 
 - The repository is a multi-project .NET 8 solution centered on `Ray.BiliBiliTool.sln`
-- Current executable surfaces include `src\Ray.BiliBiliTool.Console`, `src\Ray.BiliBiliTool.Web`, and `src\Ray.BiliBiliTool.Web.Client`
-- Integration code is concentrated in `src\Ray.BiliBiliTool.Agent`, while scheduling is composed through Quartz and BlazingQuartz in the web host
-- The current codebase map shows several refactor pressure points: broad generic exception usage, dense startup composition, seeded default admin credentials, thin tests, and generated artifacts mixed into the workspace
-- The current maintainer pain is clear: changes ripple too widely, layer boundaries are unclear, and the test safety net is too weak to support confident refactoring
+- Executable surfaces include `src\Ray.BiliBiliTool.Console`, `src\Ray.BiliBiliTool.Web`, and `src\Ray.BiliBiliTool.Web.Client`
+- v4.0.0.1 shipped 2026-05-03: 6 phases, 13 plans, 128 files changed, 8707 insertions, 264 deletions
+- Architecture guardrails (ArchUnitNET) enforce layer direction across Agent, Application, DomainService, Infrastructure, and Web — 4/4 tests passing
+- Characterization and integration test harnesses now freeze Login and DailyTask flows across `test\Ray.BiliBiliTool.Test.Characterization` and `test\Ray.BiliBiliTool.Test.Integration`
+- All 12 Quartz job classes are thin expression-body delegation shells; orchestration lives in LoginTaskAppService and DailyTaskAppService
+- BiliException hierarchy (Business/Integration/Validation) established in `src\Ray.BiliBiliTool.Domain\Exceptions`
+- IExecutionLogRepository and IUserRepository adapters decouple Web from direct EF factory injection
+- Notification boundary not yet established — still direct Serilog sink dependency (deferred to v4.0.0.2)
 
 ## Constraints
 
@@ -50,11 +67,15 @@ Make the existing codebase safe to change: clear boundaries, lower coupling, and
 
 ## Key Decisions
 
-| Decision                                                                | Rationale                                                           | Outcome   |
-| ----------------------------------------------------------------------- | ------------------------------------------------------------------- | --------- |
-| Treat this as a brownfield refactor project, not a new product          | The user wants to improve the current system rather than replace it | — Pending |
-| Prioritize architecture boundaries, code quality, and testability first | These are the main pain points blocking safe changes today          | — Pending |
-| Use gradual, phase-based refactoring instead of a rewrite               | The user explicitly wants low-risk incremental change               | — Pending |
+| Decision | Rationale | Outcome |
+|----------|-----------|---------|
+| Treat this as a brownfield refactor project, not a new product | The user wants to improve the current system rather than replace it | Confirmed — v4.0.0.1 shipped without breaking existing flows |
+| Prioritize architecture boundaries, code quality, and testability first | These are the main pain points blocking safe changes today | Confirmed — ArchUnitNET guardrails + test harnesses established |
+| Use gradual, phase-based refactoring instead of a rewrite | The user explicitly wants low-risk incremental change | Confirmed — 6 phases with atomic commits |
+| ArchUnitNET for executable dependency enforcement | Provides CI-enforced compile-time-adjacent guardrail without custom tooling | Shipped Phase 1 |
+| TaskFlowDiagnosticScope for flow comparison | Enables comparing old vs. refactored critical paths through structured log markers | Shipped Phase 2 |
+| BiliException hierarchy (Business/Integration/Validation) | Enables distinguishable failure modes across DomainService and Agent layers | Shipped Phase 6 |
+| ARCH-04 notification boundary deferred | Current Serilog sink works; establishing an explicit port adds scope without urgent payoff | Deferred to v4.0.0.2 |
 
 ## Evolution
 
@@ -74,4 +95,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-27 after initialization*
+*Last updated: 2026-05-04 after v4.0.0.1 milestone*
