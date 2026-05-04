@@ -10,9 +10,19 @@ The product being preserved is an automated Bilibili task execution system with 
 
 Make the existing codebase safe to change: clear boundaries, lower coupling, and testable critical flows.
 
-## Current State: v4.0.0.4 Shipped — Planning Next Milestone
+## Current State: v4.0.0.5 In Progress — Agent DTO Reorganization
 
 **Shipped 2026-05-04:** Agent Interface Consolidation complete. All 8 api.bilibili.com Refit interfaces merged into single `IApiApi` with `#region` organization. 8 old interface files deleted. DI reduced from 8 registrations to 1. INavApi retained separately (IWbiService circular dep). Build 0 errors, arch 4/4, integration 7/7.
+
+## Current Milestone: v4.0.0.5 Agent DTO Reorganization
+
+**Goal:** Reorganize Agent-layer DTO folders so the directory structure mirrors the interface grouping established in v4.0.0.4.
+
+**Target features:**
+- Rename `Dtos/Space/` → `Dtos/UpInfo/` (matches `IApiApi #region UpInfo`)
+- Move `Dtos/Coin/CoinBalance.cs` → `Dtos/AccountApi/` (matches `IAccountApi`)
+- Move `Dtos/UserInfo.cs` → `Dtos/Nav/UserInfo.cs` (matches `INavApi`)
+- Update all namespaces and consumer `using` directives throughout solution
 
 ## Requirements
 
@@ -46,9 +56,14 @@ Make the existing codebase safe to change: clear boundaries, lower coupling, and
 - ✓ REFIT-05: WebApiClientCore package removed; 4 legacy attribute files deleted — v4.0.0.3
 - ✓ REFIT-06: Build 0 errors; architecture tests 4/4; integration tests 7/7 — v4.0.0.3
 
-### Active (next milestone — TBD)
+### Active (v4.0.0.5)
 
-*(No active requirements — define with `/gsd-new-milestone`)*
+- [ ] DTO-01: Agent-layer DTO folders mirror interface boundaries
+- [ ] DTO-02: `Dtos/Space/` renamed to `Dtos/UpInfo/` (namespace updated)
+- [ ] DTO-03: `CoinBalance.cs` moved to `Dtos/AccountApi/` (namespace updated)
+- [ ] DTO-04: `UserInfo.cs` moved to `Dtos/Nav/` (namespace updated)
+- [ ] DTO-05: All consumers updated with corrected using directives
+- [ ] DTO-06: Build 0 errors | Arch 4/4 | Integration 7/7
 
 ### Deferred (future milestones)
 
@@ -117,4 +132,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-04 — milestone v4.0.0.2 started*
+*Last updated: 2026-05-04 — milestone v4.0.0.5 started*

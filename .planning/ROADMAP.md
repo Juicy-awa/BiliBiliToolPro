@@ -6,6 +6,7 @@
 - ✅ **v4.0.0.2 AppService Refactor Continuation** — Phase 7 (shipped 2026-05-04) — [archive](milestones/v4.0.0.2-ROADMAP.md)
 - ✅ **v4.0.0.3 Refit Migration** — Phases 8–10 (shipped 2026-05-04) — [archive](milestones/v4.0.0.3-ROADMAP.md)
 - ✅ **v4.0.0.4 Agent Interface Consolidation** — Phase 11 (shipped 2026-05-04) — [archive](milestones/v4.0.0.4-ROADMAP.md)
+- 🔄 **v4.0.0.5 Agent DTO Reorganization** — Phase 12 (in progress)
 
 ## Phases
 
@@ -44,6 +45,26 @@
 
 </details>
 
+## 🔄 v4.0.0.5 Agent DTO Reorganization
+
+### Phase 12: Agent DTO Reorganization
+
+**Goal:** Rename and move DTO files so each folder maps 1:1 to its interface grouping — `Space/` → `UpInfo/`, `Coin/CoinBalance` → `AccountApi/`, root `UserInfo` → `Nav/`. Update all namespaces and consumer using directives. Build 0 errors, arch 4/4, integration 7/7.
+
+**Requirements:** DTO-01, DTO-02, DTO-03, DTO-04, DTO-05, DTO-06
+
+**Plans:**
+- [ ] 12-01-PLAN.md — Move DTO files: Space→UpInfo, Coin/CoinBalance→AccountApi/, UserInfo→Nav/; update namespace declarations inside moved files
+- [ ] 12-02-PLAN.md — Update all consumers: fix using directives in interfaces, DomainServices, AppServices, tests; verify build 0 errors + arch 4/4 + integration 7/7
+
+**Success criteria:**
+1. `ls Dtos/UpInfo/` contains GetSpaceInfoFullDto, GetSpaceInfoResponse, UpInfo — `Space/` folder deleted
+2. `ls Dtos/AccountApi/` contains CoinBalance.cs — `Coin/CoinBalance.cs` deleted
+3. `ls Dtos/Nav/` contains UserInfo.cs — root-level `UserInfo.cs` deleted
+4. `dotnet build` → 0 errors, 0 warnings on namespace changes
+5. Architecture tests 4/4 pass
+6. Integration tests 7/7 pass
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -59,3 +80,4 @@
 | 9. Bilibili Interface Migration | v4.0.0.3 | 2/2 | Complete | 2026-05-04 |
 | 10. DI Migration & Cleanup | v4.0.0.3 | 1/1 | Complete | 2026-05-04 |
 | 11. Agent Interface Consolidation | v4.0.0.4 | 4/4 | Complete | 2026-05-04 |
+| 12. Agent DTO Reorganization | v4.0.0.5 | 0/2 | In Progress | — |
