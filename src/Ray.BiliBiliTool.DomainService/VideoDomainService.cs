@@ -163,7 +163,12 @@ public class VideoDomainService(
             Realtime = playedTime,
             Real_played_time = playedTime,
         };
-        BiliApiResponse apiResponse = await videoApi.UploadVideoHeartbeat(request, ck.ToString());
+        BiliApiResponse apiResponse = await videoApi.UploadVideoHeartbeat(
+            request.Aid,
+            request.Played_time,
+            request,
+            ck.ToString()
+        );
 
         if (apiResponse.Code == 0)
         {
@@ -218,7 +223,12 @@ public class VideoDomainService(
         };
 
         //开始上报一次
-        BiliApiResponse apiResponse = await videoApi.UploadVideoHeartbeat(request, ck.ToString());
+        BiliApiResponse apiResponse = await videoApi.UploadVideoHeartbeat(
+            request.Aid,
+            request.Played_time,
+            request,
+            ck.ToString()
+        );
 
         if (apiResponse.Code == 0)
         {

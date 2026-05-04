@@ -11,6 +11,7 @@ using Ray.BiliBiliTool.Agent.HttpClientDelegatingHandlers;
 using Ray.BiliBiliTool.Agent.QingLong;
 using Ray.BiliBiliTool.Config.Options;
 using Ray.BiliBiliTool.Infrastructure.Cookie;
+using Refit;
 
 namespace Ray.BiliBiliTool.Agent.Extensions;
 
@@ -34,7 +35,7 @@ public static class ServiceCollectionExtension
 
         //DelegatingHandler
         services.Scan(scan =>
-            scan.FromAssemblyOf<IBiliBiliApi>()
+            scan.FromAssemblyOf<BiliBiliCommonHeadersDelegatingHandler>()
                 .AddClasses(classes => classes.AssignableTo<DelegatingHandler>())
                 .AsSelf()
                 .WithTransientLifetime()
@@ -101,14 +102,11 @@ public static class ServiceCollectionExtension
         //qinglong
         var qinglongHost = configuration["QL_URL"] ?? "http://localhost:5600";
         services
-            .AddHttpApi<IQingLongApi>(o =>
-            {
-                o.HttpHost = new Uri(qinglongHost);
-                o.UseDefaultUserAgent = false;
-            })
+            .AddRefitClient<IQingLongApi>()
             .ConfigureHttpClient(
                 (sp, c) =>
                 {
+                    c.BaseAddress = new Uri(qinglongHost);
                     c.DefaultRequestHeaders.Add(
                         "User-Agent",
                         sp.GetRequiredService<
@@ -139,14 +137,12 @@ public static class ServiceCollectionExtension
     )
         where TInterface : class
     {
-        var uri = new Uri(host);
         IHttpClientBuilder httpClientBuilder = services
-            .AddHttpApi<TInterface>(o =>
-            {
-                o.HttpHost = uri;
-                o.UseDefaultUserAgent = false;
-            })
+            .AddRefitClient<TInterface>()
+            .ConfigureHttpClient((_, c) => c.BaseAddress = new Uri(host))
             .ConfigureHttpClient(config)
+            .AddHttpMessageHandler<LogDelegatingHandler>()
+            .AddHttpMessageHandler<BiliBiliCommonHeadersDelegatingHandler>()
             .AddHttpMessageHandler<IntervalDelegatingHandler>()
             .AddPolicyHandler(policy ?? BiliResiliencePolicies.ReadOnlyPolicy());
 

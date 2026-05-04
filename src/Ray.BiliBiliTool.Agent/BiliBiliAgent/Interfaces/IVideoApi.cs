@@ -1,14 +1,14 @@
 ﻿using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Video;
-using WebApiClientCore.Attributes;
+using Refit;
 
 namespace Ray.BiliBiliTool.Agent.BiliBiliAgent.Interfaces;
 
 /// <summary>
 /// 视频相关接口
 /// </summary>
-[Header("Host", "api.bilibili.com")]
-public interface IVideoApi : IBiliBiliApi
+[Headers("Host: api.bilibili.com")]
+public interface IVideoApi
 {
     /// <summary>
     /// 分享视频
@@ -16,10 +16,10 @@ public interface IVideoApi : IBiliBiliApi
     /// <param name="request"></param>
     /// <remarks>ck中必须要有buvid3，否则几率性-403</remarks>
     /// <returns></returns>
-    [Header("Origin", "https://www.bilibili.com")]
-    [HttpPost("/x/web-interface/share/add")]
+    [Headers("Origin: https://www.bilibili.com")]
+    [Post("/x/web-interface/share/add")]
     Task<BiliApiResponse> ShareVideo(
-        [FormContent] ShareVideoRequest request,
+        [Body(BodySerializationMethod.UrlEncoded)] ShareVideoRequest request,
         [Header("Cookie")] string ck
     );
 
@@ -29,12 +29,16 @@ public interface IVideoApi : IBiliBiliApi
     /// </summary>
     /// <returns></returns>
     //[Header("Content-Length", "186")]
-    [Header("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")]
-    [Header("Referer", "https://www.bilibili.com/")]
-    [Header("Origin", "https://www.bilibili.com")]
-    [HttpPost("/x/click-interface/web/heartbeat?aid={aid}&played_time={playedTime}")]
+    [Headers(
+        "Content-Type: application/x-www-form-urlencoded; charset=UTF-8",
+        "Referer: https://www.bilibili.com/",
+        "Origin: https://www.bilibili.com"
+    )]
+    [Post("/x/click-interface/web/heartbeat?aid={aid}&played_time={playedTime}")]
     Task<BiliApiResponse> UploadVideoHeartbeat(
-        [FormContent] UploadVideoHeartbeatRequest request,
+        long aid,
+        int playedTime,
+        [Body(BodySerializationMethod.UrlEncoded)] UploadVideoHeartbeatRequest request,
         [Header("Cookie")] string ck
     );
 
@@ -47,12 +51,11 @@ public interface IVideoApi : IBiliBiliApi
     /// <param name="select_like"></param>
     /// <param name="csrf"></param>
     /// <returns></returns>
-    [Header("Content-Type", "application/x-www-form-urlencoded")]
-    //[Header("Referer", "https://www.bilibili.com/")]
-    [Header("Origin", "https://www.bilibili.com")]
-    [HttpPost("/x/web-interface/coin/add")]
+    [Headers("Content-Type: application/x-www-form-urlencoded", "Origin: https://www.bilibili.com")]
+    //[Headers("Referer: https://www.bilibili.com/")]
+    [Post("/x/web-interface/coin/add")]
     Task<BiliApiResponse> AddCoinForVideo(
-        [FormContent] AddCoinRequest request,
+        [Body(BodySerializationMethod.UrlEncoded)] AddCoinRequest request,
         [Header("Cookie")] string ck,
         [Header("referer")]
             string refer =
@@ -64,10 +67,10 @@ public interface IVideoApi : IBiliBiliApi
     /// </summary>
     /// <param name="aid"></param>
     /// <returns></returns>
-    [Header("Referer", "https://www.bilibili.com/")]
-    [HttpGet("/x/web-interface/archive/coins")]
+    [Headers("Referer: https://www.bilibili.com/")]
+    [Get("/x/web-interface/archive/coins")]
     Task<BiliApiResponse<DonatedCoinsForVideo>> GetDonatedCoinsForVideo(
-        GetAlreadyDonatedCoinsRequest request,
+        [Query] GetAlreadyDonatedCoinsRequest request,
         [Header("Cookie")] string ck
     );
     #endregion
@@ -80,12 +83,11 @@ public interface IVideoApi : IBiliBiliApi
     /// <param name="pageNumber"></param>
     /// <param name="keyword"></param>
     /// <returns></returns>
-    [Header("Referer", "https://www.bilibili.com/")]
-    [Header("Origin", "https://space.bilibili.com")]
-    //[HttpGet("/x/space/wbi/arc/search?mid={upId}&ps={pageSize}&tid=0&pn={pageNumber}&keyword={keyword}&order=pubdate&platform=web&web_location=1550101&order_avoided=true&w_rid=5df06b1c48e2be86a96e9d0f99bf06f4&wts=1684854929")]
-    [HttpGet("/x/space/wbi/arc/search")]
+    [Headers("Referer: https://www.bilibili.com/", "Origin: https://space.bilibili.com")]
+    //[Get("/x/space/wbi/arc/search?mid={upId}&ps={pageSize}&tid=0&pn={pageNumber}&keyword={keyword}&order=pubdate&platform=web&web_location=1550101&order_avoided=true&w_rid=5df06b1c48e2be86a96e9d0f99bf06f4&wts=1684854929")]
+    [Get("/x/space/wbi/arc/search")]
     Task<BiliApiResponse<SearchUpVideosResponse>> SearchVideosByUpId(
-        [PathQuery] SearchVideosByUpIdDto request,
+        [Query] SearchVideosByUpIdDto request,
         [Header("Cookie")] string ck
     );
 
@@ -94,7 +96,7 @@ public interface IVideoApi : IBiliBiliApi
     /// </summary>
     /// <param name="Ssid"></param>
     /// <returns></returns>
-    [HttpGet("/pgc/view/web/season?season_id={ssid}")]
+    [Get("/pgc/view/web/season?season_id={ssid}")]
     Task<GetBangumiBySsidResponse> GetBangumiBySsid(long ssid, [Header("Cookie")] string ck);
 }
 
@@ -108,7 +110,7 @@ public interface IVideoWithoutCookieApi : IVideoApi
     /// </summary>
     /// <param name="aid"></param>
     /// <returns></returns>
-    [HttpGet("/x/web-interface/view?aid={aid}")]
+    [Get("/x/web-interface/view?aid={aid}")]
     Task<BiliApiResponse<VideoDetail>> GetVideoDetail(string aid);
 
     /// <summary>
@@ -117,9 +119,8 @@ public interface IVideoWithoutCookieApi : IVideoApi
     /// <param name="rid"></param>
     /// <param name="day"></param>
     /// <returns></returns>
-    [Header("Referer", "https://www.bilibili.com/")]
-    [Header("Origin", "https://www.bilibili.com")]
-    [HttpGet("/x/web-interface/ranking/region?rid={rid}&day={day}")]
+    [Headers("Referer: https://www.bilibili.com/", "Origin: https://www.bilibili.com")]
+    [Get("/x/web-interface/ranking/region?rid={rid}&day={day}")]
     [Obsolete]
     Task<BiliApiResponse<List<RankingInfo>>> GetRegionRankingVideos(int rid, int day);
 
@@ -127,9 +128,7 @@ public interface IVideoWithoutCookieApi : IVideoApi
     /// 获取排行榜
     /// </summary>
     /// <returns></returns>
-    [Header("Referer", "https://www.bilibili.com/")]
-    [Header("Origin", "https://www.bilibili.com")]
-    [Header("dnt", "1")]
-    [HttpGet("/x/web-interface/ranking/v2?rid=0&type=all")]
+    [Headers("Referer: https://www.bilibili.com/", "Origin: https://www.bilibili.com", "dnt: 1")]
+    [Get("/x/web-interface/ranking/v2?rid=0&type=all")]
     Task<BiliApiResponse<Ranking>> GetRegionRankingVideosV2();
 }
