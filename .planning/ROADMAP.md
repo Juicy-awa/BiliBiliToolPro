@@ -69,6 +69,9 @@ Plans:
 **Requirements:** REFIT-02, REFIT-03, REFIT-05, REFIT-06
 **Plans:** 1 plan
 
+Plans:
+- [ ] 10-01-PLAN.md — Convert IQingLongApi to Refit; rewrite DI to AddRefitClient<T>; delete legacy attribute files; remove WebApiClientCore package
+
 **Success criteria:**
 1. `ServiceCollectionExtension.cs` uses `AddRefitClient<T>().ConfigureHttpClient(...)` for all 18 interfaces
 2. Read-only vs mutating Polly policy distinction preserved across all clients
