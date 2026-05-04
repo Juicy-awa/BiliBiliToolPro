@@ -17,7 +17,6 @@ namespace Ray.BiliBiliTool.DomainService;
 public class VipBigPointDomainService(
     ILogger<VipBigPointDomainService> logger,
     IOptionsMonitor<VipBigPointOptions> vipBigPointOptions,
-    IMallApi mallApi,
     IShowApi showApi,
     IApiApi apiApi,
     IAccountDomainService accountDomainService,
@@ -28,7 +27,7 @@ public class VipBigPointDomainService(
 
     public async Task<VipBigPointCombine> GetCombineAsync(BiliCookie ck)
     {
-        var allTasks = await mallApi.GetCombineAsync(
+        var allTasks = await apiApi.GetCombineAsync(
             new GetCombineRequest { csrf = ck.BiliJct, buvid = ck.Buvid },
             ck.ToString()
         );
@@ -108,7 +107,7 @@ public class VipBigPointDomainService(
             return;
         }
 
-        BiliApiResponse<Sign2Response> re = await mallApi.Sign2Async(
+        BiliApiResponse<Sign2Response> re = await apiApi.Sign2Async(
             new Sign2RequestPath(ck.BiliJct),
             new Sign2Request(),
             ck.ToString()

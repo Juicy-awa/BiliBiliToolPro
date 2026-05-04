@@ -37,7 +37,10 @@ public class VipBigPointApiTest
     {
         // Arrange
         // Act
-        BiliApiResponse<VipBigPointCombine> re = await _api.GetVipBigPointCombineAsync(null);
+        BiliApiResponse<VipBigPointCombine> re = await _api.GetCombineAsync(
+            new GetCombineRequest { csrf = _ck.BiliJct, buvid = _ck.Buvid },
+            _ck.ToString()
+        );
 
         // Assert
         re.Code.Should().Be(0);

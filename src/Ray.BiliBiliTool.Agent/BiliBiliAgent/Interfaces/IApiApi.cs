@@ -319,21 +319,32 @@ public interface IApiApi
     /// 获取任务列表
     /// </summary>
     /// <remarks>里面的登录信息是错误的，阿B特色</remarks>
-    [Obsolete("Using IMallApi.GetCombineAsync instead.")]
     [Headers("Referer: https://big.bilibili.com/mobile/bigPoint/task")]
     [Get("/x/vip_point/task/combine")]
-    Task<BiliApiResponse<VipBigPointCombine>> GetVipBigPointCombineAsync(
+    Task<BiliApiResponse<VipBigPointCombine>> GetCombineAsync(
+        [Query] GetCombineRequest request,
         [Header("Cookie")] string ck
     );
 
     /// <summary>
-    /// 签到任务
+    /// 签到任务（旧版）
     /// </summary>
-    [Obsolete("Using IMallApi.Sign2Async instead.")]
+    [Obsolete("Using Sign2Async instead.")]
     [Headers("Referer: https://big.bilibili.com/mobile/bigPoint/task")]
     [Post("/pgc/activity/score/task/sign")]
     Task<BiliApiResponse> VipBigPointSignAsync(
         [Body(BodySerializationMethod.UrlEncoded)] SignRequest request,
+        [Header("Cookie")] string ck
+    );
+
+    /// <summary>
+    /// 签到任务（新版）
+    /// </summary>
+    [Headers("Referer: https://big.bilibili.com/mobile/index")]
+    [Post("/pgc/activity/score/task/sign2")]
+    Task<BiliApiResponse<Sign2Response>> Sign2Async(
+        [Query] Sign2RequestPath requestPath,
+        [Body] Sign2Request request,
         [Header("Cookie")] string ck
     );
 
