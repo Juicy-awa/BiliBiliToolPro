@@ -10,6 +10,10 @@ The product being preserved is an automated Bilibili task execution system with 
 
 Make the existing codebase safe to change: clear boundaries, lower coupling, and testable critical flows.
 
+## Current Milestone: v4.0.0.3 (Next — To Be Planned)
+
+**Goal:** TBD — see Deferred requirements for candidates.
+
 ## Requirements
 
 ### Validated
@@ -31,7 +35,13 @@ Make the existing codebase safe to change: clear boundaries, lower coupling, and
 - ✓ QUAL-01: BiliException typed hierarchy (Business/Integration/Validation) with 14 DomainService conversions — v4.0.0.1
 - ✓ QUAL-02: TaskFlowDiagnosticScope diagnostic markers for Login and DailyTask comparison — v4.0.0.1
 
-### Active (v4.0.0.2 candidates)
+- ✓ FLOW-06: Shared SetCookie/SaveCookie behavior defined exactly once in `BaseMultiAccountsAppService` (protected virtual), not copied across 11 AppServices — v4.0.0.2
+- ✓ FLOW-07: Refactored AppService hierarchy preserves all observable behavior — ArchitectureTests 4/4, IntegrationTests 7/7, UAT 7/7 — v4.0.0.2
+- ✓ QUAL-02: TaskFlowDiagnosticScope diagnostic markers extended to all 11 in-scope AppServices — v4.0.0.2
+
+### Active (v4.0.0.3)
+
+### Deferred (future milestones)
 
 - [ ] TEST-04: Maintainer can verify key Web or Blazor components with dedicated component tests
 - [ ] TEST-05: Maintainer can enforce focused coverage thresholds for critical modules in CI
@@ -50,12 +60,14 @@ Make the existing codebase safe to change: clear boundaries, lower coupling, and
 - The repository is a multi-project .NET 8 solution centered on `Ray.BiliBiliTool.sln`
 - Executable surfaces include `src\Ray.BiliBiliTool.Console`, `src\Ray.BiliBiliTool.Web`, and `src\Ray.BiliBiliTool.Web.Client`
 - v4.0.0.1 shipped 2026-05-03: 6 phases, 13 plans, 128 files changed, 8707 insertions, 264 deletions
+- v4.0.0.2 shipped 2026-05-04: 1 phase, 4 plans — cookie-handling centralized in `BaseMultiAccountsAppService`; all 11 AppServices migrated; DiagnosticScope telemetry added to all
 - Architecture guardrails (ArchUnitNET) enforce layer direction across Agent, Application, DomainService, Infrastructure, and Web — 4/4 tests passing
 - Characterization and integration test harnesses now freeze Login and DailyTask flows across `test\Ray.BiliBiliTool.Test.Characterization` and `test\Ray.BiliBiliTool.Test.Integration`
 - All 12 Quartz job classes are thin expression-body delegation shells; orchestration lives in LoginTaskAppService and DailyTaskAppService
 - BiliException hierarchy (Business/Integration/Validation) established in `src\Ray.BiliBiliTool.Domain\Exceptions`
 - IExecutionLogRepository and IUserRepository adapters decouple Web from direct EF factory injection
-- Notification boundary not yet established — still direct Serilog sink dependency (deferred to v4.0.0.2)
+- `BaseMultiAccountsAppService` now owns `SetCookiesAsync` + `SaveCookieAsync` as `protected virtual` — all 11 in-scope services inherit; `LoginTaskAppService` retains its own (out of scope by design)
+- Notification boundary not yet established — still direct Serilog sink dependency (deferred to future milestone)
 
 ## Constraints
 
@@ -75,7 +87,8 @@ Make the existing codebase safe to change: clear boundaries, lower coupling, and
 | ArchUnitNET for executable dependency enforcement | Provides CI-enforced compile-time-adjacent guardrail without custom tooling | Shipped Phase 1 |
 | TaskFlowDiagnosticScope for flow comparison | Enables comparing old vs. refactored critical paths through structured log markers | Shipped Phase 2 |
 | BiliException hierarchy (Business/Integration/Validation) | Enables distinguishable failure modes across DomainService and Agent layers | Shipped Phase 6 |
-| ARCH-04 notification boundary deferred | Current Serilog sink works; establishing an explicit port adds scope without urgent payoff | Deferred to v4.0.0.2 |
+| ARCH-04 notification boundary deferred | Current Serilog sink works; establishing an explicit port adds scope without urgent payoff | Deferred beyond v4.0.0.2 |
+| Extract shared AppService cookie handling into base class | 6 AppServices copy identical SetCookie/SaveCookie private methods — DRY violation targets a single base class | v4.0.0.2 Phase 7 |
 
 ## Evolution
 
@@ -95,4 +108,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-04 after v4.0.0.1 milestone*
+*Last updated: 2026-05-04 — milestone v4.0.0.2 started*

@@ -1,5 +1,37 @@
 # Milestones
 
+## v4.0.0.2 — AppService Refactor Continuation
+
+**Shipped:** 2026-05-04
+**Phases:** 1 | **Plans:** 4 | **Commits:** 10
+
+### Delivered
+
+Eliminated duplicated `SetCookiesAsync` / `SaveCookieAsync` private methods from all 11 in-scope AppServices by centralizing them as `protected virtual` methods in `BaseMultiAccountsAppService`. Added `TaskFlowDiagnosticScope` telemetry to all 11 services.
+
+### Key Accomplishments
+
+1. `BaseMultiAccountsAppService` upgraded with `ILoginDomainService` + `IConfiguration` constructor deps and two `protected virtual` cookie methods — single source of truth for cookie handling.
+2. 6 Group A services (DailyTask, Charge, MangaPrivilege, Manga, Silver2Coin, VipPrivilege) — private copies removed, base ctor wired, DiagnosticScope added.
+3. 5 Group B services (LiveFansMedal, LiveLottery, UnfollowBatched, VipBigPoint, Test) — previously missing `SetCookiesAsync` call added, ctor deps injected, DiagnosticScope added.
+4. `VipBigPointAppService` naming conflict resolved: `accountDomainService` vs `loginDomainService` correctly distinguished.
+5. All 11 services now emit `TaskFlowDiagnosticScope.ExecuteAsync` telemetry with Chinese labels matching the established pattern.
+
+### Stats
+
+- Git range: 348233e (develop) → HEAD (feature/gsd-appservice)
+- Phase: 07-appservice-cookie-handling-extraction (4 plans)
+- Build: 0 errors | ArchitectureTests: 4/4 | IntegrationTests: 7/7
+- UAT: 7/7 passed
+
+### Known Gaps
+
+- No VERIFICATION.md generated during execute-phase (covered by UAT 7/7 + test results).
+- VALIDATION.md (Nyquist) not created — run `/gsd-validate-phase 7` optionally.
+- `LoginTaskAppService` retains private cookie methods — explicitly out of scope per D-01 (it IS the login service itself).
+
+---
+
 ## v4.0.0.1 — Brownfield Refactor
 
 **Shipped:** 2026-05-03

@@ -1,3 +1,5 @@
+## 4.0.0.2
+- GSD重构AppService
 ## 4.0.0.1
 - 升级bruno到v3
 - bruno实现APP的sign签名算法和Web的WBI签名算法
