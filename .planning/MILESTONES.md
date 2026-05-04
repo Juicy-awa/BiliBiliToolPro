@@ -1,5 +1,42 @@
 # Milestones
 
+## v4.0.0.4 — Agent Interface Consolidation
+
+**Shipped:** 2026-05-04
+**Phases:** 1 (Phase 11) | **Plans:** 4 | **Commits:** 5
+
+### Delivered
+
+Merged all 8 `api.bilibili.com` Refit interfaces into a single `IApiApi` with `#region` organization by domain. Eliminated 8 old interface files, reduced DI from 8 registrations to 1. Updated 9 DomainServices and 5 test files. Fixed critical DI regression (7 accidentally-deleted service registrations) caught during milestone audit. Retained `INavApi` separately to avoid `IWbiService` circular dependency.
+
+### Key Accomplishments
+
+1. `IApiApi.cs` created — 8 `#region` sections (UpInfo, 每日任务, 关注, 充电, 视频, 专栏, 大会员积分, 商城) merging 8 old interfaces
+2. IVipBigPointApi DI host registration bug fixed — was `BiliHosts.App`, correct is `BiliHosts.Api`; merged into IApiApi inline
+3. 8 old interface files deleted; DI reduced from 8 `AddBiliBiliClientApi` calls to 1 with `MutatingPolicy()`
+4. 9 DomainServices and 5 test files updated to inject `IApiApi` — 0 references to old interfaces remain
+5. DI regression (`8d56f41`) fixed during audit — restored 7 accidentally-deleted registrations (IShowApi, IPassportApi, ILiveTraceApi, IHomeApi, IMangaApi, IAccountApi, ILiveApi)
+
+### Stats
+
+- Git range: `0fe810f` → `872d389`
+- Files changed: 47 (+1,503/−751)
+- Build: 0 errors | ArchitectureTests: 4/4 | IntegrationTests: 7/7
+
+### Known Tech Debt
+
+- Pre-existing test failure: `Daily_task_multi_account_wrapper_continues_after_account_failure` (open since Phase 5)
+- ARCH-04: Notification adapter/port boundary deferred beyond this milestone
+- IFACE-02: `#region` convention not enforced by architecture tests
+
+### Archive
+
+- [v4.0.0.4-ROADMAP.md](milestones/v4.0.0.4-ROADMAP.md)
+- [v4.0.0.4-REQUIREMENTS.md](milestones/v4.0.0.4-REQUIREMENTS.md)
+- [v4.0.0.4-MILESTONE-AUDIT.md](v4.0.0.4-MILESTONE-AUDIT.md)
+
+---
+
 ## v4.0.0.3 — Refit Migration
 
 **Shipped:** 2026-05-04

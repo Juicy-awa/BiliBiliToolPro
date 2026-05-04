@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: "{{host}}/x/vip/vip_center/sign_in/three_days_sign?access_key={{access_key}}&appkey={{appKey}}&build={{build}}&csrf={{csrf}}&device=phone&disable_rcmd=0&mobi_app=android&platform=android&statistics={{statistics}}&ts={{ts}}&web_location=666.146&sign={{sign}}"
+  url: "{{host}}/x/vip/vip_center/sign_in/three_days_sign?access_key={{access_key}}&build={{build}}&csrf={{csrf}}&device=phone&disable_rcmd=0&mobi_app=android&platform=android&statistics={{statistics}}&web_location=666.146"
   headers:
     - name: Cookie
       value: "{{cookieStr}}"
@@ -38,6 +38,7 @@ http:
     - name: appkey
       value: "{{appKey}}"
       type: query
+      disabled: true
     - name: build
       value: "{{build}}"
       type: query
@@ -59,6 +60,9 @@ http:
     - name: statistics
       value: "{{statistics}}"
       type: query
+    - name: web_location
+      value: "666.146"
+      type: query
     - name: t
       value: "1748747431084"
       type: query
@@ -66,12 +70,11 @@ http:
     - name: ts
       value: "{{ts}}"
       type: query
-    - name: web_location
-      value: "666.146"
-      type: query
+      disabled: true
     - name: sign
       value: "{{sign}}"
       type: query
+      disabled: true
   auth: inherit
 
 settings:
@@ -81,7 +84,16 @@ settings:
   maxRedirects: 5
 
 docs: |-
-  Response sample:
+  ## Auth
+
+  - access_key
+  - Cookie
+
+  ## Signature Verification
+
+  - NA
+
+  ## Response sample
 
   ```json
   {

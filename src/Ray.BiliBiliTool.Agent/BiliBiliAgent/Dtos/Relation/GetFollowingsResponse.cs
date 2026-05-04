@@ -1,4 +1,6 @@
-﻿namespace Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Relation;
+﻿using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Space;
+
+namespace Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Relation;
 
 public class GetFollowingsResponse
 {

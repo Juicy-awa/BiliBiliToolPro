@@ -1,6 +1,5 @@
 using Ray.BiliBiliTool.Agent;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Mall;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.VipTask;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.VipBigPoint;
 
 namespace Ray.BiliBiliTool.DomainService.Interfaces;
 

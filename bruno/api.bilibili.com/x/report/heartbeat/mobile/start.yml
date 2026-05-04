@@ -37,17 +37,20 @@ http:
       value: cronet
     - name: Cookie
       value: "{{cookieStr}}"
+      disabled: true
   body:
     type: form-urlencoded
     data:
       - name: access_key
         value: "{{access_key}}"
+        disabled: true
+      - name: appkey
+        value: "{{appKey}}"
+        disabled: true
       - name: actual_played_time
         value: "0"
       - name: aid
         value: "726710400"
-      - name: appkey
-        value: "{{appKey}}"
       - name: auto_play
         value: "99"
       - name: build
@@ -118,16 +121,22 @@ http:
         value: "0"
       - name: track_id
         value: ""
-      - name: ts
-        value: "{{ts}}"
       - name: type
         value: "4"
       - name: user_status
         value: "1"
       - name: video_duration
         value: "1450"
+      - name: ts
+        value: "{{ts}}"
+        disabled: true
       - name: sign
         value: "{{sign}}"
+        disabled: true
+      - name: w_rid
+        value: "{{w_rid}}"
+      - name: wts
+        value: "{{wts}}"
 
 settings:
   encodeUrl: true
@@ -136,6 +145,14 @@ settings:
   maxRedirects: 5
 
 docs: |
+  ## Auth
+
+  - NA
+
+  ## Signature Verification
+
+  - sign
+
   ## Response Sample
 
   ```json

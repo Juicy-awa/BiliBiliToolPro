@@ -38,8 +38,10 @@ http:
         value: "{{access_key}}"
       - name: appKey
         value: "{{appKey}}"
+        disabled: true
       - name: appkey
         value: "{{appKey}}"
+        disabled: true
       - name: bili_local_id
         value: "{{device_id}}"
       - name: build
@@ -98,8 +100,10 @@ http:
         value: ogvwatchnew
       - name: ts
         value: "{{ts}}"
+        disabled: true
       - name: sign
         value: "{{sign}}"
+        disabled: true
 
 settings:
   encodeUrl: true
@@ -117,9 +121,18 @@ docs: |
     
   完整的观看剧集内容任务调用接口如下：
 
-  - 领取：app.bilibili.com/pgc/activity/score/task/receive/v2
-  - 开始：app.bilibili.com/pgc/activity/deliver/material/receive
-  - 上报完成：app.bilibili.com/pgc/activity/deliver/task/complete
+  - 领取：api.bilibili.com/pgc/activity/score/task/receive/v2
+  - 开始：api.bilibili.com/pgc/activity/deliver/material/receive
+  - 上报完成：api.bilibili.com/pgc/activity/deliver/task/complete
+
+  ## Auth
+
+  - access_key
+  - Cookie
+
+  ## Signature Verification
+
+  - NA
 
   ## Response Sample
 

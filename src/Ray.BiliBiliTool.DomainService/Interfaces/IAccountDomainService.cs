@@ -1,5 +1,6 @@
 ﻿using Ray.BiliBiliTool.Agent;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Daily;
 
 namespace Ray.BiliBiliTool.DomainService.Interfaces;
 

@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: "{{host}}/x/relation/tag/special?_device=android&_hwid=e0N3QnRBJEV0QiEXaxdrXG8LPgw1UDECYFU0AWJTZQ&access_key={{access_key}}&appkey={{appKey}}&build={{build}}&c_locale=zh_CN&channel=yingyongbao&disable_rcmd=0&mobi_app=android&platform=android&s_locale=zh_CN&src=yingyongbao&statistics={{statistics}}&trace_id=20250101120700047&ts={{ts}}&version=7.72.0.7720200&sign={{sign}}"
+  url: "{{host}}/x/relation/tag/special?access_key={{access_key}}&_device=android&_hwid=e0N3QnRBJEV0QiEXaxdrXG8LPgw1UDECYFU0AWJTZQ&build={{build}}&c_locale=zh_CN&channel=yingyongbao&disable_rcmd=0&mobi_app=android&platform=android&s_locale=zh_CN&src=yingyongbao&statistics={{statistics}}&trace_id=20250101120700047&version=7.72.0.7720200"
   headers:
     - name: buvid
       value: "{{buvid}}"
@@ -38,17 +38,18 @@ http:
     - name: Cookie
       value: "{{cookieStr}}"
   params:
-    - name: _device
-      value: android
-      type: query
-    - name: _hwid
-      value: e0N3QnRBJEV0QiEXaxdrXG8LPgw1UDECYFU0AWJTZQ
-      type: query
     - name: access_key
       value: "{{access_key}}"
       type: query
     - name: appkey
       value: "{{appKey}}"
+      type: query
+      disabled: true
+    - name: _device
+      value: android
+      type: query
+    - name: _hwid
+      value: e0N3QnRBJEV0QiEXaxdrXG8LPgw1UDECYFU0AWJTZQ
       type: query
     - name: build
       value: "{{build}}"
@@ -80,15 +81,17 @@ http:
     - name: trace_id
       value: "20250101120700047"
       type: query
-    - name: ts
-      value: "{{ts}}"
-      type: query
     - name: version
       value: 7.72.0.7720200
       type: query
+    - name: ts
+      value: "{{ts}}"
+      type: query
+      disabled: true
     - name: sign
       value: "{{sign}}"
       type: query
+      disabled: true
 
 settings:
   encodeUrl: true
@@ -97,6 +100,15 @@ settings:
   maxRedirects: 5
 
 docs: |
+  ## Auth
+
+  - access_key
+  - Cookie
+
+  ## Signature Verification
+
+  - NA
+
   ## Response Sample
 
   ```json

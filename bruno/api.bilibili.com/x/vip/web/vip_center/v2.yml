@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: "{{host}}/x/vip/web/vip_center/v2?access_key={{access_key}}&act_id=872&appkey={{appKey}}&build={{build}}&csrf={{csrf}}&device=phone&disable_rcmd=0&is_selected=false&mobi_app=android&platform=android&select_modules=VipExclusive,BigPoint&statistics={{statistics}}&ts={{ts}}&web_location=666.146&sign={{sign}}"
+  url: "{{host}}/x/vip/web/vip_center/v2?access_key={{access_key}}&act_id=872&build={{build}}&csrf={{csrf}}&device=phone&disable_rcmd=0&is_selected=false&mobi_app=android&platform=android&select_modules=VipExclusive,BigPoint&statistics={{statistics}}&web_location=666.146"
   headers:
     - name: Cookie
       value: "{{cookieStr}}"
@@ -37,11 +37,12 @@ http:
     - name: access_key
       value: "{{access_key}}"
       type: query
-    - name: act_id
-      value: "872"
-      type: query
     - name: appkey
       value: "{{appKey}}"
+      type: query
+      disabled: true
+    - name: act_id
+      value: "872"
       type: query
     - name: build
       value: "{{build}}"
@@ -70,15 +71,17 @@ http:
     - name: statistics
       value: "{{statistics}}"
       type: query
-    - name: ts
-      value: "{{ts}}"
-      type: query
     - name: web_location
       value: "666.146"
       type: query
+    - name: ts
+      value: "{{ts}}"
+      type: query
+      disabled: true
     - name: sign
       value: "{{sign}}"
       type: query
+      disabled: true
   auth: inherit
 
 settings:
@@ -88,7 +91,16 @@ settings:
   maxRedirects: 5
 
 docs: |-
-  Response sample:
+  ## Auth
+
+  - access_key
+  - Cookie
+
+  ## Signature Verification
+
+  - NA
+
+  ## Response sample
 
   ```json
   {

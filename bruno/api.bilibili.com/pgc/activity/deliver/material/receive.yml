@@ -14,7 +14,7 @@ http:
     - name: fp_remote
       value: "{{device_id}}"
     - name: session_id
-      value: e04d2e05
+      value: 120548f6
     - name: env
       value: prod
     - name: app-key
@@ -40,10 +40,13 @@ http:
   body:
     type: form-urlencoded
     data:
-      - name: activity_code
-        value: ""
+      - name: access_key
+        value: "{{access_key}}"
       - name: appkey
         value: "{{appKey}}"
+        disabled: true
+      - name: activity_code
+        value: ""
       - name: build
         value: "{{build}}"
       - name: c_locale
@@ -70,10 +73,10 @@ http:
         value: "{{statistics}}"
       - name: ts
         value: "{{ts}}"
+        disabled: true
       - name: sign
         value: "{{sign}}"
-      - name: access_key
-        value: "{{access_key}}"
+        disabled: true
 
 settings:
   encodeUrl: true
@@ -99,7 +102,16 @@ docs: |-
   - 开始：app.bilibili.com/pgc/activity/deliver/material/receive
   - 上报完成：app.bilibili.com/pgc/activity/deliver/task/complete
 
-  Response Sample:
+  ## Auth
+
+  - access_key
+  - Cookie
+
+  ## Signature Verification
+
+  - NA
+
+  ## Response Sample
 
   ```json
   {
