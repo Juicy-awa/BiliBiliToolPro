@@ -10,9 +10,16 @@ The product being preserved is an automated Bilibili task execution system with 
 
 Make the existing codebase safe to change: clear boundaries, lower coupling, and testable critical flows.
 
-## Current Milestone: v4.0.0.3 (Next — To Be Planned)
+## Current Milestone: v4.0.0.3 — Refit Migration
 
-**Goal:** TBD — see Deferred requirements for candidates.
+**Goal:** Replace WebApiClientCore with Refit as the HTTP client abstraction in the Agent layer — 18 interfaces, DI registration, and associated infrastructure.
+
+**Target features:**
+- Refit package replaces WebApiClientCore in Agent.csproj and Directory.Packages.props
+- All 17 Bilibili HTTP client interfaces + IQingLongApi converted to Refit attributes
+- DI registration migrated from `AddHttpApi<T>` to `AddRefitClient<T>`
+- IBiliBiliApi common headers handled by new `BiliBiliCommonHeadersDelegatingHandler`
+- WebApiClientCore-specific files (AppendHeaderAttribute, LogFilterAttribute) deleted
 
 ## Requirements
 
@@ -41,6 +48,13 @@ Make the existing codebase safe to change: clear boundaries, lower coupling, and
 
 ### Active (v4.0.0.3)
 
+- [ ] REFIT-01: All 17 Bilibili HTTP client interfaces use Refit attributes instead of WebApiClientCore attributes
+- [ ] REFIT-02: IQingLongApi uses Refit attributes
+- [ ] REFIT-03: DI registration uses AddRefitClient<T> with same delegating handlers and Polly policies as before
+- [ ] REFIT-04: IBiliBiliApi common headers handled by BiliBiliCommonHeadersDelegatingHandler instead of AppendHeaderAttribute
+- [ ] REFIT-05: WebApiClientCore package removed; AppendHeaderAttribute, AppendHeaderType, LogFilterAttribute deleted
+- [ ] REFIT-06: Build 0 errors; architecture tests 4/4 and integration tests 7/7 pass
+
 ### Deferred (future milestones)
 
 - [ ] TEST-04: Maintainer can verify key Web or Blazor components with dedicated component tests
@@ -60,8 +74,7 @@ Make the existing codebase safe to change: clear boundaries, lower coupling, and
 - The repository is a multi-project .NET 8 solution centered on `Ray.BiliBiliTool.sln`
 - Executable surfaces include `src\Ray.BiliBiliTool.Console`, `src\Ray.BiliBiliTool.Web`, and `src\Ray.BiliBiliTool.Web.Client`
 - v4.0.0.1 shipped 2026-05-03: 6 phases, 13 plans, 128 files changed, 8707 insertions, 264 deletions
-- v4.0.0.2 shipped 2026-05-04: 1 phase, 4 plans — cookie-handling centralized in `BaseMultiAccountsAppService`; all 11 AppServices migrated; DiagnosticScope telemetry added to all
-- Architecture guardrails (ArchUnitNET) enforce layer direction across Agent, Application, DomainService, Infrastructure, and Web — 4/4 tests passing
+- v4.0.0.2 shipped 2026-05-04: 1 phase, 4 plans — cookie-handling centralized in `BaseMultiAccountsAppService`; all 11 AppServices migrated; DiagnosticScope telemetry added to all- v4.0.0.3 started 2026-05-04: Refit Migration — replacing WebApiClientCore across 18 Agent interfaces- Architecture guardrails (ArchUnitNET) enforce layer direction across Agent, Application, DomainService, Infrastructure, and Web — 4/4 tests passing
 - Characterization and integration test harnesses now freeze Login and DailyTask flows across `test\Ray.BiliBiliTool.Test.Characterization` and `test\Ray.BiliBiliTool.Test.Integration`
 - All 12 Quartz job classes are thin expression-body delegation shells; orchestration lives in LoginTaskAppService and DailyTaskAppService
 - BiliException hierarchy (Business/Integration/Validation) established in `src\Ray.BiliBiliTool.Domain\Exceptions`

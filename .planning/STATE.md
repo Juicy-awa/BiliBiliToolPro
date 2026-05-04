@@ -5,18 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-05-04)
 
 **Core value:** Make the existing codebase safe to change: clear boundaries, lower coupling, and testable critical flows.
-**Current focus:** v4.0.0.2 — AppService Cookie Handling Extraction (Phase 7)
+**Current focus:** v4.0.0.3 — Refit Migration
 
 ## Current Position
 
-Phase: —
+Phase: Not started (defining requirements)
 Plan: —
-Status: Milestone v4.0.0.2 complete — ready for v4.0.0.3 planning
-Last activity: 2026-05-04 — v4.0.0.2 milestone archived
+Status: Defining requirements
+Last activity: 2026-05-04 — Milestone v4.0.0.3 started
 
-Progress: [██████████] 100% — v4.0.0.2 shipped
-
-Progress: [██████████] 100% — Phase 7 complete
+Progress: [----------] 0% — v4.0.0.3 in progress
 
 ## Performance Metrics
 
@@ -45,7 +43,7 @@ Decisions are logged in PROJECT.md Key Decisions table.
 ### Pending Todos
 
 - Investigate pre-existing test failure: `Daily_task_multi_account_wrapper_continues_after_account_failure`
-- Establish notification adapter/port boundary (ARCH-04 partial gap) — deferred beyond v4.0.0.2
+- Establish notification adapter/port boundary (ARCH-04 partial gap) — deferred beyond v4.0.0.3
 
 ### Blockers/Concerns
 
@@ -60,6 +58,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-05-04 - v4.0.0.1 milestone archive and tag
-Stopped at: Milestone complete — v4.0.0.1 tagged
-Resume file: .planning/MILESTONES.md
+Last session: 2026-05-04 — v4.0.0.3 milestone started
+Stopped at: Requirements and roadmap defined — ready for planning
+Resume file: .planning/ROADMAP.md

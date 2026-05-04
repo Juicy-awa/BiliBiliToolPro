@@ -4,7 +4,7 @@
 
 - ✅ **v4.0.0.1 Brownfield Refactor** — Phases 1–6 (shipped 2026-05-03) — [archive](milestones/v4.0.0.1-ROADMAP.md)
 - ✅ **v4.0.0.2 AppService Refactor Continuation** — Phase 7 (shipped 2026-05-04) — [archive](milestones/v4.0.0.2-ROADMAP.md)
-- 📋 **v4.0.0.3** — To be planned
+- 📋 **v4.0.0.3 Refit Migration** — Phases 8–10 (in planning)
 
 ## Phases
 
@@ -27,11 +27,53 @@
 
 </details>
 
-### 📋 v4.0.0.3 (To Be Planned)
+### 📋 v4.0.0.3 — Refit Migration (Phases 8–10)
 
-See Deferred requirements in REQUIREMENTS.md for candidates.
+**Goal:** Replace WebApiClientCore with Refit as the HTTP client abstraction in the Agent layer — 18 interfaces, DI registration, and associated infrastructure.
 
-**Goal:** The duplicated `SetCookiesAsync` and `SaveCookieAsync` private methods that exist verbatim across AppServices are replaced by a single protected implementation in `BaseMultiAccountsAppService`, and all 11 applicable AppServices are migrated (per D-01: no new intermediate class).
+#### Phase 8: Refit Foundation
+
+**Goal:** Add Refit packages, create `BiliBiliCommonHeadersDelegatingHandler` to replace `AppendHeaderAttribute` behavior, update `IBiliBiliApi` to use Refit-compatible declarations.
+
+**Requirements:** REFIT-04
+**Plans:** 1 plan
+
+**Success criteria:**
+1. `Refit` and `Refit.HttpClientFactory` packages appear in `Directory.Packages.props` and `Agent.csproj` (alongside WebApiClientCore for now)
+2. `BiliBiliCommonHeadersDelegatingHandler` exists and injects Accept, Accept-Language, Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site, Connection headers using AddIfNotExist semantics
+3. `IBiliBiliApi` no longer references `AppendHeaderAttribute` or `[LogFilter]`
+4. Build passes with 0 errors
+
+#### Phase 9: Bilibili Interface Migration
+
+**Goal:** Convert all 17 Bilibili HTTP client interface files from WebApiClientCore attributes to Refit attributes. Two parallel plans by host group.
+
+**Requirements:** REFIT-01
+**Plans:** 2 plans (parallel)
+- Plan A: api.bilibili.com interfaces — IUserInfoApi, IUpInfoApi, IDailyTaskApi, IRelationApi, IChargeApi, IVideoApi, IVideoWithoutCookieApi, IArticleApi, IAccountApi
+- Plan B: Other-host interfaces — IVipMallApi, IPassportApi, ILiveTraceApi, IHomeApi, IMangaApi, ILiveApi, IVipBigPointApi, IMallApi
+
+**Success criteria:**
+1. All 17 interface files use `[Get]`, `[Post]`, `[Body]`, `[Query]`, `[Headers]` from `Refit` namespace
+2. No `using WebApiClientCore.Attributes;` remains in any interface file
+3. No `[LogFilter]` or `[AppendHeader]` remains in any interface file
+4. `[FormContent]` → `[Body(BodySerializationMethod.UrlEncoded)]`, `[JsonContent]` → `[Body]`, `[PathQuery]` → `[Query]` fully replaced
+5. Build passes with 0 errors
+
+#### Phase 10: DI Migration & Cleanup
+
+**Goal:** Convert DI registration to `AddRefitClient<T>`, migrate `IQingLongApi`, remove WebApiClientCore package, delete legacy attribute files.
+
+**Requirements:** REFIT-02, REFIT-03, REFIT-05, REFIT-06
+**Plans:** 1 plan
+
+**Success criteria:**
+1. `ServiceCollectionExtension.cs` uses `AddRefitClient<T>().ConfigureHttpClient(...)` for all 18 interfaces
+2. Read-only vs mutating Polly policy distinction preserved across all clients
+3. `IQingLongApi` attributes fully converted to Refit
+4. `WebApiClientCore` removed from `Directory.Packages.props` and `Agent.csproj`
+5. `AppendHeaderAttribute.cs`, `AppendHeaderType.cs`, `LogFilterAttribute.cs` deleted
+6. Build: 0 errors | Architecture tests: 4/4 | Integration tests: 7/7
 
 ## Progress
 
@@ -44,3 +86,6 @@ See Deferred requirements in REQUIREMENTS.md for candidates.
 | 5. Scheduler Shell Cleanup | v4.0.0.1 | 2/2 | Complete | 2026-05-03 |
 | 6. Integration Boundary And Failure Model | v4.0.0.1 | 4/4 | Complete | 2026-05-03 |
 | 7. AppService Cookie Handling Extraction | v4.0.0.2 | 4/4 | Complete | 2026-05-04 |
+| 8. Refit Foundation | v4.0.0.3 | 0/1 | Planned | — |
+| 9. Bilibili Interface Migration | v4.0.0.3 | 0/2 | Planned | — |
+| 10. DI Migration & Cleanup | v4.0.0.3 | 0/1 | Planned | — |
