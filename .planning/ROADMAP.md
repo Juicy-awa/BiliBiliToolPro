@@ -70,7 +70,7 @@ Plans:
 **Plans:** 1 plan
 
 Plans:
-- [ ] 10-01-PLAN.md — Convert IQingLongApi to Refit; rewrite DI to AddRefitClient<T>; delete legacy attribute files; remove WebApiClientCore package
+- [x] 10-01-PLAN.md — Convert IQingLongApi to Refit; rewrite DI to AddRefitClient<T>; delete legacy attribute files; remove WebApiClientCore package
 
 **Success criteria:**
 1. `ServiceCollectionExtension.cs` uses `AddRefitClient<T>().ConfigureHttpClient(...)` for all 18 interfaces
