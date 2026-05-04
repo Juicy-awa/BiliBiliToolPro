@@ -1,3 +1,5 @@
+## 4.0.0.4
+- GSD将整合Agent interfaces
 ## 4.0.0.3
 - GSD将WebApiClientCore迁移为Refit
 ## 4.0.0.2
