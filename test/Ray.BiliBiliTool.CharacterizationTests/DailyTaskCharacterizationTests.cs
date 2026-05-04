@@ -1,11 +1,12 @@
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Ray.BiliBiliTool.Agent;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Daily;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Video;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.ApiApi.Daily;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.ApiApi.Video;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.NavApi;
 using Ray.BiliBiliTool.CharacterizationTests.Support;
 using Ray.BiliBiliTool.Config.Options;
 using Ray.BiliBiliTool.DomainService.Dtos;

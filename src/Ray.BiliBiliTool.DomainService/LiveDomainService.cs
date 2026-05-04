@@ -3,15 +3,17 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Ray.BiliBiliTool.Agent;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Live;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Relation;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Space;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.ApiApi.Relation;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.ApiApi.UpInfo;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.LiveApi;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.LiveTraceApi;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Interfaces;
 using Ray.BiliBiliTool.Config.Options;
 using Ray.BiliBiliTool.Domain.Exceptions;
 using Ray.BiliBiliTool.DomainService.Dtos;
 using Ray.BiliBiliTool.DomainService.Interfaces;
 using Ray.BiliBiliTool.Infrastructure.Extensions;
+using UpInfoDto = Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.ApiApi.UpInfo.UpInfo;
 
 namespace Ray.BiliBiliTool.DomainService;
 
@@ -352,7 +354,7 @@ public class LiveDomainService(
             ck.ToString()
         );
 
-        foreach (UpInfo item in followings.Data.List)
+        foreach (UpInfoDto item in followings.Data.List)
         {
             if (item.Mid == _lastFollowUpId)
             {

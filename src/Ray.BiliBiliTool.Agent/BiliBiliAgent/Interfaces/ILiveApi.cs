@@ -1,5 +1,5 @@
 ﻿using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Live;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.LiveApi;
 using Refit;
 
 namespace Ray.BiliBiliTool.Agent.BiliBiliAgent.Interfaces;

@@ -1,15 +1,16 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Article;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Charge;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Coin;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Daily;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Relation;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Space;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Video;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.VipBigPoint;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.VipBigPoint.ThreeDaysSign;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.ApiApi.Article;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.ApiApi.Charge;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.ApiApi.Coin;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.ApiApi.Daily;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.ApiApi.Relation;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.ApiApi.UpInfo;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.ApiApi.Video;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.ApiApi.VipBigPoint;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.ApiApi.VipBigPoint.ThreeDaysSign;
 using Refit;
+using UpInfoDto = Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.ApiApi.UpInfo.UpInfo;
 
 namespace Ray.BiliBiliTool.Agent.BiliBiliAgent.Interfaces;
 
@@ -81,7 +82,7 @@ public interface IApiApi
     /// </summary>
     [Headers("Cache-Control: no-cache", "Pragma: no-cache", "Referer: https://space.bilibili.com/")]
     [Get("/x/relation/tag")]
-    Task<BiliApiResponse<List<UpInfo>>> GetFollowingsByTag(
+    Task<BiliApiResponse<List<UpInfoDto>>> GetFollowingsByTag(
         [Query] GetSpecialFollowingsRequest request,
         [Header("Cookie")] string ck
     );

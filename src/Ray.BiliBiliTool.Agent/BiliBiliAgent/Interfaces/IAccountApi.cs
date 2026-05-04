@@ -1,5 +1,5 @@
 ﻿using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Coin;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.AccountApi;
 using Refit;
 
 namespace Ray.BiliBiliTool.Agent.BiliBiliAgent.Interfaces;

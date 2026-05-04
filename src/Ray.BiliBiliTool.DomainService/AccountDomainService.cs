@@ -2,13 +2,15 @@
 using Microsoft.Extensions.Options;
 using Ray.BiliBiliTool.Agent;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Daily;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Relation;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Space;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.ApiApi.Daily;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.ApiApi.Relation;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.ApiApi.UpInfo;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.NavApi;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Interfaces;
 using Ray.BiliBiliTool.Config.Options;
 using Ray.BiliBiliTool.Domain.Exceptions;
 using Ray.BiliBiliTool.DomainService.Interfaces;
+using UpInfoDto = Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.ApiApi.UpInfo.UpInfo;
 
 namespace Ray.BiliBiliTool.DomainService;
 
@@ -129,10 +131,10 @@ public class AccountDomainService(
         {
             Pn = totalPage,
         };
-        List<UpInfo> followings = (await apiApi.GetFollowingsByTag(req, ck.ToString())).Data;
+        List<UpInfoDto> followings = (await apiApi.GetFollowingsByTag(req, ck.ToString())).Data;
         followings.Reverse();
 
-        var targetList = new List<UpInfo>();
+        var targetList = new List<UpInfoDto>();
 
         if (count <= followings.Count)
         {
@@ -159,7 +161,7 @@ public class AccountDomainService(
         int success = 0;
         for (int i = 1; i <= targetList.Count && i <= count; i++)
         {
-            UpInfo info = targetList[i - 1];
+            UpInfoDto info = targetList[i - 1];
 
             logger.LogInformation("【序号】{num}", i);
             logger.LogInformation("【UP】{up}", info.Uname);
