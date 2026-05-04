@@ -47,9 +47,9 @@
 **Plans:** 3 plans
 
 Plans:
-- [ ] 11-01-PLAN.md — Create IApiApi merged interface
-- [ ] 11-02-PLAN.md — Update DI registrations and remove old interface files
-- [ ] 11-03-PLAN.md — Update all DomainService injections
+- [x] 11-01-PLAN.md — Create IApiApi merged interface
+- [x] 11-02-PLAN.md — Update DI registrations and remove old interface files
+- [x] 11-03-PLAN.md — Update all DomainService injections
 
 ## Progress
 
@@ -65,4 +65,4 @@ Plans:
 | 8. Refit Foundation | v4.0.0.3 | 1/1 | Complete | 2026-05-04 |
 | 9. Bilibili Interface Migration | v4.0.0.3 | 2/2 | Complete | 2026-05-04 |
 | 10. DI Migration & Cleanup | v4.0.0.3 | 1/1 | Complete | 2026-05-04 |
-| 11. Agent Interface Consolidation | v4.0.0.4 | 0/3 | In Progress | — |
+| 11. Agent Interface Consolidation | v4.0.0.4 | 3/3 | Complete | 2026-05-06 |
