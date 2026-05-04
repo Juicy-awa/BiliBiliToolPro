@@ -18,7 +18,7 @@ public class VipBigPointDomainService(
     ILogger<VipBigPointDomainService> logger,
     IOptionsMonitor<VipBigPointOptions> vipBigPointOptions,
     IMallApi mallApi,
-    IVipMallApi vipMallApi,
+    IShowApi showApi,
     IApiApi apiApi,
     IAccountDomainService accountDomainService,
     IVideoDomainService videoDomainService
@@ -236,7 +236,7 @@ public class VipBigPointDomainService(
 
     public async Task<bool> CompleteViewVipMallAsync(string taskCode, BiliCookie ck)
     {
-        var re = await vipMallApi.ViewVipMallAsync(
+        var re = await showApi.ViewVipMallAsync(
             new ViewVipMallRequest { Csrf = ck.BiliJct },
             ck.ToString()
         );

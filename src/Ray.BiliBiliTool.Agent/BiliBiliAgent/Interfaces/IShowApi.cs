@@ -5,7 +5,7 @@ using Refit;
 namespace Ray.BiliBiliTool.Agent.BiliBiliAgent.Interfaces;
 
 [Headers("Host: show.bilibili.com")]
-public interface IVipMallApi
+public interface IShowApi
 {
     [Post("/api/activity/fire/common/event/dispatch")]
     Task<BiliApiResponse> ViewVipMallAsync(

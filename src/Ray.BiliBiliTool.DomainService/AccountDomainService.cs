@@ -16,7 +16,7 @@ namespace Ray.BiliBiliTool.DomainService;
 public class AccountDomainService(
     ILogger<AccountDomainService> logger,
     IApiApi apiApi,
-    IUserInfoApi userInfoApi,
+    INavApi navApi,
     IOptionsMonitor<UnfollowBatchedTaskOptions> unfollowBatchedTaskOptions,
     IOptionsMonitor<DailyTaskOptions> dailyTaskOptions
 ) : IAccountDomainService
@@ -31,7 +31,7 @@ public class AccountDomainService(
     /// <returns></returns>
     public async Task<UserInfo> LoginByCookie(BiliCookie cookie)
     {
-        BiliApiResponse<UserInfo> apiResponse = await userInfoApi.LoginByCookie(cookie.ToString());
+        BiliApiResponse<UserInfo> apiResponse = await navApi.GetNavAsync(cookie.ToString());
 
         if (apiResponse.Code != 0 || !apiResponse.Data!.IsLogin)
         {

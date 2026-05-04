@@ -62,7 +62,7 @@ public static class ServiceCollectionExtension
             c.Timeout = BiliResiliencePolicies.HttpTimeout;
         };
 
-        services.AddBiliBiliClientApi<IUserInfoApi>(BiliHosts.Api, config, true);
+        services.AddBiliBiliClientApi<INavApi>(BiliHosts.Api, config, true);
 
         services.AddBiliBiliClientApi<IApiApi>(
             BiliHosts.Api,
@@ -70,7 +70,7 @@ public static class ServiceCollectionExtension
             policy: BiliResiliencePolicies.MutatingPolicy()
         );
 
-        services.AddBiliBiliClientApi<IVipMallApi>(BiliHosts.Show, config);
+        services.AddBiliBiliClientApi<IShowApi>(BiliHosts.Show, config);
         services.AddBiliBiliClientApi<IPassportApi>(BiliHosts.Passport, config);
         services.AddBiliBiliClientApi<ILiveTraceApi>(BiliHosts.LiveTrace, config);
         services.AddBiliBiliClientApi<IHomeApi>(BiliHosts.Www, config);
