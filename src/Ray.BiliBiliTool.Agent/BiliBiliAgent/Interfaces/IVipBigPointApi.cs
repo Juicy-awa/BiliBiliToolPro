@@ -1,18 +1,15 @@
-﻿using Ray.BiliBiliTool.Agent.Attributes;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos;
+﻿using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Mall;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.VipTask;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.VipTask.ThreeDaysSign;
-using WebApiClientCore.Attributes;
+using Refit;
 
 namespace Ray.BiliBiliTool.Agent.BiliBiliAgent.Interfaces;
 
 /// <summary>
 /// 大会员大积分
 /// </summary>
-[Header("Host", "api.bilibili.com")]
-[Header("Referer", "https://big.bilibili.com/mobile/bigPoint/task")]
-[LogFilter]
+[Headers("Host: api.bilibili.com", "Referer: https://big.bilibili.com/mobile/bigPoint/task")]
 public interface IVipBigPointApi
 {
     /// <summary>
@@ -21,9 +18,9 @@ public interface IVipBigPointApi
     /// <param name="request"></param>
     /// <param name="ck"></param>
     /// <returns></returns>
-    [HttpGet("/x/vip/vip_center/sign_in/three_days_sign")]
+    [Get("/x/vip/vip_center/sign_in/three_days_sign")]
     Task<BiliApiResponse<ThreeDaySignResponse>> GetThreeDaySignAsync(
-        [PathQuery] ThreeDaySignRequest request,
+        [Query] ThreeDaySignRequest request,
         [Header("Cookie")] string ck
     );
 
@@ -33,7 +30,7 @@ public interface IVipBigPointApi
     /// <remarks>里面的登录信息是错误的，阿B特色</remarks>
     /// <returns></returns>
     [Obsolete("Using IMallApi.GetCombineAsync instead.")]
-    [HttpGet("/x/vip_point/task/combine")]
+    [Get("/x/vip_point/task/combine")]
     Task<BiliApiResponse<VipBigPointCombine>> GetCombineAsync([Header("Cookie")] string ck);
 
     /// <summary>
@@ -42,9 +39,9 @@ public interface IVipBigPointApi
     /// <param name="request"></param>
     /// <returns></returns>
     [Obsolete("Using IMallApi.Sign2Async instead.")]
-    [HttpPost("/pgc/activity/score/task/sign")]
+    [Post("/pgc/activity/score/task/sign")]
     Task<BiliApiResponse> SignAsync(
-        [FormContent] SignRequest request,
+        [Body(BodySerializationMethod.UrlEncoded)] SignRequest request,
         [Header("Cookie")] string ck
     );
 
@@ -54,9 +51,9 @@ public interface IVipBigPointApi
     /// <param name="request"></param>
     /// <returns></returns>
     [Obsolete]
-    [HttpPost("/pgc/activity/score/task/receive")]
+    [Post("/pgc/activity/score/task/receive")]
     Task<BiliApiResponse> Receive(
-        [JsonContent] ReceiveOrCompleteTaskRequest request,
+        [Body] ReceiveOrCompleteTaskRequest request,
         [Header("Cookie")] string ck
     );
 
@@ -65,9 +62,9 @@ public interface IVipBigPointApi
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    [HttpPost("/pgc/activity/score/task/receive/v2")]
+    [Post("/pgc/activity/score/task/receive/v2")]
     Task<BiliApiResponse> ReceiveV2(
-        [FormContent] ReceiveOrCompleteTaskRequest request,
+        [Body(BodySerializationMethod.UrlEncoded)] ReceiveOrCompleteTaskRequest request,
         [Header("Cookie")] string ck
     );
 
@@ -76,9 +73,9 @@ public interface IVipBigPointApi
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    [HttpPost("/pgc/activity/score/task/complete")]
+    [Post("/pgc/activity/score/task/complete")]
     Task<BiliApiResponse> CompleteAsync(
-        [JsonContent] ReceiveOrCompleteTaskRequest request,
+        [Body] ReceiveOrCompleteTaskRequest request,
         [Header("Cookie")] string ck
     );
 
@@ -87,9 +84,9 @@ public interface IVipBigPointApi
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    [HttpPost("/pgc/activity/score/task/complete/v2")]
+    [Post("/pgc/activity/score/task/complete/v2")]
     Task<BiliApiResponse> CompleteV2(
-        [FormContent] ReceiveOrCompleteTaskRequest request,
+        [Body(BodySerializationMethod.UrlEncoded)] ReceiveOrCompleteTaskRequest request,
         [Header("Cookie")] string ck
     );
 
@@ -99,13 +96,13 @@ public interface IVipBigPointApi
     /// <param name="request"></param>
     /// <param name="ck"></param>
     /// <returns></returns>
-    [HttpPost("/pgc/activity/deliver/task/complete")]
+    [Post("/pgc/activity/deliver/task/complete")]
     Task<BiliApiResponse> ViewComplete(
-        [FormContent] ViewRequest request,
+        [Body(BodySerializationMethod.UrlEncoded)] ViewRequest request,
         [Header("Cookie")] string ck
     );
 
-    [HttpGet("/x/vip/privilege/my")]
+    [Get("/x/vip/privilege/my")]
     Task<BiliApiResponse<VouchersInfoResponse>> GetVouchersInfoAsync([Header("Cookie")] string ck);
 
     /// <summary>
@@ -113,17 +110,16 @@ public interface IVipBigPointApi
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    [HttpPost("/x/vip/experience/add")]
+    [Post("/x/vip/experience/add")]
     Task<BiliApiResponse> ObtainVipExperienceAsync(
-        [FormContent] VipExperienceRequest request,
+        [Body(BodySerializationMethod.UrlEncoded)] VipExperienceRequest request,
         [Header("Cookie")] string ck
     );
 
     /// <summary>
     /// 开始观看剧集任务
+    /// NOTE: HTTP verb unknown — stub method without Refit verb attribute
     /// </summary>
-    /// <param name="request"></param>
-    /// <returns></returns>
     Task<BiliApiResponse<StartOgvWatchResponse>> StartOgvWatchAsync(
         StartOgvWatchRequest request,
         [Header("Cookie")] string ck
@@ -131,9 +127,8 @@ public interface IVipBigPointApi
 
     /// <summary>
     /// 完成观看剧集任务
+    /// NOTE: HTTP verb unknown — stub method without Refit verb attribute
     /// </summary>
-    /// <param name="request"></param>
-    /// <returns></returns>
     Task<BiliApiResponse> CompleteOgvWatchAsync(
         CompleteOgvWatchRequest request,
         [Header("Cookie")] string ck

@@ -34,7 +34,7 @@ public static class ServiceCollectionExtension
 
         //DelegatingHandler
         services.Scan(scan =>
-            scan.FromAssemblyOf<IBiliBiliApi>()
+            scan.FromAssemblyOf<BiliBiliCommonHeadersDelegatingHandler>()
                 .AddClasses(classes => classes.AssignableTo<DelegatingHandler>())
                 .AsSelf()
                 .WithTransientLifetime()

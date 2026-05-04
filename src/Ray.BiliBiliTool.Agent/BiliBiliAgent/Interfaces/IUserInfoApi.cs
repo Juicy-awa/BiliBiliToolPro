@@ -1,20 +1,22 @@
 ﻿using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos;
-using WebApiClientCore.Attributes;
+using Refit;
 
 namespace Ray.BiliBiliTool.Agent.BiliBiliAgent.Interfaces;
 
 /// <summary>
 /// 用户信息接口API
 /// </summary>
-[Header("Referer", "https://www.bilibili.com/")]
-[Header("Origin", "https://www.bilibili.com")]
-[Header("Host", "api.bilibili.com")]
-public interface IUserInfoApi : IBiliBiliApi
+[Headers(
+    "Referer: https://www.bilibili.com/",
+    "Origin: https://www.bilibili.com",
+    "Host: api.bilibili.com"
+)]
+public interface IUserInfoApi
 {
     /// <summary>
     /// 登录
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/x/web-interface/nav")]
+    [Get("/x/web-interface/nav")]
     Task<BiliApiResponse<UserInfo>> LoginByCookie([Header("Cookie")] string ck);
 }

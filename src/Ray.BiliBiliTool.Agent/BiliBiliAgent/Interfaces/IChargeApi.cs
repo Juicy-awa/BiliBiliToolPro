@@ -1,13 +1,13 @@
 ﻿using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos;
-using WebApiClientCore.Attributes;
+using Refit;
 
 namespace Ray.BiliBiliTool.Agent.BiliBiliAgent.Interfaces;
 
 /// <summary>
 /// 充电相关接口
 /// </summary>
-[Header("Host", "api.bilibili.com")]
-public interface IChargeApi : IBiliBiliApi
+[Headers("Host: api.bilibili.com")]
+public interface IChargeApi
 {
     /// <summary>
     /// 充电
@@ -17,7 +17,7 @@ public interface IChargeApi : IBiliBiliApi
     /// <param name="oid">充电来源代码(空间充电：充电对象用户UID;视频充电：稿件avID)</param>
     /// <param name="csrf"></param>
     /// <returns></returns>
-    [HttpPost(
+    [Post(
         "/x/ugcpay/trade/elec/pay/quick?elec_num={elec_num}&up_mid={up_mid}&otype=up&oid={oid}&csrf={csrf}"
     )]
     [Obsolete]
@@ -37,12 +37,14 @@ public interface IChargeApi : IBiliBiliApi
     /// <param name="oid">对方来源代码(空间充电：充电对象用户UID;视频充电：稿件avID)</param>
     /// <param name="csrf">自己的bili_jct</param>
     /// <returns></returns>
-    [Header("Content-Type", "application/x-www-form-urlencoded")]
-    [Header("Referer", "https://www.bilibili.com/")]
-    [Header("Origin", "https://www.bilibili.com")]
-    [HttpPost("/x/ugcpay/web/v2/trade/elec/pay/quick")]
+    [Headers(
+        "Content-Type: application/x-www-form-urlencoded",
+        "Referer: https://www.bilibili.com/",
+        "Origin: https://www.bilibili.com"
+    )]
+    [Post("/x/ugcpay/web/v2/trade/elec/pay/quick")]
     Task<BiliApiResponse<ChargeV2Response>> ChargeV2Async(
-        [FormContent] ChargeRequest request,
+        [Body(BodySerializationMethod.UrlEncoded)] ChargeRequest request,
         [Header("Cookie")] string ck
     );
 
@@ -54,12 +56,14 @@ public interface IChargeApi : IBiliBiliApi
     /// <param name="oid"></param>
     /// <param name="csrf"></param>
     /// <returns></returns>
-    [Header("Content-Type", "application/x-www-form-urlencoded")]
-    [Header("Referer", "https://www.bilibili.com/")]
-    [Header("Origin", "https://www.bilibili.com")]
-    [HttpPost("/x/ugcpay/trade/elec/message")]
+    [Headers(
+        "Content-Type: application/x-www-form-urlencoded",
+        "Referer: https://www.bilibili.com/",
+        "Origin: https://www.bilibili.com"
+    )]
+    [Post("/x/ugcpay/trade/elec/message")]
     Task<BiliApiResponse<ChargeResponse>> ChargeCommentAsync(
-        [FormContent] ChargeCommentRequest request,
+        [Body(BodySerializationMethod.UrlEncoded)] ChargeCommentRequest request,
         [Header("Cookie")] string ck
     );
 }
