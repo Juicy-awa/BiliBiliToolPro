@@ -19,8 +19,7 @@ public class DonateCoinDomainService(
     IAccountApi accountApi,
     ICoinDomainService coinDomainService,
     IVideoDomainService videoDomainService,
-    IRelationApi relationApi,
-    IVideoApi videoApi
+    IApiApi apiApi
 ) : IDonateCoinDomainService
 {
     private readonly DailyTaskOptions _dailyTaskOptions = dailyTaskOptions.CurrentValue;
@@ -165,7 +164,7 @@ public class DonateCoinDomainService(
             };
             var referer =
                 $"https://www.bilibili.com/video/{video.Bvid}/?spm_id_from=333.1007.tianma.1-1-1.click&vd_source=80c1601a7003934e7a90709c18dfcffd";
-            result = await videoApi.AddCoinForVideo(request, ck.ToString(), referer);
+            result = await apiApi.AddCoinForVideo(request, ck.ToString(), referer);
         }
         catch (Exception)
         {
@@ -255,7 +254,7 @@ public class DonateCoinDomainService(
     {
         //获取特别关注列表
         var request = new GetSpecialFollowingsRequest(long.Parse(ck.UserId));
-        BiliApiResponse<List<UpInfo>> specials = await relationApi.GetFollowingsByTag(
+        BiliApiResponse<List<UpInfo>> specials = await apiApi.GetFollowingsByTag(
             request,
             ck.ToString()
         );
@@ -278,7 +277,7 @@ public class DonateCoinDomainService(
     {
         //获取特别关注列表
         var request = new GetFollowingsRequest(long.Parse(ck.UserId));
-        BiliApiResponse<GetFollowingsResponse> result = await relationApi.GetFollowings(
+        BiliApiResponse<GetFollowingsResponse> result = await apiApi.GetFollowings(
             request,
             ck.ToString()
         );
@@ -400,7 +399,7 @@ public class DonateCoinDomainService(
             if (!_alreadyDonatedCoinCountCatch.TryGetValue(aid, out int multiply))
             {
                 multiply = (
-                    await videoApi.GetDonatedCoinsForVideo(
+                    await apiApi.GetDonatedCoinsForVideo(
                         new GetAlreadyDonatedCoinsRequest(long.Parse(aid)),
                         ck.ToString()
                     )

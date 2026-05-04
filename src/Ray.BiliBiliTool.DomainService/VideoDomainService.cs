@@ -18,9 +18,7 @@ namespace Ray.BiliBiliTool.DomainService;
 public class VideoDomainService(
     ILogger<VideoDomainService> logger,
     IOptionsMonitor<DailyTaskOptions> dailyTaskOptions,
-    IRelationApi relationApi,
-    IVideoApi videoApi,
-    IVideoWithoutCookieApi videoWithoutCookieApi
+    IApiApi apiApi
 ) : IVideoDomainService
 {
     private readonly DailyTaskOptions _dailyTaskOptions = dailyTaskOptions.CurrentValue;
@@ -33,7 +31,7 @@ public class VideoDomainService(
     /// <returns></returns>
     public async Task<VideoDetail> GetVideoDetail(string aid)
     {
-        var re = await videoWithoutCookieApi.GetVideoDetail(aid);
+        var re = await apiApi.GetVideoDetail(aid);
         return re.Data!;
     }
 
@@ -43,7 +41,7 @@ public class VideoDomainService(
     /// <returns></returns>
     public async Task<RankingInfo> GetRandomVideoOfRanking()
     {
-        var apiResponse = await videoWithoutCookieApi.GetRegionRankingVideosV2();
+        var apiResponse = await apiApi.GetRegionRankingVideosV2();
         logger.LogDebug("获取排行榜成功");
         var data = apiResponse.Data.List[new Random().Next(apiResponse.Data.List.Count)];
         return data;
@@ -61,7 +59,7 @@ public class VideoDomainService(
             pn = new Random().Next(1, total + 1),
         };
 
-        BiliApiResponse<SearchUpVideosResponse> re = await videoApi.SearchVideosByUpId(
+        BiliApiResponse<SearchUpVideosResponse> re = await apiApi.SearchVideosByUpId(
             req,
             ck.ToString()
         );
@@ -83,7 +81,7 @@ public class VideoDomainService(
     {
         var req = new SearchVideosByUpIdDto() { mid = upId };
 
-        BiliApiResponse<SearchUpVideosResponse> re = await videoApi.SearchVideosByUpId(
+        BiliApiResponse<SearchUpVideosResponse> re = await apiApi.SearchVideosByUpId(
             req,
             ck.ToString()
         );
@@ -163,7 +161,7 @@ public class VideoDomainService(
             Realtime = playedTime,
             Real_played_time = playedTime,
         };
-        BiliApiResponse apiResponse = await videoApi.UploadVideoHeartbeat(
+        BiliApiResponse apiResponse = await apiApi.UploadVideoHeartbeat(
             request.Aid,
             request.Played_time,
             request,
@@ -192,7 +190,7 @@ public class VideoDomainService(
     public async Task ShareVideo(VideoInfoDto videoInfo, BiliCookie ck)
     {
         var request = new ShareVideoRequest(long.Parse(videoInfo.Aid), ck.BiliJct);
-        BiliApiResponse apiResponse = await videoApi.ShareVideo(request, ck.ToString());
+        BiliApiResponse apiResponse = await apiApi.ShareVideo(request, ck.ToString());
 
         if (apiResponse.Code == 0)
         {
@@ -223,7 +221,7 @@ public class VideoDomainService(
         };
 
         //开始上报一次
-        BiliApiResponse apiResponse = await videoApi.UploadVideoHeartbeat(
+        BiliApiResponse apiResponse = await apiApi.UploadVideoHeartbeat(
             request.Aid,
             request.Played_time,
             request,
@@ -280,7 +278,7 @@ public class VideoDomainService(
 
         //关注列表
         var request = new GetFollowingsRequest(long.Parse(ck.UserId));
-        BiliApiResponse<GetFollowingsResponse> result = await relationApi.GetFollowings(
+        BiliApiResponse<GetFollowingsResponse> result = await apiApi.GetFollowings(
             request,
             ck.ToString()
         );

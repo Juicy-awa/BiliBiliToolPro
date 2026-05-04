@@ -36,6 +36,21 @@
 
 </details>
 
+## Active: v4.0.0.4 — Agent Interface Consolidation
+
+### Phase 11: Agent Interface Consolidation
+
+**Goal:** Merge all 7 api.bilibili.com Refit interfaces (IUpInfoApi, IDailyTaskApi, IRelationApi, IChargeApi, IVideoApi, IVideoWithoutCookieApi, IArticleApi) into a single host-scoped `IApiApi` with `#region` organization. IUserInfoApi must stay separate (IWbiService circular dependency). Update all DomainService injections.
+
+**Requirements:** IFACE-01, IFACE-02, IFACE-03
+
+**Plans:** 3 plans
+
+Plans:
+- [ ] 11-01-PLAN.md — Create IApiApi merged interface
+- [ ] 11-02-PLAN.md — Update DI registrations and remove old interface files
+- [ ] 11-03-PLAN.md — Update all DomainService injections
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -50,3 +65,4 @@
 | 8. Refit Foundation | v4.0.0.3 | 1/1 | Complete | 2026-05-04 |
 | 9. Bilibili Interface Migration | v4.0.0.3 | 2/2 | Complete | 2026-05-04 |
 | 10. DI Migration & Cleanup | v4.0.0.3 | 1/1 | Complete | 2026-05-04 |
+| 11. Agent Interface Consolidation | v4.0.0.4 | 0/3 | In Progress | — |

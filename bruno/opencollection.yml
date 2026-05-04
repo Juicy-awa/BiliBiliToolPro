@@ -38,14 +38,22 @@ docs:
 
     该情况，只会将API维护到后者Host内。
 
-    ## 风控签名
+    ## Auth
+
+    ### Access Key
+
+    APP 使用，请求参数里传入，
+
+    ### Cookie
+
+    ## Signature Verification
 
     Bilibili API 常见有两套签名机制：
 
-    - APP 侧签名：`ts + sign`
-    - Web 侧签名：`wts + w_rid`（WBI）
+    - APP 侧签名：Sign（`appkey + ts + sign`）
+    - Web 侧签名：WBI（`wts + w_rid`）
 
-    ### 1) APP 签名（`ts + sign`）
+    ### 1) Sign 签名（`ts + sign`）
 
     适用于大量 app 风格接口，基于 `appkey + appsec` 校验。
 
@@ -73,7 +81,7 @@ docs:
     - 计算并设置 `sign`
     - 通过 `bru.setVar` 写入运行时变量，供 `{{ts}}` 和 `{{sign}}` 占位符自动替换
 
-    ### 2) Web 签名（`wts + w_rid`，WBI）
+    ### 2) WBI 签名（`wts + w_rid`）
 
     `WBI` 是 B 站 Web 端使用的签名机制（风控/防爬），不是通用标准协议。
 

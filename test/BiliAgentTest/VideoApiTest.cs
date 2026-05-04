@@ -23,7 +23,7 @@ public class VideoApiTest
         using var scope = Global.ServiceProviderRoot.CreateScope();
 
         var ck = scope.ServiceProvider.GetRequiredService<CookieStrFactory<BiliCookie>>();
-        var api = scope.ServiceProvider.GetRequiredService<IVideoApi>();
+        var api = scope.ServiceProvider.GetRequiredService<IApiApi>();
 
         var req = new GetAlreadyDonatedCoinsRequest(248097491);
         BiliApiResponse<DonatedCoinsForVideo>? re = api.GetDonatedCoinsForVideo(req, null).Result;
@@ -44,7 +44,7 @@ public class VideoApiTest
         using var scope = Global.ServiceProviderRoot.CreateScope();
 
         var ck = scope.ServiceProvider.GetRequiredService<CookieStrFactory<BiliCookie>>();
-        var api = scope.ServiceProvider.GetRequiredService<IVideoApi>();
+        var api = scope.ServiceProvider.GetRequiredService<IApiApi>();
         var req = await api.GetBangumiBySsid(46508, null);
 
         Assert.Equal(0, req.Code);
@@ -56,7 +56,7 @@ public class VideoApiTest
         using var scope = Global.ServiceProviderRoot.CreateScope();
 
         var ck = scope.ServiceProvider.GetRequiredService<CookieStrFactory<BiliCookie>>();
-        var api = scope.ServiceProvider.GetRequiredService<IVideoWithoutCookieApi>();
+        var api = scope.ServiceProvider.GetRequiredService<IApiApi>();
         var req = await api.GetRegionRankingVideosV2();
 
         Assert.Equal(0, req.Code);

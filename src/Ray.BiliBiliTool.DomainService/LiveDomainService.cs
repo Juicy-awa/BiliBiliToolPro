@@ -20,14 +20,13 @@ namespace Ray.BiliBiliTool.DomainService;
 public class LiveDomainService(
     ILogger<LiveDomainService> logger,
     ILiveApi liveApi,
-    IRelationApi relationApi,
+    IApiApi apiApi,
     ILiveTraceApi liveTraceApi,
     IOptionsMonitor<DailyTaskOptions> dailyTaskOptions,
     IOptionsMonitor<LiveLotteryTaskOptions> liveLotteryTaskOptions,
     IOptionsMonitor<LiveFansMedalTaskOptions> liveFansMedalTaskOptions,
     IOptionsMonitor<SecurityOptions> securityOptions,
-    IOptionsMonitor<Silver2CoinTaskOptions> silver2CoinTaskOptions,
-    IUpInfoApi upInfoApi
+    IOptionsMonitor<Silver2CoinTaskOptions> silver2CoinTaskOptions
 ) : ILiveDomainService
 {
     private readonly LiveLotteryTaskOptions _liveLotteryTaskOptions =
@@ -312,7 +311,7 @@ public class LiveDomainService(
             targetGroupId.ToString(),
             ck.BiliJct
         );
-        var re = await relationApi.CopyUpsToGroup(req, ck.ToString(), referer);
+        var re = await apiApi.CopyUpsToGroup(req, ck.ToString(), referer);
 
         if (re.Code == 0)
         {
@@ -331,7 +330,7 @@ public class LiveDomainService(
     /// <returns></returns>
     private async Task<long> GetLastFollowUpId(BiliCookie ck)
     {
-        var followings = await relationApi.GetFollowings(
+        var followings = await apiApi.GetFollowings(
             new GetFollowingsRequest(long.Parse(ck.UserId), FollowingsOrderType.TimeDesc),
             ck.ToString()
         );
@@ -347,7 +346,7 @@ public class LiveDomainService(
         List<long> addUpIds = new();
 
         //获取最后一个upId之后关注的所有upId
-        var followings = await relationApi.GetFollowings(
+        var followings = await apiApi.GetFollowings(
             new GetFollowingsRequest(long.Parse(ck.UserId), FollowingsOrderType.TimeDesc),
             ck.ToString()
         );
@@ -382,13 +381,13 @@ public class LiveDomainService(
         //获取天选分组Id，没有就创建
         long groupId = 0;
         string referer = string.Format(RelationApiConstant.GetTagsReferer, ck.UserId);
-        var groups = await relationApi.GetTags(referer);
+        var groups = await apiApi.GetTags(ck.ToString(), referer);
         var tianXuanGroup = groups.Data!.FirstOrDefault(x => x.Name == "天选时刻");
         if (tianXuanGroup == null)
         {
             logger.LogInformation("“天选时刻”分组不存在，尝试创建...");
             //创建一个
-            var createRe = await relationApi.CreateTag(
+            var createRe = await apiApi.CreateTag(
                 new CreateTagRequest { Tag = "天选时刻", Csrf = ck.BiliJct },
                 ck.ToString()
             );
@@ -425,7 +424,7 @@ public class LiveDomainService(
             var liveHostUserId = medal.Medal_info.Target_id;
             var req = new GetSpaceInfoDto() { mid = liveHostUserId };
 
-            var spaceInfo = await upInfoApi.GetSpaceInfo(req, ck.ToString());
+            var spaceInfo = await apiApi.GetSpaceInfo(req, ck.ToString());
             if (spaceInfo.Code != 0)
             {
                 logger.LogError("【获取直播间信息】失败");
@@ -671,7 +670,7 @@ public class LiveDomainService(
             var liveHostUserId = medal.Medal_info.Target_id;
             var req = new GetSpaceInfoDto() { mid = liveHostUserId };
 
-            var spaceInfo = await upInfoApi.GetSpaceInfo(req, ck.ToString());
+            var spaceInfo = await apiApi.GetSpaceInfo(req, ck.ToString());
             if (spaceInfo.Code != 0)
             {
                 logger.LogError("【获取空间信息】失败");

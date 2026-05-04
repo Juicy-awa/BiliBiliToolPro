@@ -133,7 +133,7 @@ namespace BiliAgentTest
             using var scope = Global.ServiceProviderRoot.CreateScope();
 
             var ck = scope.ServiceProvider.GetRequiredService<CookieStrFactory<BiliCookie>>();
-            var api = scope.ServiceProvider.GetRequiredService<IUpInfoApi>();
+            var api = scope.ServiceProvider.GetRequiredService<IApiApi>();
 
             var wbiService = scope.ServiceProvider.GetRequiredService<IWbiService>();
 

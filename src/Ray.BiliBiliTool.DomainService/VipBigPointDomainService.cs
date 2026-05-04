@@ -20,7 +20,7 @@ public class VipBigPointDomainService(
     IVipBigPointApi vipApi,
     IMallApi mallApi,
     IVipMallApi vipMallApi,
-    IVideoApi videoApi,
+    IApiApi apiApi,
     IAccountDomainService accountDomainService,
     IVideoDomainService videoDomainService
 ) : IVipBigPointDomainService
@@ -320,7 +320,7 @@ public class VipBigPointDomainService(
             Realtime = playedTime,
             Real_played_time = playedTime,
         };
-        BiliApiResponse apiResponse = await videoApi.UploadVideoHeartbeat(
+        BiliApiResponse apiResponse = await apiApi.UploadVideoHeartbeat(
             request.Aid,
             request.Played_time,
             request,
@@ -345,7 +345,7 @@ public class VipBigPointDomainService(
         {
             if (randomSsid is 0 or long.MinValue)
                 return null;
-            var bangumiInfo = await videoApi.GetBangumiBySsid(randomSsid, ck.ToString());
+            var bangumiInfo = await apiApi.GetBangumiBySsid(randomSsid, ck.ToString());
 
             // 从获取的剧集中随机获得其中的一集
 

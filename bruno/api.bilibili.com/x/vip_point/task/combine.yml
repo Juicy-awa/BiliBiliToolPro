@@ -5,7 +5,7 @@ info:
 
 http:
   method: GET
-  url: "{{host}}/x/vip_point/task/combine?access_key={{access_key}}&appKey={{appKey}}&bili_local_id=910f57d9d7feaf6928e592860452d06b202505211207597aa9050a2e5c31f431&brand=Samsung&build={{build}}&buvid={{buvid}}&channel=bili&containerName=AbstractWebActivity&csrf={{csrf}}&device=phone&deviceId={{device_id}}&deviceName=SamsungSM-A5560&devicePlatform=Android12SamsungSM-A5560&device_id={{device_id}}&device_name=SamsungSM-A5560&device_platform=Android12SamsungSM-A5560&disable_rcmd=0&fingerprint=910f57d9d7feaf6928e592860452d06b202505211207597aa9050a2e5c31f431&isPad=false&localFingerprint=910f57d9d7feaf6928e592860452d06b202505211207597aa9050a2e5c31f431&local_id=XUA5651A9EDF7387153A945CDE96CADCB6000&mobi_app=android&modelName=SM-A5560&networkState=2&networkstate=2&osVer=12&platform=android&sessionID=01db4bc0&statistics={{statistics}}&statusBarHeight=72&ts={{ts}}&sign={{sign}}"
+  url: "{{host}}/x/vip_point/task/combine?access_key={{access_key}}&bili_local_id=910f57d9d7feaf6928e592860452d06b202505211207597aa9050a2e5c31f431&brand=Samsung&build={{build}}&buvid={{buvid}}&channel=bili&containerName=AbstractWebActivity&csrf={{csrf}}&device=phone&deviceId={{device_id}}&deviceName=SamsungSM-A5560&devicePlatform=Android12SamsungSM-A5560&device_id={{device_id}}&device_name=SamsungSM-A5560&device_platform=Android12SamsungSM-A5560&disable_rcmd=0&fingerprint=910f57d9d7feaf6928e592860452d06b202505211207597aa9050a2e5c31f431&isPad=false&localFingerprint=910f57d9d7feaf6928e592860452d06b202505211207597aa9050a2e5c31f431&local_id=XUA5651A9EDF7387153A945CDE96CADCB6000&mobi_app=android&modelName=SM-A5560&networkState=2&networkstate=2&osVer=12&platform=android&sessionID=01db4bc0&statistics={{statistics}}&statusBarHeight=72"
   headers:
     - name: Cookie
       value: "{{cookieStr}}"
@@ -38,6 +38,7 @@ http:
     - name: appKey
       value: "{{appKey}}"
       type: query
+      disabled: true
     - name: bili_local_id
       value: 910f57d9d7feaf6928e592860452d06b202505211207597aa9050a2e5c31f431
       type: query
@@ -125,9 +126,11 @@ http:
     - name: ts
       value: "{{ts}}"
       type: query
+      disabled: true
     - name: sign
       value: "{{sign}}"
       type: query
+      disabled: true
   auth: inherit
 
 settings:
@@ -144,7 +147,16 @@ docs: |-
   入口：
     - 我的->会员中心->赚大积分->查看8项任务
 
-  Response sample:
+  ## Auth
+
+  - access_key
+  - Cookie
+
+  ## Signature Verification
+
+  - NA
+
+  ## Response sample
 
   ```json
   {

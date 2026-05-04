@@ -7,8 +7,6 @@ http:
   method: POST
   url: "{{host}}/x/vip/experience/add"
   headers:
-    - name: Cookie
-      value: "{{cookieStr}}"
     - name: native_api_from
       value: h5
     - name: buvid
@@ -38,6 +36,7 @@ http:
         value: "{{access_key}}"
       - name: appkey
         value: "{{appKey}}"
+        disabled: true
       - name: buvid
         value: "{{buvid}}"
       - name: csrf
@@ -52,8 +51,10 @@ http:
         value: "{{statistics}}"
       - name: ts
         value: "{{ts}}"
+        disabled: true
       - name: sign
         value: "{{sign}}"
+        disabled: true
 
 settings:
   encodeUrl: true
@@ -62,6 +63,14 @@ settings:
   maxRedirects: 5
 
 docs: |
+  ## Auth
+
+  - access_key
+
+  ## Signature Verification
+
+  - NA
+
   ## Response Sample
 
   ```json

@@ -9,7 +9,7 @@ namespace Ray.BiliBiliTool.Agent.FunctionalTests;
 
 public class ChargeApiTest
 {
-    private readonly IChargeApi _target;
+    private readonly IApiApi _target;
 
     private readonly BiliCookie _ck;
 
@@ -23,7 +23,7 @@ public class ChargeApiTest
         };
         IHost host = Program.CreateHost(envs.ToArray());
         _ck = host.Services.GetRequiredService<BiliCookie>();
-        _target = host.Services.GetRequiredService<IChargeApi>();
+        _target = host.Services.GetRequiredService<IApiApi>();
     }
 
     #region ChargeV2Async

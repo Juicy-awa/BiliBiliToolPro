@@ -15,9 +15,8 @@ namespace Ray.BiliBiliTool.DomainService;
 /// </summary>
 public class AccountDomainService(
     ILogger<AccountDomainService> logger,
-    IDailyTaskApi dailyTaskApi,
+    IApiApi apiApi,
     IUserInfoApi userInfoApi,
-    IRelationApi relationApi,
     IOptionsMonitor<UnfollowBatchedTaskOptions> unfollowBatchedTaskOptions,
     IOptionsMonitor<DailyTaskOptions> dailyTaskOptions
 ) : IAccountDomainService
@@ -70,7 +69,7 @@ public class AccountDomainService(
     public async Task<DailyTaskInfo> GetDailyTaskStatus(BiliCookie ck)
     {
         DailyTaskInfo result = new();
-        BiliApiResponse<DailyTaskInfo> apiResponse = await dailyTaskApi.GetDailyTaskRewardInfoAsync(
+        BiliApiResponse<DailyTaskInfo> apiResponse = await apiApi.GetDailyTaskRewardInfoAsync(
             ck.ToString()
         );
         if (apiResponse.Code == 0)
@@ -81,7 +80,7 @@ public class AccountDomainService(
         else
         {
             logger.LogWarning("获取今日任务完成状态失败：{result}", apiResponse.ToJsonStr());
-            result = (await dailyTaskApi.GetDailyTaskRewardInfoAsync(ck.ToString())).Data;
+            result = (await apiApi.GetDailyTaskRewardInfoAsync(ck.ToString())).Data;
             //todo:偶发性请求失败，再请求一次，这么写很丑陋，待用polly再框架层面实现
         }
 
@@ -128,7 +127,7 @@ public class AccountDomainService(
         {
             Pn = totalPage,
         };
-        List<UpInfo> followings = (await relationApi.GetFollowingsByTag(req, ck.ToString())).Data;
+        List<UpInfo> followings = (await apiApi.GetFollowingsByTag(req, ck.ToString())).Data;
         followings.Reverse();
 
         var targetList = new List<UpInfo>();
@@ -149,7 +148,7 @@ public class AccountDomainService(
                 if (pn <= 0)
                     break;
                 req.Pn = pn;
-                followings = (await relationApi.GetFollowingsByTag(req, ck.ToString())).Data;
+                followings = (await apiApi.GetFollowingsByTag(req, ck.ToString())).Data;
                 followings.Reverse();
             }
         }
@@ -175,7 +174,7 @@ public class AccountDomainService(
                 tagId
             );
             var modifyReq = new ModifyRelationRequest(info.Mid, ck.BiliJct);
-            var re = await relationApi.ModifyRelation(modifyReq, ck.ToString(), modifyReferer);
+            var re = await apiApi.ModifyRelation(modifyReq, ck.ToString(), modifyReferer);
 
             if (re.Code == 0)
             {
@@ -205,7 +204,7 @@ public class AccountDomainService(
     private async Task<TagDto?> GetTag(string groupName, BiliCookie ck)
     {
         string getTagsReferer = string.Format(RelationApiConstant.GetTagsReferer, ck.UserId);
-        List<TagDto> tagList = (await relationApi.GetTags(ck.ToString(), getTagsReferer)).Data!;
+        List<TagDto> tagList = (await apiApi.GetTags(ck.ToString(), getTagsReferer)).Data!;
         var tag = tagList.FirstOrDefault(x => x.Name == groupName);
         return tag;
     }

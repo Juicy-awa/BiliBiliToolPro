@@ -17,6 +17,8 @@ http:
       value: ""
     - name: bili-http-engine
       value: cronet
+    - name: Cookie
+      value: "{{cookieStr}}"
   params:
     - name: access_key
       value: "{{access_key}}"

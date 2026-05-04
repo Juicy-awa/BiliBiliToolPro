@@ -251,6 +251,13 @@ public interface IApiApi
     [Get("/x/web-interface/view?aid={aid}")]
     Task<BiliApiResponse<VideoDetail>> GetVideoDetail(string aid);
 
+    /// <summary>
+    /// 获取排行榜
+    /// </summary>
+    [Headers("Referer: https://www.bilibili.com/", "Origin: https://www.bilibili.com", "dnt: 1")]
+    [Get("/x/web-interface/ranking/v2?rid=0&type=all")]
+    Task<BiliApiResponse<Ranking>> GetRegionRankingVideosV2();
+
     #endregion
 
     #region 专栏

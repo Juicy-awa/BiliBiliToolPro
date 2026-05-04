@@ -44,6 +44,9 @@ public class CommonTaskItem
 
     public required string task_code { get; set; }
 
+    /// <summary>
+    /// 状态 0-未领取 3-已完成
+    /// </summary>
     public int state { get; set; }
 
     public int vip_limit { get; set; }
