@@ -1,3 +1,5 @@
+## 4.0.0.3
+- GSD将WebApiClientCore迁移为Refit
 ## 4.0.0.2
 - GSD重构AppService
 ## 4.0.0.1
