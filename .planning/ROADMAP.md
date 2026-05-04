@@ -93,4 +93,4 @@ Plans:
 | 7. AppService Cookie Handling Extraction | v4.0.0.2 | 4/4 | Complete | 2026-05-04 |
 | 8. Refit Foundation | v4.0.0.3 | 0/1 | Planned | — |
 | 9. Bilibili Interface Migration | v4.0.0.3 | 0/2 | Planned | — |
-| 10. DI Migration & Cleanup | v4.0.0.3 | 0/1 | Planned | — |
+| 10. DI Migration & Cleanup | v4.0.0.3 | 1/1 | Complete | 2026-05-04 |
