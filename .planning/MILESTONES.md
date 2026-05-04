@@ -1,5 +1,31 @@
 # Milestones
 
+## v4.0.0.3 — Refit Migration
+
+**Shipped:** 2026-05-04
+**Phases:** 3 (Phases 8–10) | **Plans:** 4 | **Commits:** 13
+
+### Delivered
+
+Replaced WebApiClientCore with Refit 8.0.0 across all 18 Agent-layer interfaces. Created `BiliBiliCommonHeadersDelegatingHandler` for common header injection. Migrated all DI registrations from `AddHttpApi<T>` to `AddRefitClient<T>`. Removed WebApiClientCore package and 4 legacy attribute files. Net −154 lines of code (460 deleted, 306 added).
+
+### Key Accomplishments
+
+1. `BiliBiliCommonHeadersDelegatingHandler` created — injects 6 Bilibili common headers with AddIfNotExist semantics, replacing `AppendHeaderAttribute`
+2. All 17 Bilibili API interfaces converted (9 api.bilibili.com group + 8 other-host group) — `[HttpGet]`/`[FormContent]`/`[PathQuery]` → Refit equivalents
+3. `IQingLongApi` converted with `[Get]`/`[Post]`/`[Put]` + `[Query]`/`[Body]`/`[Header]` attributes
+4. All 18 DI registrations migrated to `AddRefitClient<T>()` with Polly policies and handler chains preserved
+5. WebApiClientCore package fully removed; 4 legacy files deleted; net code reduction
+6. `IVideoApi.UploadVideoHeartbeat` URL template bug surfaced and fixed (Refit requires explicit params; WebApiClientCore resolved from DTO body)
+
+### Stats
+
+- Git range: `682b0c9` → `3bc155d`
+- src/ files changed: 27 (+306/−460)
+- Build: 0 errors | ArchitectureTests: 4/4 | IntegrationTests: 7/7 | UAT: 5/5
+
+---
+
 ## v4.0.0.2 — AppService Refactor Continuation
 
 **Shipped:** 2026-05-04

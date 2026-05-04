@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-05-04)
 
 ## Current Position
 
-Phase: 10 — DI Migration & Cleanup (complete)
-Plan: 10-01 (complete)
-Status: Milestone v4.0.0.3 complete — UAT passed
-Last activity: 2026-05-04 — Phase 10 UAT passed (5/5 tests)
+Phase: Milestone v4.0.0.3 complete
+Plan: —
+Status: Milestone complete — planning next milestone
+Last activity: 2026-05-04 — v4.0.0.3 Refit Migration shipped
 
-Progress: [██████████] 100% — v4.0.0.3 complete
+Progress: [██████████] 100% — v4.0.0.3 complete, next milestone TBD
 
 ## Performance Metrics
 
