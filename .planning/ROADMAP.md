@@ -50,8 +50,10 @@
 
 **Requirements:** REFIT-01
 **Plans:** 2 plans (parallel)
-- Plan A: api.bilibili.com interfaces — IUserInfoApi, IUpInfoApi, IDailyTaskApi, IRelationApi, IChargeApi, IVideoApi, IVideoWithoutCookieApi, IArticleApi, IAccountApi
-- Plan B: Other-host interfaces — IVipMallApi, IPassportApi, ILiveTraceApi, IHomeApi, IMangaApi, ILiveApi, IVipBigPointApi, IMallApi
+
+Plans:
+- [ ] 09-01-PLAN.md — api.bilibili.com group: IUserInfoApi, IUpInfoApi, IDailyTaskApi, IRelationApi, IChargeApi, IVideoApi (+ IVideoWithoutCookieApi), IArticleApi, IAccountApi; delete IBiliBiliApi.cs
+- [ ] 09-02-PLAN.md — other-host group: IVipMallApi, IPassportApi, ILiveTraceApi, IHomeApi, IMangaApi, ILiveApi, IVipBigPointApi, IMallApi
 
 **Success criteria:**
 1. All 17 interface files use `[Get]`, `[Post]`, `[Body]`, `[Query]`, `[Headers]` from `Refit` namespace
