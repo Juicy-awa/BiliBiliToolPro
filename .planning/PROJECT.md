@@ -10,9 +10,9 @@ The product being preserved is an automated Bilibili task execution system with 
 
 Make the existing codebase safe to change: clear boundaries, lower coupling, and testable critical flows.
 
-## Current State: v4.0.0.3 Shipped — Planning Next Milestone
+## Current State: v4.0.0.4 Shipped — Planning Next Milestone
 
-**Shipped 2026-05-04:** Refit Migration complete. WebApiClientCore fully removed. All 18 Agent interfaces use Refit 8.0.0. Build 0 errors, arch 4/4, integration 7/7.
+**Shipped 2026-05-04:** Agent Interface Consolidation complete. All 8 api.bilibili.com Refit interfaces merged into single `IApiApi` with `#region` organization. 8 old interface files deleted. DI reduced from 8 registrations to 1. INavApi retained separately (IWbiService circular dep). Build 0 errors, arch 4/4, integration 7/7.
 
 ## Requirements
 

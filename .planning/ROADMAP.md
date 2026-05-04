@@ -5,6 +5,7 @@
 - ✅ **v4.0.0.1 Brownfield Refactor** — Phases 1–6 (shipped 2026-05-03) — [archive](milestones/v4.0.0.1-ROADMAP.md)
 - ✅ **v4.0.0.2 AppService Refactor Continuation** — Phase 7 (shipped 2026-05-04) — [archive](milestones/v4.0.0.2-ROADMAP.md)
 - ✅ **v4.0.0.3 Refit Migration** — Phases 8–10 (shipped 2026-05-04) — [archive](milestones/v4.0.0.3-ROADMAP.md)
+- ✅ **v4.0.0.4 Agent Interface Consolidation** — Phase 11 (shipped 2026-05-04) — [archive](milestones/v4.0.0.4-ROADMAP.md)
 
 ## Phases
 
@@ -36,20 +37,12 @@
 
 </details>
 
-## Active: v4.0.0.4 — Agent Interface Consolidation
+<details>
+<summary>✅ v4.0.0.4 Agent Interface Consolidation (Phase 11) — SHIPPED 2026-05-04</summary>
 
-### Phase 11: Agent Interface Consolidation
+- [x] **Phase 11: Agent Interface Consolidation** — 4/4 plans complete — 2026-05-04
 
-**Goal:** Merge all 7 api.bilibili.com Refit interfaces (IUpInfoApi, IDailyTaskApi, IRelationApi, IChargeApi, IVideoApi, IVideoWithoutCookieApi, IArticleApi) into a single host-scoped `IApiApi` with `#region` organization. IUserInfoApi must stay separate (IWbiService circular dependency). Update all DomainService injections.
-
-**Requirements:** IFACE-01, IFACE-02, IFACE-03
-
-**Plans:** 3 plans
-
-Plans:
-- [x] 11-01-PLAN.md — Create IApiApi merged interface
-- [x] 11-02-PLAN.md — Update DI registrations and remove old interface files
-- [x] 11-03-PLAN.md — Update all DomainService injections
+</details>
 
 ## Progress
 
@@ -65,4 +58,4 @@ Plans:
 | 8. Refit Foundation | v4.0.0.3 | 1/1 | Complete | 2026-05-04 |
 | 9. Bilibili Interface Migration | v4.0.0.3 | 2/2 | Complete | 2026-05-04 |
 | 10. DI Migration & Cleanup | v4.0.0.3 | 1/1 | Complete | 2026-05-04 |
-| 11. Agent Interface Consolidation | v4.0.0.4 | 3/3 | Complete | 2026-05-06 |
+| 11. Agent Interface Consolidation | v4.0.0.4 | 4/4 | Complete | 2026-05-04 |

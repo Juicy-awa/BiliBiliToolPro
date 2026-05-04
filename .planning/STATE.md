@@ -5,14 +5,14 @@
 See: .planning/PROJECT.md (updated 2026-05-04)
 
 **Core value:** Make the existing codebase safe to change: clear boundaries, lower coupling, and testable critical flows.
-**Current focus:** v4.0.0.4 — Agent Interface Consolidation
+**Current focus:** v4.0.0.4 shipped — ready for next milestone
 
 ## Current Position
 
-Phase: 11-agent-interface-consolidation
-Plan: complete
-Status: Phase 11 complete
-Last activity: 2026-05-06 — All 3 plans executed, 0 build errors, 4/4 arch tests, 7/7 integration tests
+Phase: milestone-complete
+Plan: v4.0.0.4
+Status: Milestone v4.0.0.4 archived — ready for next milestone
+Last activity: 2026-05-04 — All Phase 11 plans complete, milestone archived
 
 Progress: [██████████] 100% — Phase 11: 3/3 plans complete
 
