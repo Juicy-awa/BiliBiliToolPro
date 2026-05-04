@@ -64,21 +64,11 @@ public static class ServiceCollectionExtension
 
         services.AddBiliBiliClientApi<IUserInfoApi>(BiliHosts.Api, config, true);
 
-        services.AddBiliBiliClientApi<IUpInfoApi>(BiliHosts.Api, config);
-        services.AddBiliBiliClientApi<IDailyTaskApi>(BiliHosts.Api, config);
-        services.AddBiliBiliClientApi<IRelationApi>(BiliHosts.Api, config);
-        services.AddBiliBiliClientApi<IChargeApi>(
+        services.AddBiliBiliClientApi<IApiApi>(
             BiliHosts.Api,
             config,
             policy: BiliResiliencePolicies.MutatingPolicy()
         );
-        services.AddBiliBiliClientApi<IVideoApi>(
-            BiliHosts.Api,
-            config,
-            policy: BiliResiliencePolicies.MutatingPolicy()
-        );
-        services.AddBiliBiliClientApi<IVideoWithoutCookieApi>(BiliHosts.Api, config);
-        services.AddBiliBiliClientApi<IArticleApi>(BiliHosts.Api, config);
 
         services.AddBiliBiliClientApi<IVipMallApi>(BiliHosts.Show, config);
         services.AddBiliBiliClientApi<IPassportApi>(BiliHosts.Passport, config);
