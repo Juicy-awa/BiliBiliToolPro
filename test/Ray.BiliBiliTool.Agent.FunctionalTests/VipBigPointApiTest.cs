@@ -12,7 +12,7 @@ namespace Ray.BiliBiliTool.Agent.FunctionalTests;
 
 public class VipBigPointApiTest
 {
-    private readonly IVipBigPointApi _api;
+    private readonly IApiApi _api;
 
     private readonly ITestOutputHelper _output;
     private readonly BiliCookie _ck;
@@ -29,7 +29,7 @@ public class VipBigPointApiTest
         };
         IHost host = Program.CreateHost(envs.ToArray());
         _ck = host.Services.GetRequiredService<BiliCookie>();
-        _api = host.Services.GetRequiredService<IVipBigPointApi>();
+        _api = host.Services.GetRequiredService<IApiApi>();
     }
 
     [Fact]
@@ -37,7 +37,7 @@ public class VipBigPointApiTest
     {
         // Arrange
         // Act
-        BiliApiResponse<VipBigPointCombine> re = await _api.GetCombineAsync(null);
+        BiliApiResponse<VipBigPointCombine> re = await _api.GetVipBigPointCombineAsync(null);
 
         // Assert
         re.Code.Should().Be(0);
@@ -52,7 +52,7 @@ public class VipBigPointApiTest
         var req = new SignRequest() { csrf = _ck.BiliJct };
 
         // Act
-        BiliApiResponse re = await _api.SignAsync(req, null);
+        BiliApiResponse re = await _api.VipBigPointSignAsync(req, null);
         _output.WriteLine(re.ToJsonStr());
 
         // Assert
@@ -100,7 +100,7 @@ public class VipBigPointApiTest
         var req = new ReceiveOrCompleteTaskRequest("dress-view");
 
         // Act
-        var re = await _api.CompleteAsync(req, null);
+        var re = await _api.VipBigPointCompleteAsync(req, null);
 
         // Assert
         re.Code.Should().Be(0);

@@ -17,7 +17,6 @@ namespace Ray.BiliBiliTool.DomainService;
 public class VipBigPointDomainService(
     ILogger<VipBigPointDomainService> logger,
     IOptionsMonitor<VipBigPointOptions> vipBigPointOptions,
-    IVipBigPointApi vipApi,
     IMallApi mallApi,
     IVipMallApi vipMallApi,
     IApiApi apiApi,
@@ -43,7 +42,7 @@ public class VipBigPointDomainService(
     /// </summary>
     public async Task VipExpressAsync(BiliCookie ck)
     {
-        var re = await vipApi.GetVouchersInfoAsync(ck.ToString());
+        var re = await apiApi.GetVouchersInfoAsync(ck.ToString());
         if (re.Code == 0)
         {
             var state = re.Data.List.Find(x => x.Type == 9)?.State;
@@ -66,7 +65,7 @@ public class VipBigPointDomainService(
                 case 0:
                     logger.LogInformation("大会员经验未兑换");
                     //兑换api
-                    var response = await vipApi.ObtainVipExperienceAsync(
+                    var response = await apiApi.ObtainVipExperienceAsync(
                         new VipExperienceRequest { csrf = ck.BiliJct },
                         ck.ToString()
                     );
@@ -98,7 +97,7 @@ public class VipBigPointDomainService(
     /// <exception cref="Exception"></exception>
     public async Task SignAsync(BiliCookie ck)
     {
-        var signInfo = await vipApi.GetThreeDaySignAsync(
+        var signInfo = await apiApi.GetThreeDaySignAsync(
             new ThreeDaySignRequest { csrf = ck.BiliJct },
             ck.ToString()
         );
@@ -120,7 +119,7 @@ public class VipBigPointDomainService(
         logger.LogInformation("签到成功");
         logger.LogInformation(re.Data.ToString());
 
-        signInfo = await vipApi.GetThreeDaySignAsync(
+        signInfo = await apiApi.GetThreeDaySignAsync(
             new ThreeDaySignRequest { csrf = ck.BiliJct },
             ck.ToString()
         );
@@ -197,7 +196,7 @@ public class VipBigPointDomainService(
     public async Task<bool> CompleteAsync(string taskCode, BiliCookie ck)
     {
         var request = new ReceiveOrCompleteTaskRequest(taskCode);
-        var re = await vipApi.CompleteAsync(request, ck.ToString());
+        var re = await apiApi.VipBigPointCompleteAsync(request, ck.ToString());
         if (re.Code == 0)
         {
             logger.LogInformation("已完成");
@@ -224,7 +223,7 @@ public class VipBigPointDomainService(
         await Task.Delay(10 * 1000);
 
         var request = new ViewRequest(channel);
-        var re = await vipApi.ViewComplete(request, ck.ToString());
+        var re = await apiApi.VipBigPointViewComplete(request, ck.ToString());
         if (re.Code == 0)
         {
             logger.LogInformation("浏览完成");
@@ -249,7 +248,7 @@ public class VipBigPointDomainService(
     public async Task<bool> CompleteV2Async(string taskCode, BiliCookie ck)
     {
         var request = new ReceiveOrCompleteTaskRequest(taskCode);
-        var re = await vipApi.CompleteV2(request, ck.ToString());
+        var re = await apiApi.VipBigPointCompleteV2(request, ck.ToString());
         if (re.Code == 0)
         {
             logger.LogInformation("已完成");
@@ -271,7 +270,7 @@ public class VipBigPointDomainService(
         try
         {
             var request = new ReceiveOrCompleteTaskRequest(taskCode);
-            re = await vipApi.ReceiveV2(request, ck.ToString());
+            re = await apiApi.VipBigPointReceiveV2(request, ck.ToString());
             if (re.Code == 0)
                 logger.LogInformation("领取任务成功");
             else

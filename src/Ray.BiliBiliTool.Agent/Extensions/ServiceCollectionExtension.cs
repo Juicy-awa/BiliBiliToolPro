@@ -82,7 +82,6 @@ public static class ServiceCollectionExtension
             policy: BiliResiliencePolicies.MutatingPolicy()
         );
 
-        services.AddBiliBiliClientApi<IVipBigPointApi>(BiliHosts.App, configApp);
         services.AddBiliBiliClientApi<IMallApi>(
             BiliHosts.Mall,
             configApp,

@@ -18,8 +18,11 @@ public class VipServiceTest
     public async Task CompleteV2Test()
     {
         using var scope = Global.ServiceProviderRoot.CreateScope();
-        var api = scope.ServiceProvider.GetRequiredService<IVipBigPointApi>();
-        var res = await api.CompleteV2(new ReceiveOrCompleteTaskRequest("dress-view"), null);
+        var api = scope.ServiceProvider.GetRequiredService<IApiApi>();
+        var res = await api.VipBigPointCompleteV2(
+            new ReceiveOrCompleteTaskRequest("dress-view"),
+            null
+        );
         Assert.True(res.Code == 0);
     }
 
@@ -27,8 +30,11 @@ public class VipServiceTest
     public async Task ReceiveV2Test()
     {
         using var scope = Global.ServiceProviderRoot.CreateScope();
-        var api = scope.ServiceProvider.GetRequiredService<IVipBigPointApi>();
-        var res = await api.ReceiveV2(new ReceiveOrCompleteTaskRequest("ogvwatchnew"), null);
+        var api = scope.ServiceProvider.GetRequiredService<IApiApi>();
+        var res = await api.VipBigPointReceiveV2(
+            new ReceiveOrCompleteTaskRequest("ogvwatchnew"),
+            null
+        );
         Assert.True(res.Code == 0);
     }
 }
