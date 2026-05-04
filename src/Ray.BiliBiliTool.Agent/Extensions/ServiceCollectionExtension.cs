@@ -147,6 +147,8 @@ public static class ServiceCollectionExtension
                 o.UseDefaultUserAgent = false;
             })
             .ConfigureHttpClient(config)
+            .AddHttpMessageHandler<LogDelegatingHandler>()
+            .AddHttpMessageHandler<BiliBiliCommonHeadersDelegatingHandler>()
             .AddHttpMessageHandler<IntervalDelegatingHandler>()
             .AddPolicyHandler(policy ?? BiliResiliencePolicies.ReadOnlyPolicy());
 
