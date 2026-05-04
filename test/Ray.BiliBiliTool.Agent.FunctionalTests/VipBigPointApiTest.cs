@@ -2,8 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Mall;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.VipTask;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.VipBigPoint;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Interfaces;
 using Ray.BiliBiliTool.Console;
 using Xunit.Abstractions;

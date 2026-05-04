@@ -2,7 +2,9 @@
 using Microsoft.Extensions.Options;
 using Ray.BiliBiliTool.Agent;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Daily;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Relation;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Space;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Interfaces;
 using Ray.BiliBiliTool.Config.Options;
 using Ray.BiliBiliTool.Domain.Exceptions;

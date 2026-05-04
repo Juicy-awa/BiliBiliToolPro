@@ -1,4 +1,5 @@
 ﻿using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Manga;
 using Refit;
 
 namespace Ray.BiliBiliTool.Agent.BiliBiliAgent.Interfaces;

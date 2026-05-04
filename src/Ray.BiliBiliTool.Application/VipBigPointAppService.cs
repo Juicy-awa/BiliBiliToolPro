@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Ray.BiliBiliTool.Agent;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Mall;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.VipBigPoint;
 using Ray.BiliBiliTool.Application.Attributes;
 using Ray.BiliBiliTool.Application.Contracts;
 using Ray.BiliBiliTool.Application.Diagnostics;

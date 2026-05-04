@@ -1,11 +1,14 @@
 using System.ComponentModel;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Article;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Mall;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Charge;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Coin;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Daily;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Relation;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Space;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Video;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.VipTask;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.VipTask.ThreeDaysSign;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.VipBigPoint;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.VipBigPoint.ThreeDaysSign;
 using Refit;
 
 namespace Ray.BiliBiliTool.Agent.BiliBiliAgent.Interfaces;
