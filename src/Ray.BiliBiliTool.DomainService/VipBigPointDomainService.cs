@@ -320,7 +320,12 @@ public class VipBigPointDomainService(
             Realtime = playedTime,
             Real_played_time = playedTime,
         };
-        BiliApiResponse apiResponse = await videoApi.UploadVideoHeartbeat(request, ck.ToString());
+        BiliApiResponse apiResponse = await videoApi.UploadVideoHeartbeat(
+            request.Aid,
+            request.Played_time,
+            request,
+            ck.ToString()
+        );
         if (apiResponse.Code == 0)
         {
             return true;

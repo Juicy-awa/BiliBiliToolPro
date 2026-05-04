@@ -36,6 +36,8 @@ public interface IVideoApi
     )]
     [Post("/x/click-interface/web/heartbeat?aid={aid}&played_time={playedTime}")]
     Task<BiliApiResponse> UploadVideoHeartbeat(
+        long aid,
+        int playedTime,
         [Body(BodySerializationMethod.UrlEncoded)] UploadVideoHeartbeatRequest request,
         [Header("Cookie")] string ck
     );

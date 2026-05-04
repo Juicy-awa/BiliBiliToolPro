@@ -1,4 +1,4 @@
-<Project>
+﻿<Project>
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
@@ -62,12 +62,11 @@
     <PackageVersion Include="Quartz.Serialization.SystemTextJson" Version="3.14.0" />
     <PackageVersion Include="AppAny.Quartz.EntityFrameworkCore.Migrations.SQLite" Version="0.5.1" />
     <PackageVersion Include="CronExpressionDescriptor" Version="2.44.0" />
-    <!-- Other packages - 修复版本兼容性问题 -->
+    <!-- Other packages - 淇鐗堟湰鍏煎鎬ч棶棰?-->
     <PackageVersion Include="Ray.Infrastructure" Version="0.0.26" />
     <PackageVersion Include="Refit" Version="8.0.0" />
     <PackageVersion Include="Refit.HttpClientFactory" Version="8.0.0" />
     <PackageVersion Include="Scrutor" Version="6.1.0" />
-    <PackageVersion Include="WebApiClientCore" Version="2.1.5" />
     <PackageVersion Include="QRCoder" Version="1.6.0" />
     <PackageVersion Include="MudBlazor" Version="8.6.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="8.1.4" />
