@@ -70,6 +70,18 @@ public static class ServiceCollectionExtension
             policy: BiliResiliencePolicies.MutatingPolicy()
         );
 
+        services.AddBiliBiliClientApi<IShowApi>(BiliHosts.Show, config);
+        services.AddBiliBiliClientApi<IPassportApi>(BiliHosts.Passport, config);
+        services.AddBiliBiliClientApi<ILiveTraceApi>(BiliHosts.LiveTrace, config);
+        services.AddBiliBiliClientApi<IHomeApi>(BiliHosts.Www, config);
+        services.AddBiliBiliClientApi<IMangaApi>(BiliHosts.Manga, config);
+        services.AddBiliBiliClientApi<IAccountApi>(BiliHosts.Account, config);
+        services.AddBiliBiliClientApi<ILiveApi>(
+            BiliHosts.Live,
+            config,
+            policy: BiliResiliencePolicies.MutatingPolicy()
+        );
+
         //qinglong
         var qinglongHost = configuration["QL_URL"] ?? "http://localhost:5600";
         services
