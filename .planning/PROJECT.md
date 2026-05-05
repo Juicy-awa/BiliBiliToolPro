@@ -10,19 +10,18 @@ The product being preserved is an automated Bilibili task execution system with 
 
 Make the existing codebase safe to change: clear boundaries, lower coupling, and testable critical flows.
 
-## Current State: v4.0.0.5 Shipped — Agent DTO Reorganization
+## Current State: v4.0.0.6 In Planning — Web Layer Boundary Cleanup
 
-**Shipped 2026-05-04:** Agent-layer DTO ownership now mirrors the interface boundaries introduced in v4.0.0.4. The delivered layout uses `ApiApi`, `AccountApi`, `NavApi`, `LiveApi`, `LiveTraceApi`, `MangaApi`, `PassportApi`, and `ShowApi` roots consistently across DTOs, interfaces, services, and tests. Build passed with 0 errors; architecture tests passed 4/4; host integration tests passed 7/7.
+**Planning started 2026-05-05:** The next milestone focuses on refactoring the Web layer so UI concerns and business orchestration are separated more cleanly. The target is to keep current Web behavior intact while moving workflow logic out of pages and components into clearer application-facing seams.
 
-## Next Milestone Goals
+## Current Milestone: v4.0.0.6 Web Layer Boundary Cleanup
 
-No next milestone is defined yet. Current candidates carried forward from the shipped work are:
+**Goal:** Refactor the Web layer so UI code stays thin, business logic is isolated behind clearer boundaries, and the resulting flow is safer to evolve and test.
 
-- Establish the deferred notification adapter or port boundary (`ARCH-04`)
-- Add focused Web or Blazor component tests (`TEST-04`)
-- Add focused coverage thresholds for critical modules in CI (`TEST-05`)
-- Unify Console and Web configuration and startup composition where the behavior overlaps (`FLOW-05`)
-- Reduce default credential/bootstrap risks and repository noise (`QUAL-03`, `QUAL-04`)
+**Target features:**
+- Separate UI rendering concerns from business orchestration in the Web layer
+- Reduce page and component ownership of workflow logic and move orchestration behind clearer application boundaries
+- Add focused validation coverage around the refactored Web or Blazor slices so behavior remains stable during cleanup
 
 ## Requirements
 
@@ -65,7 +64,12 @@ No next milestone is defined yet. Current candidates carried forward from the sh
 
 ### Active
 
-- None — next milestone has not been started yet
+- WEB-01: Targeted Web pages and dialogs use explicit Web-facing coordination seams instead of inline workflow orchestration in component code-behind
+- WEB-02: Scheduler pages and dialogs no longer own repository-backed log polling, execution-history loading, or scheduler-event orchestration directly
+- WEB-03: Login and admin page validation, success-flow handling, and navigation orchestration are isolated from targeted component markup logic
+- WEB-04: Web host composition and Web registrations remain wiring-focused during the refactor
+- WEB-05: Dedicated Web component or thin-slice tests cover the refactored Web slices
+- WEB-06: Build, architecture tests, host integration tests, and new Web tests stay green after the refactor
 
 ### Deferred (future milestones)
 
@@ -135,4 +139,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-05 — v4.0.0.5 archived after passing milestone audit*
+*Last updated: 2026-05-05 — v4.0.0.6 milestone started for Web Layer Boundary Cleanup*
