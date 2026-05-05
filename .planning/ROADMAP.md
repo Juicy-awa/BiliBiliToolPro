@@ -2,7 +2,7 @@
 
 ## Milestones
 
-- 🏁 **v4.0.0.6 Web Layer Boundary Cleanup** — Phases 13–16 (shipped 2026-05-05)
+- ✅ **v4.0.0.6 Web Layer Boundary Cleanup** — Phases 13–16 (shipped 2026-05-05) — [archive](milestones/v4.0.0.6-ROADMAP.md)
 - ✅ **v4.0.0.1 Brownfield Refactor** — Phases 1–6 (shipped 2026-05-03) — [archive](milestones/v4.0.0.1-ROADMAP.md)
 - ✅ **v4.0.0.2 AppService Refactor Continuation** — Phase 7 (shipped 2026-05-04) — [archive](milestones/v4.0.0.2-ROADMAP.md)
 - ✅ **v4.0.0.3 Refit Migration** — Phases 8–10 (shipped 2026-05-04) — [archive](milestones/v4.0.0.3-ROADMAP.md)
@@ -12,7 +12,7 @@
 ## Phases
 
 <details>
-<summary>🏁 v4.0.0.6 Web Layer Boundary Cleanup (Phases 13–16) — SHIPPED 2026-05-05</summary>
+<summary>✅ v4.0.0.6 Web Layer Boundary Cleanup (Phases 13–16) — SHIPPED 2026-05-05</summary>
 
 - [x] **Phase 13: Web Boundary Foundation** — 2/2 plans complete — 2026-05-05
 - [x] **Phase 14: Auth And Admin UI Boundary Cleanup** — 2/2 plans complete — 2026-05-05
@@ -65,86 +65,16 @@
 
 ## Active Milestone
 
-### v4.0.0.6 Web Layer Boundary Cleanup
-
-**Goal:** Refactor the Web layer so UI rendering stays thin, component code-behind stops owning workflow orchestration for the targeted slices, and the resulting seams are safer to test and evolve.
-
-**Requirements:** WEB-01, WEB-02, WEB-03, WEB-04, WEB-05, WEB-06
-**Research:** `.planning/research/v4.0.0.6-web-layer-boundary-cleanup-RESEARCH.md`
-
-### Phase 13: Web Boundary Foundation
-
-**Goal:** Define and introduce the first Web-facing coordination seams for the targeted Web slices, add the minimal Web test harness, and establish the pattern used by later phases.
-
-**Requirements:** WEB-01, WEB-05
-**Plans:** 2 plans
-
-Plans:
-- [ ] 13-01-PLAN.md — Add the dedicated Web component-test harness and baseline Login/Admin component tests
-- [ ] 13-02-PLAN.md — Extract the first Login page-state seam and define auth/admin page-workflow contracts for the next phase
-
-**Success criteria:**
-1. Targeted Web slices have explicit coordination seams owned by the Web layer.
-2. A dedicated Web component or thin-slice test harness exists in source control.
-3. The milestone has a concrete pattern for moving orchestration out of component code-behind.
-
-### Phase 14: Auth And Admin UI Boundary Cleanup
-
-**Goal:** Refactor the login and admin Web pages so validation, success-flow handling, and navigation orchestration are isolated behind the selected Web-facing seam while preserving current auth behavior.
-
-**Requirements:** WEB-03
-**Plans:** 2 plans
-
-Plans:
-- [x] 14-01-PLAN.md — Implement AdminPageWorkflow + DI registration + refactor Admin.razor.cs + Logout button markup
-- [x] 14-02-PLAN.md — AdminPageWorkflow unit tests + updated AdminPageTests with FakeAdminPageWorkflow
-
-**Success criteria:**
-1. Login and admin pages use the selected Web-layer seam for their targeted workflow logic.
-2. Existing auth behavior remains intact from the user perspective.
-3. The refactored auth/admin slice has focused verification coverage.
-
-### Phase 15: Scheduler UI Boundary Cleanup
-
-**Goal:** Refactor the schedule pages and dialogs so repository-backed log polling, execution-history loading, and scheduler-event coordination are moved out of the component classes.
-
-**Requirements:** WEB-02
-**Plans:** 3 plans
-
-Plans:
-- [ ] 15-01-PLAN.md — Define ISchedulerPageWorkflow + implement SchedulerPageWorkflow + DI registration + Schedules.razor.cs refactor
-- [ ] 15-02-PLAN.md — Define ILogsDialogWorkflow + IHistoryDialogWorkflow + implement + DI + LogsDialog + HistoryDialog refactors
-- [ ] 15-03-PLAN.md — Workflow unit tests (3 classes) + bUnit component tests (3 classes) in Schedules/ sub-directory
-
-**Success criteria:**
-1. Scheduler dialogs and pages no longer own the targeted coordination logic directly.
-2. Log and history behavior remains stable for the selected scheduler screens.
-3. The refactored scheduler slice has focused verification coverage.
-
-### Phase 16: Web Composition And Regression Verification
-
-**Goal:** Finish the Web-layer cleanup by keeping startup and registration logic wiring-focused, then verify the milestone through build, architecture, host integration, and new Web tests.
-
-**Requirements:** WEB-04, WEB-06
-**Plans:** 2 plans
-
-Plans:
-- [x] 16-01-PLAN.md — Add ArchUnit Web.Components guardrail + extend WebStartupIntegrationTests with 6 workflow seam assertions
-- [x] 16-02-PLAN.md — Full WEB-06 regression: build + arch tests + integration tests + component tests
-
-**Success criteria:**
-1. Web host wiring remains composition-focused for the refactored slices.
-2. Milestone regression checks pass across build, architecture, host integration, and Web-focused tests.
-3. The milestone can transition cleanly into phase planning starting with Phase 13.
+_No active milestone — v4.0.0.6 shipped 2026-05-05. Start the next milestone with `/gsd-new-milestone`._
 
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
-| 13. Web Boundary Foundation | v4.0.0.6 | 0/2 | Planned | |
-| 14. Auth And Admin UI Boundary Cleanup | v4.0.0.6 | 0/? | Planned | |
-| 15. Scheduler UI Boundary Cleanup | v4.0.0.6 | 0/? | Planned | |
-| 16. Web Composition And Regression Verification | v4.0.0.6 | 0/? | Planned | |
+| 13. Web Boundary Foundation | v4.0.0.6 | 2/2 | Complete | 2026-05-05 |
+| 14. Auth And Admin UI Boundary Cleanup | v4.0.0.6 | 2/2 | Complete | 2026-05-05 |
+| 15. Scheduler UI Boundary Cleanup | v4.0.0.6 | 3/3 | Complete | 2026-05-05 |
+| 16. Web Composition And Regression Verification | v4.0.0.6 | 2/2 | Complete | 2026-05-05 |
 | 1. Boundary Guardrails | v4.0.0.1 | 2/2 | Complete | 2026-05-02 |
 | 2. Host Safety Nets | v4.0.0.1 | 3/3 | Complete | 2026-05-03 |
 | 3. Login Refactor Slice | v4.0.0.1 | 1/1 | Complete | 2026-05-03 |
