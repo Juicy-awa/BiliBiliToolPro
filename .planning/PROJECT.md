@@ -86,7 +86,7 @@ Make the existing codebase safe to change: clear boundaries, lower coupling, and
 - [ ] ACCT-04: Maintainer can edit an existing account's cookie string
 - [ ] ACCT-05: Maintainer can delete an existing account
 - [ ] ACCT-06: Maintainer can reorder accounts to change execution order
-- [ ] ACCT-07: Web host reads Bili cookies exclusively from SQLite (replacing `cookies.json`); existing task execution flows use the same source
+- [ ] ACCT-07: Remove `config/cookies.json` as a configuration source from Web host; SQLite `bili_appsettings` table remains the highest-priority config source for Bili cookies via the existing `AddSqlite` provider; cookie reading logic stays on `IConfiguration`
 
 ### Deferred (future milestones)
 

@@ -10,22 +10,25 @@ See: .planning/PROJECT.md (updated 2026-05-06)
 ## Current Position
 
 Milestone: v4.0.0.7 Bili Account Management
-Phase: Not started (defining requirements)
-Status: Defining requirements
-Last activity: 2026-05-06 — Milestone v4.0.0.7 started
+Phase: Not started (roadmap created)
+Status: Ready for phase planning
+Last activity: 2026-05-06 — Roadmap created (3 phases, 4 plans)
 
-Progress: [░░░░░░░░░░] 0% — Defining requirements
+Progress: [░░░░░░░░░░] 0% — Roadmap created
 
 ## Current Snapshot
 
 - Shipped milestones: v4.0.0.1 through v4.0.0.6
 - v4.0.0.7 target: Web-based Bili Account CRUD with QR login, SQLite-backed cookie storage replacing cookies.json for Web host
 - 7 requirements defined (ACCT-01 through ACCT-07)
-- Next: define requirements, create roadmap, then plan first phase
+- 3 phases in roadmap: Phase 17 (Storage Foundation), Phase 18 (CRUD Operations), Phase 19 (QR Login)
+- Next: `/gsd-discuss-phase 17` to plan the first phase
 
 ## Pending Todos
 
-- Define requirements and roadmap for v4.0.0.7
+- Plan and execute Phase 17: Account Storage Foundation
+- Plan and execute Phase 18: Account CRUD Operations
+- Plan and execute Phase 19: QR Code Login
 - Investigate pre-existing test failure: `Daily_task_multi_account_wrapper_continues_after_account_failure` (deferred)
 - Revisit deferred notification adapter or port boundary when milestone scope permits
 
