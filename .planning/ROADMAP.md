@@ -126,7 +126,11 @@ Plans:
 **Goal:** Finish the Web-layer cleanup by keeping startup and registration logic wiring-focused, then verify the milestone through build, architecture, host integration, and new Web tests.
 
 **Requirements:** WEB-04, WEB-06
-**Plans:** Pending phase planning
+**Plans:** 2 plans
+
+Plans:
+- [ ] 16-01-PLAN.md — Add ArchUnit Web.Components guardrail + extend WebStartupIntegrationTests with 6 workflow seam assertions
+- [ ] 16-02-PLAN.md — Full WEB-06 regression: build + arch tests + integration tests + component tests
 
 **Success criteria:**
 1. Web host wiring remains composition-focused for the refactored slices.
