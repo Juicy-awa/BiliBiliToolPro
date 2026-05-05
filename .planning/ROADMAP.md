@@ -16,7 +16,7 @@
 
 - [x] **Phase 13: Web Boundary Foundation** — 2/2 plans complete — 2026-05-05
 - [x] **Phase 14: Auth And Admin UI Boundary Cleanup** — 2/2 plans complete — 2026-05-05
-- [ ] **Phase 15: Scheduler UI Boundary Cleanup** — pending planning
+- [x] **Phase 15: Scheduler UI Boundary Cleanup** — 3/3 plans complete — 2026-05-05
 - [ ] **Phase 16: Web Composition And Regression Verification** — pending planning
 
 </details>

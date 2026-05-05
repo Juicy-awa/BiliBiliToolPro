@@ -5,28 +5,28 @@
 See: .planning/PROJECT.md (updated 2026-05-05)
 
 **Core value:** Make the existing codebase safe to change: clear boundaries, lower coupling, and testable critical flows.
-**Current focus:** Phase 14 complete — ready to plan and execute Phase 15
+**Current focus:** Phase 15 complete — ready to plan and execute Phase 16
 
 ## Current Position
 
 Milestone: v4.0.0.6 Web Layer Boundary Cleanup
-Phase: Phase 14 complete
-Status: Ready to plan Phase 15 (Scheduler UI Boundary Cleanup)
-Last activity: 2026-05-05 — Phase 14 executed: AdminPageWorkflow + tests
+Phase: Phase 15 complete
+Status: Ready to plan Phase 16 (Web Composition And Regression Verification)
+Last activity: 2026-05-05 — Phase 15 executed: Scheduler UI workflow seams + tests
 
-Progress: [#####-----] 50% — Phases 13–14 shipped; 2 of 4 milestone phases remain
+Progress: [########--] 75% — Phases 13–15 shipped; 1 of 4 milestone phases remain
 
 ## Current Snapshot
 
 - Shipped milestones: v4.0.0.1 through v4.0.0.5
 - Active milestone goal: separate Web UI concerns from business orchestration while preserving current behavior
 - Phase 13 shipped: Web component-test harness (bunit), Login page-state seam (`ILoginPageStateFactory`), Admin workflow contract (`IAdminPageWorkflow`)
-- Phase 14 shipped: `AdminPageWorkflow` implementation, Admin page refactored (injects `IAdminPageWorkflow`), Logout button UX, 12 tests passing
-- Current planning focus: plan Phase 15 — Scheduler UI Boundary Cleanup
+- Phase 14 shipped: `AdminPageWorkflow` implementation, Admin page refactored (injects `IAdminPageWorkflow`), Logout button UX, 9 tests passing
+- Phase 15 shipped: `ISchedulerPageWorkflow`, `IHistoryDialogWorkflow`, `ILogsDialogWorkflow` + implementations, Schedules page refactored, 16 tests passing
+- Current planning focus: plan Phase 16 — Web Composition And Regression Verification
 
 ## Pending Todos
 
-- Plan and execute Phase 15: Scheduler UI Boundary Cleanup (WEB-02)
 - Plan and execute Phase 16: Web Composition And Regression Verification (WEB-04, WEB-06)
 - Investigate pre-existing test failure: `Daily_task_multi_account_wrapper_continues_after_account_failure`
 - Revisit deferred notification adapter or port boundary when milestone scope permits
