@@ -2,14 +2,15 @@
 using Microsoft.Extensions.Options;
 using Ray.BiliBiliTool.Agent;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Coin;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Relation;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Space;
-using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.Video;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.ApiApi.Coin;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.ApiApi.Relation;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.ApiApi.UpInfo;
+using Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.ApiApi.Video;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Interfaces;
 using Ray.BiliBiliTool.Config.Options;
 using Ray.BiliBiliTool.Domain.Exceptions;
 using Ray.BiliBiliTool.DomainService.Interfaces;
+using UpInfoDto = Ray.BiliBiliTool.Agent.BiliBiliAgent.Dtos.ApiApi.UpInfo.UpInfo;
 
 namespace Ray.BiliBiliTool.DomainService;
 
@@ -257,7 +258,7 @@ public class DonateCoinDomainService(
     {
         //获取特别关注列表
         var request = new GetSpecialFollowingsRequest(long.Parse(ck.UserId));
-        BiliApiResponse<List<UpInfo>> specials = await apiApi.GetFollowingsByTag(
+        BiliApiResponse<List<UpInfoDto>> specials = await apiApi.GetFollowingsByTag(
             request,
             ck.ToString()
         );

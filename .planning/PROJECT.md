@@ -1,4 +1,4 @@
-# BiliBiliToolPro Refactor And Optimization
+﻿# BiliBiliToolPro Refactor And Optimization
 
 ## What This Is
 
@@ -10,9 +10,19 @@ The product being preserved is an automated Bilibili task execution system with 
 
 Make the existing codebase safe to change: clear boundaries, lower coupling, and testable critical flows.
 
-## Current State: v4.0.0.4 Shipped — Planning Next Milestone
+## Current State: v4.0.0.5 Shipped — Agent DTO Reorganization
 
-**Shipped 2026-05-04:** Agent Interface Consolidation complete. All 8 api.bilibili.com Refit interfaces merged into single `IApiApi` with `#region` organization. 8 old interface files deleted. DI reduced from 8 registrations to 1. INavApi retained separately (IWbiService circular dep). Build 0 errors, arch 4/4, integration 7/7.
+**Shipped 2026-05-04:** Agent-layer DTO ownership now mirrors the interface boundaries introduced in v4.0.0.4. The delivered layout uses `ApiApi`, `AccountApi`, `NavApi`, `LiveApi`, `LiveTraceApi`, `MangaApi`, `PassportApi`, and `ShowApi` roots consistently across DTOs, interfaces, services, and tests. Build passed with 0 errors; architecture tests passed 4/4; host integration tests passed 7/7.
+
+## Next Milestone Goals
+
+No next milestone is defined yet. Current candidates carried forward from the shipped work are:
+
+- Establish the deferred notification adapter or port boundary (`ARCH-04`)
+- Add focused Web or Blazor component tests (`TEST-04`)
+- Add focused coverage thresholds for critical modules in CI (`TEST-05`)
+- Unify Console and Web configuration and startup composition where the behavior overlaps (`FLOW-05`)
+- Reduce default credential/bootstrap risks and repository noise (`QUAL-03`, `QUAL-04`)
 
 ## Requirements
 
@@ -46,9 +56,16 @@ Make the existing codebase safe to change: clear boundaries, lower coupling, and
 - ✓ REFIT-05: WebApiClientCore package removed; 4 legacy attribute files deleted — v4.0.0.3
 - ✓ REFIT-06: Build 0 errors; architecture tests 4/4; integration tests 7/7 — v4.0.0.3
 
-### Active (next milestone — TBD)
+- ✓ DTO-01: Agent-layer DTO folders mirror interface boundaries — v4.0.0.5
+- ✓ DTO-02: `IApiApi`-owned DTOs live under `Dtos/ApiApi/...`, including `Dtos/ApiApi/UpInfo/` with namespace `Dtos.ApiApi.UpInfo` — v4.0.0.5
+- ✓ DTO-03: `CoinBalance.cs` moved to `Dtos/AccountApi/` (namespace updated) — v4.0.0.5
+- ✓ DTO-04: Nav DTO group lives under `Dtos/NavApi/`; live DTO ownership split between `LiveApi` and `LiveTraceApi` — v4.0.0.5
+- ✓ DTO-05: All consumers updated with corrected using directives — v4.0.0.5
+- ✓ DTO-06: Build 0 errors | Arch 4/4 | Integration 7/7 — v4.0.0.5
 
-*(No active requirements — define with `/gsd-new-milestone`)*
+### Active
+
+- None — next milestone has not been started yet
 
 ### Deferred (future milestones)
 
@@ -69,7 +86,8 @@ Make the existing codebase safe to change: clear boundaries, lower coupling, and
 - The repository is a multi-project .NET 8 solution centered on `Ray.BiliBiliTool.sln`
 - Executable surfaces include `src\Ray.BiliBiliTool.Console`, `src\Ray.BiliBiliTool.Web`, and `src\Ray.BiliBiliTool.Web.Client`
 - v4.0.0.1 shipped 2026-05-03: 6 phases, 13 plans, 128 files changed, 8707 insertions, 264 deletions
-- v4.0.0.2 shipped 2026-05-04: 1 phase, 4 plans — cookie-handling centralized in `BaseMultiAccountsAppService`; all 11 AppServices migrated; DiagnosticScope telemetry added to all- v4.0.0.3 shipped 2026-05-04: Refit Migration — WebApiClientCore fully replaced by Refit 8.0.0 across all 18 Agent interfaces; 27 src files changed (+306/−460)
+- v4.0.0.2 shipped 2026-05-04: 1 phase, 4 plans — cookie-handling centralized in `BaseMultiAccountsAppService`; all 11 AppServices migrated; DiagnosticScope telemetry added to all
+- v4.0.0.3 shipped 2026-05-04: Refit Migration — WebApiClientCore fully replaced by Refit 8.0.0 across all 18 Agent interfaces; 27 src files changed (+306/−460)
 - Architecture guardrails (ArchUnitNET) enforce layer direction across Agent, Application, DomainService, Infrastructure, and Web — 4/4 tests passing
 - Characterization and integration test harnesses now freeze Login and DailyTask flows across `test\Ray.BiliBiliTool.Test.Characterization` and `test\Ray.BiliBiliTool.Test.Integration`
 - All 12 Quartz job classes are thin expression-body delegation shells; orchestration lives in LoginTaskAppService and DailyTaskAppService
@@ -117,4 +135,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-04 — milestone v4.0.0.2 started*
+*Last updated: 2026-05-05 — v4.0.0.5 archived after passing milestone audit*

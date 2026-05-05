@@ -1,3 +1,5 @@
+## 4.0.0.5
+- GSD将整合Agent Dtos
 ## 4.0.0.4
 - GSD将整合Agent interfaces
 ## 4.0.0.3

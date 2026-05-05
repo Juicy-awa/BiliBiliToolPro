@@ -1,5 +1,40 @@
 # Milestones
 
+## v4.0.0.5 — Agent DTO Reorganization
+
+**Shipped:** 2026-05-04
+**Phases:** 1 (Phase 12) | **Plans:** 2
+
+### Delivered
+
+Reorganized Agent-layer DTOs so folder and namespace ownership now mirrors the interface boundaries established in v4.0.0.4. The final layout uses `ApiApi`, `AccountApi`, `NavApi`, `LiveApi`, `LiveTraceApi`, `MangaApi`, `PassportApi`, and `ShowApi` roots consistently across DTOs, interfaces, services, and tests.
+
+### Key Accomplishments
+
+1. `Dtos/UpInfo` migrated to `Dtos/ApiApi/UpInfo` with `Dtos.ApiApi.UpInfo` namespace ownership
+2. Final interface-owned DTO roots completed for `AccountApi`, `NavApi`, `LiveApi`, `LiveTraceApi`, `MangaApi`, `PassportApi`, and `ShowApi`
+3. Consumer imports updated across Agent, Application, DomainService, and test projects while preserving the `UpInfoDto` alias pattern where needed
+4. Accidental `NavApiApi` over-replacements removed and the final DTO naming revalidated across `src/` and `test/`
+5. Missing Phase 12 verification and Nyquist validation artifacts restored so the milestone audit passes cleanly
+
+### Stats
+
+- Build: 0 errors | ArchitectureTests: 4/4 | Host.IntegrationTests: 7/7 | UAT: 5/5
+
+### Known Tech Debt
+
+- Pre-existing analyzer and nullability warnings remain outside the scope of the DTO migration
+- ARCH-04 notification adapter or port boundary remains deferred
+- TEST-04, TEST-05, FLOW-05, QUAL-03, and QUAL-04 are carried forward to the next milestone definition
+
+### Archive
+
+- [v4.0.0.5-ROADMAP.md](milestones/v4.0.0.5-ROADMAP.md)
+- [v4.0.0.5-REQUIREMENTS.md](milestones/v4.0.0.5-REQUIREMENTS.md)
+- [v4.0.0.5-MILESTONE-AUDIT.md](milestones/v4.0.0.5-MILESTONE-AUDIT.md)
+
+---
+
 ## v4.0.0.4 — Agent Interface Consolidation
 
 **Shipped:** 2026-05-04

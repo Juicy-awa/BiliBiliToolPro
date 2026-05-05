@@ -1,4 +1,4 @@
-# Roadmap: BiliBiliToolPro Brownfield Refactor
+﻿# Roadmap: BiliBiliToolPro Brownfield Refactor
 
 ## Milestones
 
@@ -6,6 +6,7 @@
 - ✅ **v4.0.0.2 AppService Refactor Continuation** — Phase 7 (shipped 2026-05-04) — [archive](milestones/v4.0.0.2-ROADMAP.md)
 - ✅ **v4.0.0.3 Refit Migration** — Phases 8–10 (shipped 2026-05-04) — [archive](milestones/v4.0.0.3-ROADMAP.md)
 - ✅ **v4.0.0.4 Agent Interface Consolidation** — Phase 11 (shipped 2026-05-04) — [archive](milestones/v4.0.0.4-ROADMAP.md)
+- ✅ **v4.0.0.5 Agent DTO Reorganization** — Phase 12 (shipped 2026-05-04) — [archive](milestones/v4.0.0.5-ROADMAP.md)
 
 ## Phases
 
@@ -44,6 +45,13 @@
 
 </details>
 
+<details>
+<summary>✅ v4.0.0.5 Agent DTO Reorganization (Phase 12) — SHIPPED 2026-05-04</summary>
+
+- [x] **Phase 12: Agent DTO Reorganization** — 2/2 plans complete — 2026-05-04
+
+</details>
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -59,3 +67,4 @@
 | 9. Bilibili Interface Migration | v4.0.0.3 | 2/2 | Complete | 2026-05-04 |
 | 10. DI Migration & Cleanup | v4.0.0.3 | 1/1 | Complete | 2026-05-04 |
 | 11. Agent Interface Consolidation | v4.0.0.4 | 4/4 | Complete | 2026-05-04 |
+| 12. Agent DTO Reorganization | v4.0.0.5 | 2/2 | Complete | 2026-05-04 |
