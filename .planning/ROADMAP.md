@@ -2,7 +2,7 @@
 
 ## Milestones
 
-- 🚧 **v4.0.0.6 Web Layer Boundary Cleanup** — Phases 13–16 (defined 2026-05-05) — active milestone
+- 🏁 **v4.0.0.6 Web Layer Boundary Cleanup** — Phases 13–16 (shipped 2026-05-05)
 - ✅ **v4.0.0.1 Brownfield Refactor** — Phases 1–6 (shipped 2026-05-03) — [archive](milestones/v4.0.0.1-ROADMAP.md)
 - ✅ **v4.0.0.2 AppService Refactor Continuation** — Phase 7 (shipped 2026-05-04) — [archive](milestones/v4.0.0.2-ROADMAP.md)
 - ✅ **v4.0.0.3 Refit Migration** — Phases 8–10 (shipped 2026-05-04) — [archive](milestones/v4.0.0.3-ROADMAP.md)
@@ -11,13 +11,13 @@
 
 ## Phases
 
-<details open>
-<summary>🚧 v4.0.0.6 Web Layer Boundary Cleanup (Phases 13–16) — DEFINED 2026-05-05</summary>
+<details>
+<summary>🏁 v4.0.0.6 Web Layer Boundary Cleanup (Phases 13–16) — SHIPPED 2026-05-05</summary>
 
 - [x] **Phase 13: Web Boundary Foundation** — 2/2 plans complete — 2026-05-05
 - [x] **Phase 14: Auth And Admin UI Boundary Cleanup** — 2/2 plans complete — 2026-05-05
 - [x] **Phase 15: Scheduler UI Boundary Cleanup** — 3/3 plans complete — 2026-05-05
-- [ ] **Phase 16: Web Composition And Regression Verification** — pending planning
+- [x] **Phase 16: Web Composition And Regression Verification** — 2/2 plans complete — 2026-05-05
 
 </details>
 
@@ -129,8 +129,8 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 16-01-PLAN.md — Add ArchUnit Web.Components guardrail + extend WebStartupIntegrationTests with 6 workflow seam assertions
-- [ ] 16-02-PLAN.md — Full WEB-06 regression: build + arch tests + integration tests + component tests
+- [x] 16-01-PLAN.md — Add ArchUnit Web.Components guardrail + extend WebStartupIntegrationTests with 6 workflow seam assertions
+- [x] 16-02-PLAN.md — Full WEB-06 regression: build + arch tests + integration tests + component tests
 
 **Success criteria:**
 1. Web host wiring remains composition-focused for the refactored slices.

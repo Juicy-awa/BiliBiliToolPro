@@ -5,29 +5,28 @@
 See: .planning/PROJECT.md (updated 2026-05-05)
 
 **Core value:** Make the existing codebase safe to change: clear boundaries, lower coupling, and testable critical flows.
-**Current focus:** Phase 15 complete — ready to plan and execute Phase 16
+**Current focus:** Milestone v4.0.0.6 complete — all 4 phases shipped
 
 ## Current Position
 
 Milestone: v4.0.0.6 Web Layer Boundary Cleanup
-Phase: Phase 15 complete
-Status: Ready to plan Phase 16 (Web Composition And Regression Verification)
-Last activity: 2026-05-05 — Phase 15 executed: Scheduler UI workflow seams + tests
+Phase: Phase 16 complete
+Status: Milestone SHIPPED — ready for next milestone
+Last activity: 2026-05-05 — Phase 16 executed: ArchUnit guardrail + regression suite — all tests green
 
-Progress: [########--] 75% — Phases 13–15 shipped; 1 of 4 milestone phases remain
+Progress: [##########] 100% — All 4 milestone phases shipped
 
 ## Current Snapshot
 
-- Shipped milestones: v4.0.0.1 through v4.0.0.5
-- Active milestone goal: separate Web UI concerns from business orchestration while preserving current behavior
-- Phase 13 shipped: Web component-test harness (bunit), Login page-state seam (`ILoginPageStateFactory`), Admin workflow contract (`IAdminPageWorkflow`)
-- Phase 14 shipped: `AdminPageWorkflow` implementation, Admin page refactored (injects `IAdminPageWorkflow`), Logout button UX, 9 tests passing
-- Phase 15 shipped: `ISchedulerPageWorkflow`, `IHistoryDialogWorkflow`, `ILogsDialogWorkflow` + implementations, Schedules page refactored, 16 tests passing
-- Current planning focus: plan Phase 16 — Web Composition And Regression Verification
+- Shipped milestones: v4.0.0.1 through v4.0.0.6
+- v4.0.0.6 delivered: Web workflow seams for Login, Admin, Scheduler pages; 28 component tests; 5 arch rules; ArchUnit Web.Components guardrail
+- All 6 requirements (WEB-01 through WEB-06) satisfied
+- Ready to define next milestone
 
 ## Pending Todos
 
-- Plan and execute Phase 16: Web Composition And Regression Verification (WEB-04, WEB-06)
+- Define next milestone when ready
+- Investigate pre-existing test failure: `Daily_task_multi_account_wrapper_continues_after_account_failure` (deferred)
 - Investigate pre-existing test failure: `Daily_task_multi_account_wrapper_continues_after_account_failure`
 - Revisit deferred notification adapter or port boundary when milestone scope permits
 
