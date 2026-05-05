@@ -10,11 +10,18 @@ The product being preserved is an automated Bilibili task execution system with 
 
 Make the existing codebase safe to change: clear boundaries, lower coupling, and testable critical flows.
 
-## Current State: v4.0.0.6 Shipped — Ready For Next Milestone
+## Current Milestone: v4.0.0.7 Bili Account Management
 
-**Shipped 2026-05-05:** v4.0.0.6 Web Layer Boundary Cleanup is complete. All 4 phases (13–16) and 9 plans shipped. 6/6 requirements satisfied. 28 component tests passing. Solution builds 0 errors; 5/5 arch, 7/7 integration, 28/28 component tests green.
+**Goal:** Add a Web-based "Bili Account" page for viewing, adding, editing, and deleting Bili accounts (cookies), backed by SQLite as the sole configuration source for Web, replacing `cookies.json`.
 
-**Next step:** Run `/gsd-new-milestone` to define the next milestone.
+**Target features:**
+- QR code login in Web — show QR image in browser, poll for scan result, save resulting cookie to SQLite
+- Paste cookie string — manually add an account by pasting a raw cookie string
+- Account list — view all accounts showing UserId + full cookie string
+- Edit account — modify an existing account's cookie string
+- Delete account — remove an account
+- Reorder accounts — drag or move accounts to change execution order
+- SQLite as sole config source — Web reads cookies from SQLite `bili_appsettings` table (replacing `cookies.json`); existing task execution flows read from the same source
 
 ## Shipped: v4.0.0.6 Web Layer Boundary Cleanup
 
@@ -73,7 +80,13 @@ Make the existing codebase safe to change: clear boundaries, lower coupling, and
 
 ### Active
 
-_(no active milestone — define next with `/gsd-new-milestone`)_
+- [ ] ACCT-01: Maintainer can view a list of all Bili accounts (UserId + cookie string) in the Web UI
+- [ ] ACCT-02: Maintainer can add a new Bili account by scanning a QR code in the Web browser
+- [ ] ACCT-03: Maintainer can add a new Bili account by pasting a raw cookie string
+- [ ] ACCT-04: Maintainer can edit an existing account's cookie string
+- [ ] ACCT-05: Maintainer can delete an existing account
+- [ ] ACCT-06: Maintainer can reorder accounts to change execution order
+- [ ] ACCT-07: Web host reads Bili cookies exclusively from SQLite (replacing `cookies.json`); existing task execution flows use the same source
 
 ### Deferred (future milestones)
 
@@ -97,6 +110,7 @@ _(no active milestone — define next with `/gsd-new-milestone`)_
 - v4.0.0.2 shipped 2026-05-04: 1 phase, 4 plans — cookie-handling centralized in `BaseMultiAccountsAppService`; all 11 AppServices migrated; DiagnosticScope telemetry added to all
 - v4.0.0.3 shipped 2026-05-04: Refit Migration — WebApiClientCore fully replaced by Refit 8.0.0 across all 18 Agent interfaces; 27 src files changed (+306/−460)
 - v4.0.0.6 shipped 2026-05-05: Web Layer Boundary Cleanup — 4 phases (13–16), 9 plans, 67 files changed (+5824/−494); 5 Web-layer workflow seams introduced; `Ray.BiliBiliTool.Web.ComponentTests` project with 28 bUnit tests; ArchUnit Web.Components guardrail; all 6 WEB requirements satisfied
+- v4.0.0.7 started 2026-05-06: Bili Account Management — Web-based account CRUD with QR login, SQLite-backed cookie storage replacing `cookies.json` for Web host
 - Architecture guardrails (ArchUnitNET) enforce layer direction across Agent, Application, DomainService, Infrastructure, and Web — 4/4 tests passing
 - Characterization and integration test harnesses now freeze Login and DailyTask flows across `test\Ray.BiliBiliTool.Test.Characterization` and `test\Ray.BiliBiliTool.Test.Integration`
 - All 12 Quartz job classes are thin expression-body delegation shells; orchestration lives in LoginTaskAppService and DailyTaskAppService
@@ -144,4 +158,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-05 — v4.0.0.6 milestone started for Web Layer Boundary Cleanup*
+*Last updated: 2026-05-06 — v4.0.0.7 milestone started for Bili Account Management*
