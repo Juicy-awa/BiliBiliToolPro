@@ -8,15 +8,15 @@
 
 ### Web Boundaries
 
-- [ ] **WEB-01**: Maintainer can route the targeted Web pages and dialogs through explicit Web-facing coordination seams instead of keeping workflow orchestration directly inside Razor component code-behind.
-- [ ] **WEB-02**: Maintainer can keep scheduler pages and dialogs from directly coordinating repository-backed log polling, execution-history loading, or scheduler-event orchestration in the component class itself.
-- [ ] **WEB-03**: Maintainer can keep login and admin page validation, success-flow handling, and navigation orchestration outside the targeted component markup logic while preserving current auth behavior.
+- [x] **WEB-01**: Maintainer can route the targeted Web pages and dialogs through explicit Web-facing coordination seams instead of keeping workflow orchestration directly inside Razor component code-behind.
+- [x] **WEB-02**: Maintainer can keep scheduler pages and dialogs from directly coordinating repository-backed log polling, execution-history loading, or scheduler-event orchestration in the component class itself.
+- [x] **WEB-03**: Maintainer can keep login and admin page validation, success-flow handling, and navigation orchestration outside the targeted component markup logic while preserving current auth behavior.
 
 ### Composition And Safety
 
-- [ ] **WEB-04**: Maintainer can keep the Web host composition root and Web-layer registrations focused on wiring and startup concerns rather than absorbing feature logic from the refactored slices.
-- [ ] **WEB-05**: Maintainer can verify the refactored Web slices with dedicated component or thin-slice tests instead of relying only on full-host integration coverage.
-- [ ] **WEB-06**: The Web-layer refactor preserves observable behavior: solution build succeeds, architecture tests stay green, host integration tests stay green, and the new Web-focused tests pass.
+- [x] **WEB-04**: Maintainer can keep the Web host composition root and Web-layer registrations focused on wiring and startup concerns rather than absorbing feature logic from the refactored slices.
+- [x] **WEB-05**: Maintainer can verify the refactored Web slices with dedicated component or thin-slice tests instead of relying only on full-host integration coverage.
+- [x] **WEB-06**: The Web-layer refactor preserves observable behavior: solution build succeeds, architecture tests stay green, host integration tests stay green, and the new Web-focused tests pass.
 
 ## Future Requirements
 
@@ -41,12 +41,12 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| WEB-01 | Phase 13 | Pending |
-| WEB-02 | Phase 15 | Pending |
-| WEB-03 | Phase 14 | Pending |
-| WEB-04 | Phase 16 | Pending |
-| WEB-05 | Phase 13 | Pending |
-| WEB-06 | Phase 16 | Pending |
+| WEB-01 | Phase 13 | Satisfied |
+| WEB-02 | Phase 15 | Satisfied |
+| WEB-03 | Phase 14 | Satisfied |
+| WEB-04 | Phase 16 | Satisfied |
+| WEB-05 | Phase 13 | Satisfied |
+| WEB-06 | Phase 16 | Satisfied |
 
 **Coverage:**
 - v4.0.0.6 requirements: 6 total
