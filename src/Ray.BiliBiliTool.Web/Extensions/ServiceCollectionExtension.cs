@@ -6,6 +6,7 @@ using Ray.BiliBiliTool.Config.Extensions;
 using Ray.BiliBiliTool.DomainService.Extensions;
 using Ray.BiliBiliTool.Web.Auth;
 using Ray.BiliBiliTool.Web.Services;
+using Ray.BiliBiliTool.Web.Services.Pages.Login;
 
 namespace Ray.BiliBiliTool.Web.Extensions;
 
@@ -14,6 +15,7 @@ public static class ServiceCollectionExtension
     public static IServiceCollection AddWebServices(this IServiceCollection services)
     {
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<ILoginPageStateFactory, LoginPageStateFactory>();
 
         return services;
     }
