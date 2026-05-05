@@ -8,8 +8,59 @@
 - ✅ **v4.0.0.3 Refit Migration** — Phases 8–10 (shipped 2026-05-04) — [archive](milestones/v4.0.0.3-ROADMAP.md)
 - ✅ **v4.0.0.4 Agent Interface Consolidation** — Phase 11 (shipped 2026-05-04) — [archive](milestones/v4.0.0.4-ROADMAP.md)
 - ✅ **v4.0.0.5 Agent DTO Reorganization** — Phase 12 (shipped 2026-05-04) — [archive](milestones/v4.0.0.5-ROADMAP.md)
+- 🔲 **v4.0.0.7 Bili Account Management** — Phases 17–19 (active)
 
 ## Phases
+
+### Phase 17: Account Storage Foundation
+
+**Goal:** Remove `cookies.json` from Web host config sources and establish the Bili Account page with account list view backed by SQLite.
+
+**Requirements:** ACCT-07, ACCT-01
+
+**Success criteria:**
+1. Web host no longer loads `config/cookies.json` — SQLite `bili_appsettings` is the sole cookie config source
+2. "Bili Account" menu item appears in NavMenu (top-level, not under Configurations)
+3. Account list page shows all configured accounts with UserId and full cookie string
+4. `IBiliAccountPageWorkflow` seam follows v4.0.0.6 pattern
+5. Build 0 errors | existing tests still pass
+
+Plans:
+- [ ] 17-01-PLAN.md — Account storage foundation and list view
+
+### Phase 18: Account CRUD Operations
+
+**Goal:** Enable adding, editing, deleting, and reordering Bili accounts through the Web UI.
+
+**Requirements:** ACCT-03, ACCT-04, ACCT-05, ACCT-06
+
+**Success criteria:**
+1. Maintainer can add a new account by pasting a cookie string
+2. Maintainer can edit an existing account's cookie string
+3. Maintainer can delete an account (with confirmation)
+4. Maintainer can reorder accounts (up/down buttons swap `BiliBiliCookies__N` keys)
+5. All mutations write to SQLite and reload `IConfigurationRoot`
+6. Build 0 errors | existing tests still pass
+
+Plans:
+- [ ] 18-01-PLAN.md — Account add/edit/delete operations
+- [ ] 18-02-PLAN.md — Account reorder and config reload
+
+### Phase 19: QR Code Login
+
+**Goal:** Enable QR code login directly in the Web browser so maintainers can add accounts without manually copying cookie strings.
+
+**Requirements:** ACCT-02
+
+**Success criteria:**
+1. Maintainer can click "Login with QR" to generate and display a Bilibili QR code in the browser
+2. QR code is rendered as a base64 PNG image (not terminal output)
+3. Page polls for scan result; on success, cookie is extracted and saved to SQLite
+4. Login timeout and error states are handled gracefully
+5. Build 0 errors | existing tests still pass
+
+Plans:
+- [ ] 19-01-PLAN.md — QR code login in Web browser
 
 <details>
 <summary>✅ v4.0.0.6 Web Layer Boundary Cleanup (Phases 13–16) — SHIPPED 2026-05-05</summary>
@@ -65,12 +116,15 @@
 
 ## Active Milestone
 
-_No active milestone — v4.0.0.6 shipped 2026-05-05. Start the next milestone with `/gsd-new-milestone`._
+**v4.0.0.7 Bili Account Management** — 3 phases, 4 plans, 7 requirements
 
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
+| 17. Account Storage Foundation | v4.0.0.7 | 0/1 | Pending | — |
+| 18. Account CRUD Operations | v4.0.0.7 | 0/2 | Pending | — |
+| 19. QR Code Login | v4.0.0.7 | 0/1 | Pending | — |
 | 13. Web Boundary Foundation | v4.0.0.6 | 2/2 | Complete | 2026-05-05 |
 | 14. Auth And Admin UI Boundary Cleanup | v4.0.0.6 | 2/2 | Complete | 2026-05-05 |
 | 15. Scheduler UI Boundary Cleanup | v4.0.0.6 | 3/3 | Complete | 2026-05-05 |

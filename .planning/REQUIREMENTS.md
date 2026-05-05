@@ -37,18 +37,18 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ACCT-01 | TBD | Pending |
-| ACCT-02 | TBD | Pending |
-| ACCT-03 | TBD | Pending |
-| ACCT-04 | TBD | Pending |
-| ACCT-05 | TBD | Pending |
-| ACCT-06 | TBD | Pending |
-| ACCT-07 | TBD | Pending |
+| ACCT-01 | Phase 17 | Pending |
+| ACCT-02 | Phase 19 | Pending |
+| ACCT-03 | Phase 18 | Pending |
+| ACCT-04 | Phase 18 | Pending |
+| ACCT-05 | Phase 18 | Pending |
+| ACCT-06 | Phase 18 | Pending |
+| ACCT-07 | Phase 17 | Pending |
 
 **Coverage:**
 - v4.0.0.7 requirements: 7 total
-- Mapped to phases: 0
-- Unmapped: 7 ⚠️
+- Mapped to phases: 7
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-05-06*
