@@ -1,12 +1,67 @@
-# Research Summary
+# Research Summary: Bili Account Management (v4.0.0.7)
 
-## Recommended Direction
+## Stack
 
-This initiative should stay a phased refactor of the existing .NET 8 modular monolith, not a rewrite and not a framework swap. Keep the current host model, EF Core, Quartz, typed HttpClient usage, and Serilog, then improve the system by tightening module boundaries, moving orchestration into module-level application flows, and making dependency direction executable.
+**Existing (no additions needed):**
+- .NET 8, Blazor Server (`@rendermode InteractiveServer`), MudBlazor 8.6.0 UI
+- EF Core 8.0.18 + SQLite (`Microsoft.EntityFrameworkCore.Sqlite`)
+- `SqliteConfigurationProvider` — custom key-value config store in `bili_appsettings` table
+- `QRCoder 1.6.0` — already in `Directory.Packages.props`, used by `LoginDomainService`
+- Refit 8.0.0 — `IPassportApi` with `GenerateQrCode()` and `CheckQrCodeHasScaned()`
+- `CookieStrFactory<BiliCookie>` — reads `BiliBiliCookies__0`, `BiliBiliCookies__1` etc. from IConfiguration
 
-The target shape is thin hosts, explicit module contracts, inward dependencies, and replaceable adapters around Bilibili HTTP, persistence, and notifications. The first slices should center on high-risk flows such as login/session bootstrap, daily task execution, and scheduler-triggered work because those paths touch configuration, scheduling, HTTP integration, and persistence at once.
+**No new packages required.** All needed libraries are already referenced.
 
-Planning should assume transitional architecture is required. Introduce seams, facades, mapping layers, and side-by-side paths where needed so each slice is reversible. The program succeeds if delivery gets safer and faster after each slice, not if the repository looks cleaner all at once.
+## Features
+
+### Cookie Storage Model
+- Cookies are config keys: `BiliBiliCookies__0`, `BiliBiliCookies__1`, etc.
+- `SqliteConfigurationProvider.Set(key, value)` writes to `bili_appsettings` table
+- `SqliteConfigurationProvider.BatchSet(dict)` writes multiple keys atomically
+- `BaseMultiAccountsAppService` iterates `cookieStrFactory.Count` accounts
+- `CookieStrFactory<BiliCookie>` reads from `IConfiguration` at runtime
+
+### QR Code Login Flow
+- `IPassportApi.GenerateQrCode()` → returns `QrCodeDto` with `Url` and `Qrcode_key`
+- `IPassportApi.CheckQrCodeHasScaned(qrcode_key)` → returns HttpResponseMessage with Set-Cookie headers
+- `LoginDomainService.LoginByQrCodeAsync()` orchestrates: generate → display QR → poll 10 times (5s intervals) → extract cookie
+- QRCoder library generates QR bitmap from URL — currently writes to console; needs adaptation for browser display (base64 image)
+
+### Web Page Patterns
+- Pages: `@page "/path"`, `@attribute [Authorize]`, `@rendermode InteractiveServer`
+- Workflow seams: `ILoginPageStateFactory`, `IAdminPageWorkflow`, `ISchedulerPageWorkflow` (established in v4.0.0.6)
+- NavMenu: collapsible submenu with `_showConfigSubMenu` toggle pattern
+- Config pages: `BaseConfigComponent<T>` loads from `IOptionsMonitor<T>`, saves via `SqliteConfigurationProvider`
+
+## Architecture
+
+### Integration Points
+1. **New workflow seam**: `IBiliAccountPageWorkflow` — follows v4.0.0.6 pattern (page injects seam, seam orchestrates)
+2. **Cookie storage**: Write `BiliBiliCookies__N` keys to SQLite via `SqliteConfigurationProvider.Set()`
+3. **QR login**: Wrap `IPassportApi` + `LoginDomainService.LoginByQrCodeAsync()` behind the workflow seam
+4. **Config reload**: After writing to SQLite, call `SqliteConfigurationProvider.Load()` to refresh in-memory config so `CookieStrFactory` picks up changes
+5. **NavMenu**: Add "Bili Account" entry (top-level, not under Configurations submenu)
+
+### Data Flow
+```
+Web Page (Blazor) → IBiliAccountPageWorkflow → SqliteConfigurationProvider.Set("BiliBiliCookies__N", cookieStr)
+                                              → IConfiguration reload
+                                              → CookieStrFactory reads updated config
+```
+
+### Key Constraint
+- `CookieStrFactory<BiliCookie>` is registered as singleton and reads cookies at construction time
+- After modifying SQLite config, the configuration root must be reloaded for changes to take effect in task execution
+- `SqliteConfigurationProvider.Load()` refreshes the provider's `Data` dictionary, but `IConfigurationRoot.Reload()` is needed to propagate
+
+## Pitfalls
+
+1. **Config reload timing**: Writing to SQLite doesn't automatically update `IConfiguration` in-memory. Must call `IConfigurationRoot.Reload()` after writes, or task execution will use stale cookies.
+2. **QR code in browser**: `LoginDomainService.LoginByQrCodeAsync()` uses `QRCoder` to generate a bitmap and logs it to console. For Web, need to generate a base64 PNG data URI and display in an `<img>` tag. The polling loop must run in Blazor's `InteractiveServer` render mode (SignalR connection stays alive).
+3. **Cookie key numbering**: When deleting an account at index 2 of 4, must re-key remaining accounts (3→2) to maintain contiguous `BiliBiliCookies__0..N` numbering, since `CookieStrFactory` iterates by index.
+4. **Reorder complexity**: Drag-drop reorder in MudBlazor requires `MudDropContainer`/`MudDropZone`. Simpler alternative: up/down arrow buttons that swap keys.
+5. **Concurrent access**: If a scheduled task is running while cookies are being modified, the `CookieStrFactory` may have already loaded the old config. This is acceptable for now — changes take effect on next task run.
+6. **Existing `cookies.json` removal for Web**: The Web host loads `config/cookies.json` in `Program.cs`. Must remove that `AddJsonFile` line. The existing `AddSqlite` provider remains and becomes the sole config source for cookies in Web. `IConfiguration` reading logic (`CookieStrFactory`, task execution) stays unchanged — only the config source pipeline changes.
 
 ## Table Stakes For This Refactor
 
