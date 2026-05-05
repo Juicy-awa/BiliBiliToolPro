@@ -10,19 +10,20 @@ The product being preserved is an automated Bilibili task execution system with 
 
 Make the existing codebase safe to change: clear boundaries, lower coupling, and testable critical flows.
 
-## Current State: v4.0.0.5 Shipped — Agent DTO Reorganization
+## Current State: v4.0.0.6 Shipped — Ready For Next Milestone
 
-**Shipped 2026-05-04:** Agent-layer DTO ownership now mirrors the interface boundaries introduced in v4.0.0.4. The delivered layout uses `ApiApi`, `AccountApi`, `NavApi`, `LiveApi`, `LiveTraceApi`, `MangaApi`, `PassportApi`, and `ShowApi` roots consistently across DTOs, interfaces, services, and tests. Build passed with 0 errors; architecture tests passed 4/4; host integration tests passed 7/7.
+**Shipped 2026-05-05:** v4.0.0.6 Web Layer Boundary Cleanup is complete. All 4 phases (13–16) and 9 plans shipped. 6/6 requirements satisfied. 28 component tests passing. Solution builds 0 errors; 5/5 arch, 7/7 integration, 28/28 component tests green.
 
-## Next Milestone Goals
+**Next step:** Run `/gsd-new-milestone` to define the next milestone.
 
-No next milestone is defined yet. Current candidates carried forward from the shipped work are:
+## Shipped: v4.0.0.6 Web Layer Boundary Cleanup
 
-- Establish the deferred notification adapter or port boundary (`ARCH-04`)
-- Add focused Web or Blazor component tests (`TEST-04`)
-- Add focused coverage thresholds for critical modules in CI (`TEST-05`)
-- Unify Console and Web configuration and startup composition where the behavior overlaps (`FLOW-05`)
-- Reduce default credential/bootstrap risks and repository noise (`QUAL-03`, `QUAL-04`)
+**Goal:** Refactor the Web layer so UI code stays thin, business logic is isolated behind clearer boundaries, and the resulting flow is safer to evolve and test.
+
+**Target features:**
+- Separate UI rendering concerns from business orchestration in the Web layer
+- Reduce page and component ownership of workflow logic and move orchestration behind clearer application boundaries
+- Add focused validation coverage around the refactored Web or Blazor slices so behavior remains stable during cleanup
 
 ## Requirements
 
@@ -63,9 +64,16 @@ No next milestone is defined yet. Current candidates carried forward from the sh
 - ✓ DTO-05: All consumers updated with corrected using directives — v4.0.0.5
 - ✓ DTO-06: Build 0 errors | Arch 4/4 | Integration 7/7 — v4.0.0.5
 
+- ✓ WEB-01: Targeted Web pages and dialogs use explicit Web-facing coordination seams (`ILoginPageStateFactory`, `IAdminPageWorkflow`, `ISchedulerPageWorkflow`, `ILogsDialogWorkflow`, `IHistoryDialogWorkflow`) — v4.0.0.6
+- ✓ WEB-02: Scheduler pages and dialogs no longer own repository-backed log polling, execution-history loading, or scheduler-event orchestration directly — v4.0.0.6
+- ✓ WEB-03: Login and admin page validation, success-flow handling, and navigation orchestration are isolated from targeted component markup logic — v4.0.0.6
+- ✓ WEB-04: Web host composition and Web registrations remain wiring-focused; ArchUnit guardrail enforces seam usage — v4.0.0.6
+- ✓ WEB-05: `Ray.BiliBiliTool.Web.ComponentTests` project with 28 bUnit tests covers refactored Web slices — v4.0.0.6
+- ✓ WEB-06: Build 0 errors | Arch 5/5 | Integration 7/7 | Components 28/28 — v4.0.0.6
+
 ### Active
 
-- None — next milestone has not been started yet
+_(no active milestone — define next with `/gsd-new-milestone`)_
 
 ### Deferred (future milestones)
 
@@ -88,6 +96,7 @@ No next milestone is defined yet. Current candidates carried forward from the sh
 - v4.0.0.1 shipped 2026-05-03: 6 phases, 13 plans, 128 files changed, 8707 insertions, 264 deletions
 - v4.0.0.2 shipped 2026-05-04: 1 phase, 4 plans — cookie-handling centralized in `BaseMultiAccountsAppService`; all 11 AppServices migrated; DiagnosticScope telemetry added to all
 - v4.0.0.3 shipped 2026-05-04: Refit Migration — WebApiClientCore fully replaced by Refit 8.0.0 across all 18 Agent interfaces; 27 src files changed (+306/−460)
+- v4.0.0.6 shipped 2026-05-05: Web Layer Boundary Cleanup — 4 phases (13–16), 9 plans, 67 files changed (+5824/−494); 5 Web-layer workflow seams introduced; `Ray.BiliBiliTool.Web.ComponentTests` project with 28 bUnit tests; ArchUnit Web.Components guardrail; all 6 WEB requirements satisfied
 - Architecture guardrails (ArchUnitNET) enforce layer direction across Agent, Application, DomainService, Infrastructure, and Web — 4/4 tests passing
 - Characterization and integration test harnesses now freeze Login and DailyTask flows across `test\Ray.BiliBiliTool.Test.Characterization` and `test\Ray.BiliBiliTool.Test.Integration`
 - All 12 Quartz job classes are thin expression-body delegation shells; orchestration lives in LoginTaskAppService and DailyTaskAppService
@@ -135,4 +144,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-05 — v4.0.0.5 archived after passing milestone audit*
+*Last updated: 2026-05-05 — v4.0.0.6 milestone started for Web Layer Boundary Cleanup*

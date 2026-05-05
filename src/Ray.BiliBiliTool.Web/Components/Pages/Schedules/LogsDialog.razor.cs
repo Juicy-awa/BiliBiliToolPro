@@ -1,8 +1,8 @@
 using BlazingQuartz.Core.Models;
-using BlazingQuartz.Core.Services;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Ray.BiliBiliTool.Domain;
+using Ray.BiliBiliTool.Web.Services.Pages.Schedules;
 
 namespace Ray.BiliBiliTool.Web.Components.Pages.Schedules;
 
@@ -15,10 +15,7 @@ public partial class LogsDialog : ComponentBase
     private IDialogService DialogSvc { get; set; } = null!;
 
     [Inject]
-    IExecutionLogService LogSvc { get; set; } = null!;
-
-    [Inject]
-    private IExecutionLogRepository LogRepository { get; set; } = null!;
+    private ILogsDialogWorkflow LogsWorkflow { get; set; } = null!;
 
     [EditorRequired]
     [Parameter]
@@ -39,7 +36,7 @@ public partial class LogsDialog : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        _fireInstanceId = await LogRepository.GetLatestRunInstanceIdAsync(
+        _fireInstanceId = await LogsWorkflow.GetLatestRunInstanceIdAsync(
             JobKey.Name,
             TriggerKey!.Name
         );
@@ -73,7 +70,7 @@ public partial class LogsDialog : ComponentBase
 
         try
         {
-            _logs = await LogRepository.GetLogsForRunAsync(
+            _logs = await LogsWorkflow.GetLogsForRunAsync(
                 _fireInstanceId!,
                 300,
                 _cancellationTokenSource.Token

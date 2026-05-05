@@ -5,6 +5,10 @@ using Ray.BiliBiliTool.Application.Contracts;
 using Ray.BiliBiliTool.Config.Options;
 using Ray.BiliBiliTool.Host.IntegrationTests.Support;
 using Ray.BiliBiliTool.Infrastructure.EF;
+using Ray.BiliBiliTool.Web.Services;
+using Ray.BiliBiliTool.Web.Services.Pages.Admin;
+using Ray.BiliBiliTool.Web.Services.Pages.Login;
+using Ray.BiliBiliTool.Web.Services.Pages.Schedules;
 
 namespace Ray.BiliBiliTool.Host.IntegrationTests;
 
@@ -27,6 +31,13 @@ public class WebStartupIntegrationTests
 
         var dbContext = scope.ServiceProvider.GetRequiredService<BiliDbContext>();
         dbContext.Database.ProviderName.Should().Be("Microsoft.EntityFrameworkCore.Sqlite");
+
+        scope.ServiceProvider.GetRequiredService<IAuthService>().Should().NotBeNull();
+        scope.ServiceProvider.GetRequiredService<ILoginPageStateFactory>().Should().NotBeNull();
+        scope.ServiceProvider.GetRequiredService<IAdminPageWorkflow>().Should().NotBeNull();
+        scope.ServiceProvider.GetRequiredService<ISchedulerPageWorkflow>().Should().NotBeNull();
+        scope.ServiceProvider.GetRequiredService<ILogsDialogWorkflow>().Should().NotBeNull();
+        scope.ServiceProvider.GetRequiredService<IHistoryDialogWorkflow>().Should().NotBeNull();
 
         return Task.CompletedTask;
     }

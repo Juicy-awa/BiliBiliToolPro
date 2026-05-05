@@ -425,38 +425,3 @@ public interface IApiApi
 
     #endregion
 }
-
-public enum FollowingsOrderType
-{
-    /// <summary>
-    /// 最常访问频率倒序
-    /// </summary>
-    [DefaultValue("attention")]
-    AttentionDesc,
-
-    /// <summary>
-    /// 关注时间倒序
-    /// </summary>
-    [DefaultValue("")]
-    TimeDesc,
-}
-
-public class RelationApiConstant
-{
-    /// <summary>
-    /// GetTags接口中的Referer
-    /// {0}为UserId
-    /// </summary>
-    public const string GetTagsReferer = "https://space.bilibili.com/{0}/fans/follow";
-
-    /// <summary>
-    /// CopyUpsToGroup接口中的Referer
-    /// {0}为UserId
-    /// </summary>
-    public const string CopyReferer = "https://space.bilibili.com/{0}/fans/follow?tagid=-1";
-
-    /// <summary>
-    /// ModifyRelation接口种的Referer
-    /// </summary>
-    public const string ModifyReferer = "https://space.bilibili.com/{0}/fans/follow?tagid={1}";
-}

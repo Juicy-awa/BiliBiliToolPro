@@ -80,5 +80,6 @@
     <PackageVersion Include="FluentAssertions" Version="8.5.0" />
     <PackageVersion Include="TngTech.ArchUnitNET" Version="0.13.3" />
     <PackageVersion Include="TngTech.ArchUnitNET.xUnit" Version="0.13.3" />
+    <PackageVersion Include="bunit" Version="1.34.0" />
   </ItemGroup>
 </Project>

@@ -85,6 +85,16 @@ public class DependencyGuardrailTests
         .ResideInNamespace("BlazingQuartz")
         .As("domain-forbidden types");
 
+    private static readonly IObjectProvider<IType> WebComponentLayer = Types()
+        .That()
+        .ResideInNamespace("Ray.BiliBiliTool.Web.Components")
+        .As("web component layer");
+
+    private static readonly IObjectProvider<IType> InfrastructureLayers = Types()
+        .That()
+        .ResideInNamespace("Ray.BiliBiliTool.Infrastructure")
+        .As("infrastructure layers");
+
     [Fact]
     public void Quartz_jobs_should_not_reach_directly_into_lower_layers()
     {
@@ -154,6 +164,21 @@ public class DependencyGuardrailTests
             .NotDependOnAny(DomainForbiddenTypes)
             .Because(
                 "domain logic and policy services should stay free of host, EF, and scheduler concerns in Phase 1"
+            );
+
+        rule.Check(Architecture);
+    }
+
+    [Fact]
+    public void Web_component_code_behind_classes_should_not_directly_depend_on_infrastructure()
+    {
+        IArchRule rule = Types()
+            .That()
+            .Are(WebComponentLayer)
+            .Should()
+            .NotDependOnAny(InfrastructureLayers)
+            .Because(
+                "Web component code-behind classes must route Domain and Infrastructure access through Web-layer workflow seams (Phases 13-15)"
             );
 
         rule.Check(Architecture);
