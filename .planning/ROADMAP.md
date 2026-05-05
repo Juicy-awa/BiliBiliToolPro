@@ -93,7 +93,11 @@ Plans:
 **Goal:** Refactor the login and admin Web pages so validation, success-flow handling, and navigation orchestration are isolated behind the selected Web-facing seam while preserving current auth behavior.
 
 **Requirements:** WEB-03
-**Plans:** Pending phase planning
+**Plans:** 2 plans
+
+Plans:
+- [ ] 14-01-PLAN.md — Implement AdminPageWorkflow + DI registration + refactor Admin.razor.cs + Logout button markup
+- [ ] 14-02-PLAN.md — AdminPageWorkflow unit tests + updated AdminPageTests with FakeAdminPageWorkflow
 
 **Success criteria:**
 1. Login and admin pages use the selected Web-layer seam for their targeted workflow logic.
