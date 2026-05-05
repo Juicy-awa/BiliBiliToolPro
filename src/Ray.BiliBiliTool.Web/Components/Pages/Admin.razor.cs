@@ -16,14 +16,13 @@ public partial class Admin : ComponentBase
     [Inject]
     private IAdminPageWorkflow AdminPageWorkflow { get; set; } = null!;
 
-    [Inject]
-    private IDialogService DialogService { get; set; } = null!;
-
     private string _username = "";
     private string _currentPassword = "";
     private string _newPassword = "";
     private string _confirmPassword = "";
     private string _errorMessage = "";
+    private string _successMessage = "";
+    private bool _showLogoutButton;
 
     private bool _passwordVisibility;
     private InputType _passwordInput = InputType.Password;
@@ -73,6 +72,8 @@ public partial class Admin : ComponentBase
     private async Task ChangePasswordAsync()
     {
         _errorMessage = "";
+        _successMessage = "";
+        _showLogoutButton = false;
 
         var request = new AdminPasswordChangeRequest(
             _username,
@@ -84,29 +85,17 @@ public partial class Admin : ComponentBase
 
         if (result.IsSuccess)
         {
-            var options = new DialogOptions
-            {
-                CloseOnEscapeKey = false,
-                BackdropClick = false,
-                MaxWidth = MaxWidth.Small,
-                FullWidth = true,
-                CloseButton = false,
-            };
-            var parameters = new DialogParameters<SuccessDialog>
-            {
-                { x => x.Message, result.SuccessMessage ?? "Password updated successfully." },
-            };
-            var dialog = await DialogService.ShowAsync<SuccessDialog>(
-                "Password Changed",
-                parameters,
-                options
-            );
-            await dialog.Result;
-            NavigationManager.NavigateTo("/auth/logout", true);
+            _successMessage = result.SuccessMessage ?? "Password updated successfully.";
+            _showLogoutButton = true;
         }
         else
         {
             _errorMessage = result.ErrorMessage ?? "";
         }
+    }
+
+    private void Logout()
+    {
+        NavigationManager.NavigateTo("/auth/logout", true);
     }
 }
