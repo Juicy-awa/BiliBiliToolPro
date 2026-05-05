@@ -13,10 +13,6 @@
         {
             <MudAlert Severity="Severity.Error" Class="mb-3">@_errorMessage</MudAlert>
         }
-        @if (!string.IsNullOrEmpty(_successMessage))
-        {
-            <MudAlert Severity="Severity.Success" Class="mb-3">@_successMessage</MudAlert>
-        }
         <MudTextField @bind-Value="_username" Label="New User Name" Required="true" RequiredError="Username cannot be empty" />
         <MudTextField @bind-Value="_currentPassword" Label="Current Password" Required="true" RequiredError="Password cannot be empty"
                       InputType="@_currentPasswordInput" Adornment="Adornment.End"
@@ -29,16 +25,8 @@
                       AdornmentIcon="@_passwordInputIcon" OnAdornmentClick="TogglePasswordVisibility" />
     </MudCardContent>
     <MudCardActions>
-        @if (_showLogoutButton)
-        {
-            <MudButton Variant="Variant.Filled" Color="Color.Warning" OnClick="Logout"
-                       Class="ml-auto">Logout</MudButton>
-        }
-        else
-        {
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ChangePasswordAsync"
-                       Class="ml-auto">Submit</MudButton>
-        }
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ChangePasswordAsync"
+                   Class="ml-auto">Submit</MudButton>
     </MudCardActions>
 </MudCard>
 
