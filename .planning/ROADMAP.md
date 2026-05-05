@@ -15,7 +15,7 @@
 <summary>🚧 v4.0.0.6 Web Layer Boundary Cleanup (Phases 13–16) — DEFINED 2026-05-05</summary>
 
 - [x] **Phase 13: Web Boundary Foundation** — 2/2 plans complete — 2026-05-05
-- [ ] **Phase 14: Auth And Admin UI Boundary Cleanup** — pending planning
+- [x] **Phase 14: Auth And Admin UI Boundary Cleanup** — 2/2 plans complete — 2026-05-05
 - [ ] **Phase 15: Scheduler UI Boundary Cleanup** — pending planning
 - [ ] **Phase 16: Web Composition And Regression Verification** — pending planning
 
@@ -96,8 +96,8 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 14-01-PLAN.md — Implement AdminPageWorkflow + DI registration + refactor Admin.razor.cs + Logout button markup
-- [ ] 14-02-PLAN.md — AdminPageWorkflow unit tests + updated AdminPageTests with FakeAdminPageWorkflow
+- [x] 14-01-PLAN.md — Implement AdminPageWorkflow + DI registration + refactor Admin.razor.cs + Logout button markup
+- [x] 14-02-PLAN.md — AdminPageWorkflow unit tests + updated AdminPageTests with FakeAdminPageWorkflow
 
 **Success criteria:**
 1. Login and admin pages use the selected Web-layer seam for their targeted workflow logic.
