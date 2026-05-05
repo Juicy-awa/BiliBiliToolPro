@@ -5,15 +5,15 @@ using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 using Ray.BiliBiliTool.Web.Components.Pages;
 using Ray.BiliBiliTool.Web.Services;
+using Ray.BiliBiliTool.Web.Services.Pages.Admin;
 using Xunit;
 
 namespace Ray.BiliBiliTool.Web.ComponentTests;
 
 /// <summary>
-/// Baseline component tests for the Admin page.
-/// Pin current observable behavior — username loading and client-side
-/// validation branches — before Phase 14 migrates the change-password
-/// orchestration behind <c>IAdminPageWorkflow</c>.
+/// Component tests for the Admin page.
+/// Uses FakeAdminPageWorkflow to control workflow outcomes and
+/// FakeAuthService for username loading (OnInitializedAsync).
 /// </summary>
 public class AdminPageTests : TestContext
 {
@@ -29,31 +29,60 @@ public class AdminPageTests : TestContext
     [Fact]
     public void Admin_OnInitialized_DisplaysUsernameFromAuthService()
     {
+        Services.AddSingleton<IAdminPageWorkflow>(
+            new FakeAdminPageWorkflow(new AdminPasswordChangeResult(false, null, null))
+        );
         var cut = RenderComponent<Admin>();
 
-        // The username field is bound to _username which is populated from IAuthService
         cut.Markup.Should().Contain(TestUsername);
     }
 
     [Fact]
-    public void Admin_SubmitWithAllFieldsEmpty_ShowsEmptyPasswordError()
+    public async Task Admin_SubmitWithWorkflowReturningError_ShowsErrorMessage()
     {
+        var errorResult = new AdminPasswordChangeResult(false, "Password cannot be empty", null);
+        Services.AddSingleton<IAdminPageWorkflow>(new FakeAdminPageWorkflow(errorResult));
         var cut = RenderComponent<Admin>();
 
-        // All fields default to ""; _newPassword == _confirmPassword passes the mismatch check,
-        // then IsNullOrWhiteSpace("") == true triggers the empty-password branch.
-        cut.Find("button.mud-button-filled").Click();
+        await cut.Find("button.mud-button-filled").ClickAsync(new());
 
         cut.Markup.Should().Contain("Password cannot be empty");
     }
 
     [Fact]
-    public void Admin_RendersExpectedNumberOfInputFields()
+    public async Task Admin_SubmitWithWorkflowReturningSuccess_ShowsLogoutButton()
     {
+        var successResult = new AdminPasswordChangeResult(
+            true,
+            null,
+            "Password updated successfully."
+        );
+        Services.AddSingleton<IAdminPageWorkflow>(new FakeAdminPageWorkflow(successResult));
         var cut = RenderComponent<Admin>();
 
-        // Admin form: username, current password, new password, confirm password
+        await cut.Find("button.mud-button-filled").ClickAsync(new());
+
+        cut.Markup.Should().Contain("Logout");
+        cut.Markup.Should().Contain("Password updated successfully.");
+    }
+
+    [Fact]
+    public void Admin_RendersExpectedNumberOfInputFields()
+    {
+        Services.AddSingleton<IAdminPageWorkflow>(
+            new FakeAdminPageWorkflow(new AdminPasswordChangeResult(false, null, null))
+        );
+        var cut = RenderComponent<Admin>();
+
         cut.FindAll("input").Count.Should().BeGreaterThanOrEqualTo(4);
+    }
+
+    private sealed class FakeAdminPageWorkflow(AdminPasswordChangeResult result)
+        : IAdminPageWorkflow
+    {
+        public Task<AdminPasswordChangeResult> ChangePasswordAsync(
+            AdminPasswordChangeRequest request
+        ) => Task.FromResult(result);
     }
 
     private sealed class FakeAuthService(string username) : IAuthService
