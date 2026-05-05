@@ -109,7 +109,12 @@ Plans:
 **Goal:** Refactor the schedule pages and dialogs so repository-backed log polling, execution-history loading, and scheduler-event coordination are moved out of the component classes.
 
 **Requirements:** WEB-02
-**Plans:** Pending phase planning
+**Plans:** 3 plans
+
+Plans:
+- [ ] 15-01-PLAN.md — Define ISchedulerPageWorkflow + implement SchedulerPageWorkflow + DI registration + Schedules.razor.cs refactor
+- [ ] 15-02-PLAN.md — Define ILogsDialogWorkflow + IHistoryDialogWorkflow + implement + DI + LogsDialog + HistoryDialog refactors
+- [ ] 15-03-PLAN.md — Workflow unit tests (3 classes) + bUnit component tests (3 classes) in Schedules/ sub-directory
 
 **Success criteria:**
 1. Scheduler dialogs and pages no longer own the targeted coordination logic directly.
