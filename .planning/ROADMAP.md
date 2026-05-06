@@ -14,12 +14,13 @@
 
 ### Phase 17: Account Storage Foundation
 
-**Goal:** Remove `cookies.json` from Web host config sources and establish the Bili Account page with account list view backed by SQLite.
+**Goal:** Establish the Bili Account page with account list view backed by SQLite, keeping `cookies.json` as a lower-priority fallback source so existing users are not broken.
 
 **Requirements:** ACCT-07, ACCT-01
 
 **Success criteria:**
-1. Web host no longer loads `config/cookies.json` — SQLite `bili_appsettings` is the sole cookie config source
+1. Web host loads `config/cookies.json` as a fallback source (before SQLite) — existing cookies.json entries still work, but SQLite takes precedence for overlapping keys
+2. SQLite `bili_appsettings` remains the highest-priority config source
 2. "Bili Account" menu item appears in NavMenu (top-level, not under Configurations)
 3. Account list page shows all configured accounts with UserId and full cookie string
 4. `IBiliAccountPageWorkflow` seam follows v4.0.0.6 pattern

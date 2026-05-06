@@ -16,7 +16,7 @@
 
 ### Storage
 
-- [x] **ACCT-07**: Remove `config/cookies.json` as a configuration source from Web host; SQLite `bili_appsettings` table remains the highest-priority config source for Bili cookies via the existing `AddSqlite` provider; cookie reading logic stays on `IConfiguration` (no change to `CookieStrFactory` or task execution flows)
+- [x] **ACCT-07**: Keep `config/cookies.json` as a fallback configuration source in Web host (loaded before `AddSqlite`); SQLite `bili_appsettings` table remains the highest-priority config source for Bili cookies via the existing `AddSqlite` provider — when both sources define the same `BiliBiliCookies__N` key, SQLite wins; cookie reading logic stays on `IConfiguration` (no change to `CookieStrFactory` or task execution flows); existing users who only have cookies.json entries continue to work until they migrate to SQLite
 
 ## Deferred (future milestones)
 
