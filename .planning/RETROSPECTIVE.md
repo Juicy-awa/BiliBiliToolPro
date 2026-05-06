@@ -98,3 +98,45 @@ Centralized `SetCookiesAsync` and `SaveCookieAsync` into `BaseMultiAccountsAppSe
 - **Deferred items must be named.** Any scope item not delivered should have an explicit deferred decision record in PLAN.md, not just be absent from SUMMARY.md.
 - **Write VERIFICATION.md per phase.** Even a brief checklist confirming each success criterion is TRUE should be created immediately after plan execution.
 - **Track requirements live.** Update traceability at each phase transition — don't rely on retroactive archaeology.
+
+---
+
+## v4.0.0.7 — Bili Account Management (2026-05-06 → 2026-05-07)
+
+### What Was Built
+
+Web-based "Bili Account" page with full CRUD (add via cookie paste or QR scan, edit, delete, reorder) backed by SQLite as primary config source. `cookies.json` retained as lower-priority fallback for Console-host compatibility. QR login uses QRCoder `PngByteQRCode` to render QR as base64 PNG displayed in MudDialog with state machine (Generating → Scanning → Success/Failed/Expired). 3 phases (17–19), 4 plans, 36 files changed (+2,965/−28).
+
+### What Worked
+
+- **v4.0.0.6 workflow seam pattern was the direct enabler.** `IBiliAccountPageWorkflow` followed the exact same pattern as the 5 seams from v4.0.0.6 — DI as Scoped, page workflow method routing, MudDialog invocations. No architecture decisions needed; just pattern replication.
+- **Keeping cookies.json as fallback was the right call.** Early planning considered removing it entirely. Keeping it with lower priority (loaded before `AddSqlite` so SQLite wins for overlapping keys) means zero disruption for Console-host users.
+- **QR login polling with state machine in MudDialog was clean.** The Generating→Scanning→Success/Failed/Expired state machine mapped naturally to Blazor's re-render model. StateTimer-based polling at 5s intervals with 10-attempt limit handled all edge cases.
+- **Reordering with atomic batch swap prevented partial failures.** `BatchSet` with full key swap in a single `SqliteConfigurationProvider` call means no intermediate inconsistent state.
+- **Architecture and component tests kept pace.** 5/5 ArchUnit, 28/28 bUnit, 7/7 integration tests all passing at milestone completion. Only the pre-existing Phase 5 characterization failure remains.
+
+### What Was Inefficient
+
+- **PLAN.md RESEARCH section was missing for Phase 19.** QR login research was done inline during execution rather than upfront. If RESEARCH.md had covered QRCoder PNG generation and the Bilibili passport QR API, Phase 19 planning would have been faster.
+- **Account reorder UX is functional but primitive.** Up/down buttons work but drag-and-drop would be better. This is acceptable for v1 but should be noted.
+- **No UAT.md or VERIFICATION.md for any phase.** Same gap as all prior milestones — inline verification via build + test suite, but no formal capture. The gsd-sdk unavailability makes this harder to enforce.
+
+### Patterns Established
+
+- **Workflow seam pattern is now canonical.** After v4.0.0.6 (5 seams) and v4.0.0.7 (1 seam), the pattern is: `I{Page}PageWorkflow` interface → `ServiceCollectionExtension.AddScoped` registration → Blazor page `@inject` → MudDialog invocation from workflow method. No debate needed for future pages.
+- **QR-based auth flows go in DomainService layer.** `ILoginDomainService` already handles terminal QR login; web QR login extends it with `QrLoginGenerateResult` and `QrLoginCheckResult` DTOs. Shared API calls, different rendering targets.
+- **SqliteConfigurationProvider as single source of truth for settings.** Web page mutations write to SQLite bili_appsettings, then reload `IConfigurationRoot`. All consumers (including AppService cookie reading) see updates immediately.
+
+### Key Lessons
+
+- **Write VERIFICATION.md in execute-phase plans.** This is now the fourth milestone where VERIFICATION.md was skipped. Make it a mandatory plan task.
+- **Research QR/auth APIs before planning, not during execution.** QR login involved Refit API calls (`QrLogin`, `QrLoginConfirm`) that were already in the codebase but only discovered during implementation.
+- **The `Login_flow_preserves_current_step_order_and_emits_diagnostics` failure has persisted since Phase 5.** It's now 14 phases old. Should be investigated or removed as a characterization test if it's testing behavior that was intentionally changed.
+
+### Cost Observations
+
+- Duration: 2 days (2026-05-06 → 2026-05-07)
+- Sessions: 2
+- Commits: 18 across 3 phases + audit
+- Net code: +2,965/−28 (new feature, net growth expected)
+- All requirement checkboxes verified as ✓ in REQUIREMENTS.md before archival
