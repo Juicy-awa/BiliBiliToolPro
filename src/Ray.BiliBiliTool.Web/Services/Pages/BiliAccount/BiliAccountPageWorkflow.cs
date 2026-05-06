@@ -1,12 +1,14 @@
 using Microsoft.Extensions.Configuration;
+using Ray.BiliBiliTool.Config.SQLite;
 
 namespace Ray.BiliBiliTool.Web.Services.Pages.BiliAccount;
 
-public class BiliAccountPageWorkflow(IConfiguration configuration) : IBiliAccountPageWorkflow
+public class BiliAccountPageWorkflow(IConfigurationRoot configurationRoot)
+    : IBiliAccountPageWorkflow
 {
     public Task<List<BiliAccountDto>> GetAllAccountsAsync()
     {
-        var cookieList = configuration.GetSection("BiliBiliCookies").Get<List<string>>() ?? [];
+        var cookieList = configurationRoot.GetSection("BiliBiliCookies").Get<List<string>>() ?? [];
         var accounts = new List<BiliAccountDto>();
 
         for (int i = 0; i < cookieList.Count; i++)
@@ -17,6 +19,70 @@ public class BiliAccountPageWorkflow(IConfiguration configuration) : IBiliAccoun
         }
 
         return Task.FromResult(accounts);
+    }
+
+    public Task AddAsync(string cookieStr)
+    {
+        var provider =
+            GetSqliteProvider()
+            ?? throw new InvalidOperationException("SqliteConfigurationProvider not found");
+
+        var currentCount =
+            configurationRoot.GetSection("BiliBiliCookies").Get<List<string>>()?.Count ?? 0;
+        provider.Set($"BiliBiliCookies__{currentCount}", cookieStr);
+        ReloadConfiguration();
+        return Task.CompletedTask;
+    }
+
+    public Task UpdateAsync(int index, string cookieStr)
+    {
+        var provider =
+            GetSqliteProvider()
+            ?? throw new InvalidOperationException("SqliteConfigurationProvider not found");
+
+        provider.Set($"BiliBiliCookies__{index}", cookieStr);
+        ReloadConfiguration();
+        return Task.CompletedTask;
+    }
+
+    public Task DeleteAsync(int index)
+    {
+        var provider =
+            GetSqliteProvider()
+            ?? throw new InvalidOperationException("SqliteConfigurationProvider not found");
+
+        var cookieList = configurationRoot.GetSection("BiliBiliCookies").Get<List<string>>() ?? [];
+        var newCount = cookieList.Count - 1;
+
+        // Re-key all higher indices down by 1
+        var rekeyDict = new Dictionary<string, string>();
+        for (int i = index + 1; i < cookieList.Count; i++)
+        {
+            rekeyDict[$"BiliBiliCookies__{i - 1}"] = cookieList[i];
+        }
+
+        if (rekeyDict.Count > 0)
+            provider.BatchSet(rekeyDict);
+
+        // Delete the old last key
+        provider.Set($"BiliBiliCookies__{newCount}", string.Empty);
+        ReloadConfiguration();
+        return Task.CompletedTask;
+    }
+
+    private SqliteConfigurationProvider? GetSqliteProvider()
+    {
+        foreach (var provider in configurationRoot.Providers)
+        {
+            if (provider is SqliteConfigurationProvider sqliteProvider)
+                return sqliteProvider;
+        }
+        return null;
+    }
+
+    private void ReloadConfiguration()
+    {
+        configurationRoot.Reload();
     }
 
     private static string ParseUserId(string cookieStr)
