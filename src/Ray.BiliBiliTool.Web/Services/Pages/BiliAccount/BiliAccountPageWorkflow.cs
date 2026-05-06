@@ -70,6 +70,33 @@ public class BiliAccountPageWorkflow(IConfigurationRoot configurationRoot)
         return Task.CompletedTask;
     }
 
+    public Task ReorderAsync(int fromIndex, int toIndex)
+    {
+        var provider =
+            GetSqliteProvider()
+            ?? throw new InvalidOperationException("SqliteConfigurationProvider not found");
+
+        var cookieList = configurationRoot.GetSection("BiliBiliCookies").Get<List<string>>() ?? [];
+
+        if (fromIndex < 0 || fromIndex >= cookieList.Count)
+            throw new ArgumentOutOfRangeException(nameof(fromIndex));
+        if (toIndex < 0 || toIndex >= cookieList.Count)
+            throw new ArgumentOutOfRangeException(nameof(toIndex));
+        if (fromIndex == toIndex)
+            return Task.CompletedTask;
+
+        // Swap the two keys atomically via BatchSet
+        var swapDict = new Dictionary<string, string>
+        {
+            [$"BiliBiliCookies__{fromIndex}"] = cookieList[toIndex],
+            [$"BiliBiliCookies__{toIndex}"] = cookieList[fromIndex],
+        };
+
+        provider.BatchSet(swapDict);
+        ReloadConfiguration();
+        return Task.CompletedTask;
+    }
+
     private SqliteConfigurationProvider? GetSqliteProvider()
     {
         foreach (var provider in configurationRoot.Providers)

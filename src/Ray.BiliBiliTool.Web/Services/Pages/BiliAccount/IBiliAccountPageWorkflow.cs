@@ -6,4 +6,5 @@ public interface IBiliAccountPageWorkflow
     Task AddAsync(string cookieStr);
     Task UpdateAsync(int index, string cookieStr);
     Task DeleteAsync(int index);
+    Task ReorderAsync(int fromIndex, int toIndex);
 }
