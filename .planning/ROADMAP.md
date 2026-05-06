@@ -1,4 +1,4 @@
-﻿# Roadmap: BiliBiliToolPro Brownfield Refactor
+# Roadmap: BiliBiliToolPro Brownfield Refactor
 
 ## Milestones
 
@@ -61,6 +61,8 @@ Plans:
 3. Page polls for scan result; on success, cookie is extracted and saved to SQLite
 4. Login timeout and error states are handled gracefully
 5. Build 0 errors | existing tests still pass
+
+**Plans:** 1 plan
 
 Plans:
 - [ ] 19-01-PLAN.md — QR code login in Web browser
