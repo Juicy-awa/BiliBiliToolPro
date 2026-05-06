@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Ray.BiliBiliTool.Agent;
 using Ray.BiliBiliTool.CharacterizationTests.Support;
+using Ray.BiliBiliTool.DomainService.Dtos;
 using Ray.BiliBiliTool.DomainService.Interfaces;
 using Ray.BiliBiliTool.Infrastructure;
 
@@ -95,6 +96,21 @@ public class LoginTaskCharacterizationTests
 
         public Task<bool> SaveCookieToQinLongAsync(
             BiliCookie ckInfo,
+            CancellationToken cancellationToken
+        )
+        {
+            throw new NotSupportedException();
+        }
+
+        public Task<QrLoginGenerateResult> GenerateQrCodeWebAsync(
+            CancellationToken cancellationToken
+        )
+        {
+            throw new NotSupportedException();
+        }
+
+        public Task<QrLoginCheckResult> CheckQrLoginAsync(
+            string qrcodeKey,
             CancellationToken cancellationToken
         )
         {

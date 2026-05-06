@@ -362,6 +362,21 @@ public class DailyTaskCharacterizationTests
         {
             throw new NotSupportedException();
         }
+
+        public Task<QrLoginGenerateResult> GenerateQrCodeWebAsync(
+            CancellationToken cancellationToken
+        )
+        {
+            throw new NotSupportedException();
+        }
+
+        public Task<QrLoginCheckResult> CheckQrLoginAsync(
+            string qrcodeKey,
+            CancellationToken cancellationToken
+        )
+        {
+            throw new NotSupportedException();
+        }
     }
 
     private sealed class StaticOptionsMonitor<T>(T value) : IOptionsMonitor<T>
