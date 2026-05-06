@@ -8,7 +8,7 @@
 ### Account CRUD
 
 - [x] **ACCT-01**: Maintainer can view a list of all Bili accounts showing UserId and full cookie string in the Web UI
-- [ ] **ACCT-02**: Maintainer can add a new Bili account by scanning a QR code displayed in the Web browser
+- [x] **ACCT-02**: Maintainer can add a new Bili account by scanning a QR code displayed in the Web browser
 - [x] **ACCT-03**: Maintainer can add a new Bili account by pasting a raw cookie string into a text field
 - [x] **ACCT-04**: Maintainer can edit an existing account's cookie string
 - [x] **ACCT-05**: Maintainer can delete an existing account
@@ -37,13 +37,13 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ACCT-01 | Phase 17 | Pending |
-| ACCT-02 | Phase 19 | Pending |
+| ACCT-01 | Phase 17 | Done |
+| ACCT-02 | Phase 19 | Done |
 | ACCT-03 | Phase 18 | Done |
 | ACCT-04 | Phase 18 | Done |
 | ACCT-05 | Phase 18 | Done |
 | ACCT-06 | Phase 18 | Done |
-| ACCT-07 | Phase 17 | Pending |
+| ACCT-07 | Phase 17 | Done |
 
 **Coverage:**
 - v4.0.0.7 requirements: 7 total
@@ -52,4 +52,4 @@
 
 ---
 *Requirements defined: 2026-05-06*
-*Last updated: 2026-05-06 after initial definition*
+*Last updated: 2026-05-07 after milestone audit (7/7 satisfied)*
