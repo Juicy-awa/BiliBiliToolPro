@@ -26,7 +26,7 @@
 5. Build 0 errors | existing tests still pass
 
 Plans:
-- [ ] 17-01-PLAN.md — Account storage foundation and list view
+- [x] 17-01-PLAN.md — Account storage foundation and list view
 
 ### Phase 18: Account CRUD Operations
 

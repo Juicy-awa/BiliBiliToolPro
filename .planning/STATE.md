@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-05-06)
 ## Current Position
 
 Milestone: v4.0.0.7 Bili Account Management
-Phase: Not started (roadmap created)
-Status: Ready for phase planning
-Last activity: 2026-05-06 — Roadmap created (3 phases, 4 plans)
+Phase: 17-account-storage-foundation — COMPLETE
+Status: Phase 17 done, ready for Phase 18
+Last activity: 2026-05-06 — Phase 17 plan 17-01 executed (1/1 complete)
 
-Progress: [░░░░░░░░░░] 0% — Roadmap created
+Progress: [███░░░░░░░] 33% — Phase 17 complete (1/3 phases)
 
 ## Current Snapshot
 

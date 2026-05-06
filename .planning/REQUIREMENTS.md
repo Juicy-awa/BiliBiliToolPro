@@ -7,7 +7,7 @@
 
 ### Account CRUD
 
-- [ ] **ACCT-01**: Maintainer can view a list of all Bili accounts showing UserId and full cookie string in the Web UI
+- [x] **ACCT-01**: Maintainer can view a list of all Bili accounts showing UserId and full cookie string in the Web UI
 - [ ] **ACCT-02**: Maintainer can add a new Bili account by scanning a QR code displayed in the Web browser
 - [ ] **ACCT-03**: Maintainer can add a new Bili account by pasting a raw cookie string into a text field
 - [ ] **ACCT-04**: Maintainer can edit an existing account's cookie string
@@ -16,7 +16,7 @@
 
 ### Storage
 
-- [ ] **ACCT-07**: Remove `config/cookies.json` as a configuration source from Web host; SQLite `bili_appsettings` table remains the highest-priority config source for Bili cookies via the existing `AddSqlite` provider; cookie reading logic stays on `IConfiguration` (no change to `CookieStrFactory` or task execution flows)
+- [x] **ACCT-07**: Remove `config/cookies.json` as a configuration source from Web host; SQLite `bili_appsettings` table remains the highest-priority config source for Bili cookies via the existing `AddSqlite` provider; cookie reading logic stays on `IConfiguration` (no change to `CookieStrFactory` or task execution flows)
 
 ## Deferred (future milestones)
 
