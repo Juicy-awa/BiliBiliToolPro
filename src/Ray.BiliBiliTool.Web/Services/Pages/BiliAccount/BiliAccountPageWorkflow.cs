@@ -1,14 +1,19 @@
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Ray.BiliBiliTool.Config.SQLite;
 
 namespace Ray.BiliBiliTool.Web.Services.Pages.BiliAccount;
 
-public class BiliAccountPageWorkflow(IConfigurationRoot configurationRoot)
-    : IBiliAccountPageWorkflow
+public class BiliAccountPageWorkflow(IConfiguration configuration) : IBiliAccountPageWorkflow
 {
+    private readonly IConfigurationRoot _configurationRoot =
+        configuration as IConfigurationRoot
+        ?? throw new InvalidOperationException(
+            "IConfigurationRoot not available — cannot access Providers or Reload()"
+        );
+
     public Task<List<BiliAccountDto>> GetAllAccountsAsync()
     {
-        var cookieList = configurationRoot.GetSection("BiliBiliCookies").Get<List<string>>() ?? [];
+        var cookieList = _configurationRoot.GetSection("BiliBiliCookies").Get<List<string>>() ?? [];
         var accounts = new List<BiliAccountDto>();
 
         for (int i = 0; i < cookieList.Count; i++)
@@ -28,7 +33,7 @@ public class BiliAccountPageWorkflow(IConfigurationRoot configurationRoot)
             ?? throw new InvalidOperationException("SqliteConfigurationProvider not found");
 
         var currentCount =
-            configurationRoot.GetSection("BiliBiliCookies").Get<List<string>>()?.Count ?? 0;
+            _configurationRoot.GetSection("BiliBiliCookies").Get<List<string>>()?.Count ?? 0;
         provider.Set($"BiliBiliCookies__{currentCount}", cookieStr);
         ReloadConfiguration();
         return Task.CompletedTask;
@@ -51,7 +56,7 @@ public class BiliAccountPageWorkflow(IConfigurationRoot configurationRoot)
             GetSqliteProvider()
             ?? throw new InvalidOperationException("SqliteConfigurationProvider not found");
 
-        var cookieList = configurationRoot.GetSection("BiliBiliCookies").Get<List<string>>() ?? [];
+        var cookieList = _configurationRoot.GetSection("BiliBiliCookies").Get<List<string>>() ?? [];
         var newCount = cookieList.Count - 1;
 
         // Re-key all higher indices down by 1
@@ -76,7 +81,7 @@ public class BiliAccountPageWorkflow(IConfigurationRoot configurationRoot)
             GetSqliteProvider()
             ?? throw new InvalidOperationException("SqliteConfigurationProvider not found");
 
-        var cookieList = configurationRoot.GetSection("BiliBiliCookies").Get<List<string>>() ?? [];
+        var cookieList = _configurationRoot.GetSection("BiliBiliCookies").Get<List<string>>() ?? [];
 
         if (fromIndex < 0 || fromIndex >= cookieList.Count)
             throw new ArgumentOutOfRangeException(nameof(fromIndex));
@@ -99,7 +104,7 @@ public class BiliAccountPageWorkflow(IConfigurationRoot configurationRoot)
 
     private SqliteConfigurationProvider? GetSqliteProvider()
     {
-        foreach (var provider in configurationRoot.Providers)
+        foreach (var provider in _configurationRoot.Providers)
         {
             if (provider is SqliteConfigurationProvider sqliteProvider)
                 return sqliteProvider;
@@ -109,7 +114,7 @@ public class BiliAccountPageWorkflow(IConfigurationRoot configurationRoot)
 
     private void ReloadConfiguration()
     {
-        configurationRoot.Reload();
+        _configurationRoot.Reload();
     }
 
     private static string ParseUserId(string cookieStr)
