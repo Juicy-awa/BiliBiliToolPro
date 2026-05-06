@@ -9,10 +9,10 @@
 
 - [x] **ACCT-01**: Maintainer can view a list of all Bili accounts showing UserId and full cookie string in the Web UI
 - [ ] **ACCT-02**: Maintainer can add a new Bili account by scanning a QR code displayed in the Web browser
-- [ ] **ACCT-03**: Maintainer can add a new Bili account by pasting a raw cookie string into a text field
-- [ ] **ACCT-04**: Maintainer can edit an existing account's cookie string
-- [ ] **ACCT-05**: Maintainer can delete an existing account
-- [ ] **ACCT-06**: Maintainer can reorder accounts to change execution order
+- [x] **ACCT-03**: Maintainer can add a new Bili account by pasting a raw cookie string into a text field
+- [x] **ACCT-04**: Maintainer can edit an existing account's cookie string
+- [x] **ACCT-05**: Maintainer can delete an existing account
+- [x] **ACCT-06**: Maintainer can reorder accounts to change execution order
 
 ### Storage
 
@@ -39,10 +39,10 @@
 |-------------|-------|--------|
 | ACCT-01 | Phase 17 | Pending |
 | ACCT-02 | Phase 19 | Pending |
-| ACCT-03 | Phase 18 | Pending |
-| ACCT-04 | Phase 18 | Pending |
-| ACCT-05 | Phase 18 | Pending |
-| ACCT-06 | Phase 18 | Pending |
+| ACCT-03 | Phase 18 | Done |
+| ACCT-04 | Phase 18 | Done |
+| ACCT-05 | Phase 18 | Done |
+| ACCT-06 | Phase 18 | Done |
 | ACCT-07 | Phase 17 | Pending |
 
 **Coverage:**

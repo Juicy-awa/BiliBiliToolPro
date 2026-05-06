@@ -46,8 +46,8 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 18-01-PLAN.md — Account add/edit/delete with config reload (ACCT-03, ACCT-04, ACCT-05)
-- [ ] 18-02-PLAN.md — Account reorder with atomic key swap (ACCT-06)
+- [x] 18-01-PLAN.md — Account add/edit/delete with config reload (ACCT-03, ACCT-04, ACCT-05)
+- [x] 18-02-PLAN.md — Account reorder with atomic key swap (ACCT-06)
 
 ### Phase 19: QR Code Login
 
@@ -125,8 +125,8 @@ Plans:
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
-| 17. Account Storage Foundation | v4.0.0.7 | 0/1 | Pending | — |
-| 18. Account CRUD Operations | v4.0.0.7 | 0/2 | Pending | — |
+| 17. Account Storage Foundation | v4.0.0.7 | 1/1 | Complete | 2026-05-06 |
+| 18. Account CRUD Operations | v4.0.0.7 | 2/2 | Complete | 2026-05-07 |
 | 19. QR Code Login | v4.0.0.7 | 0/1 | Pending | — |
 | 13. Web Boundary Foundation | v4.0.0.6 | 2/2 | Complete | 2026-05-05 |
 | 14. Auth And Admin UI Boundary Cleanup | v4.0.0.6 | 2/2 | Complete | 2026-05-05 |
