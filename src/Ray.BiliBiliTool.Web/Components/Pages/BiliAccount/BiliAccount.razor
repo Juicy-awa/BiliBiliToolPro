@@ -15,6 +15,9 @@
 <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
            Class="mt-2 mb-2" OnClick="OpenAddDialog">Add Account</MudButton>
 
+<MudButton Variant="Variant.Outlined" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.QrCodeScanner"
+           Class="mt-2 mb-2 ml-2" OnClick="OpenQrLoginDialog">Login with QR</MudButton>
+
 @if (_loading)
 {
     <MudProgressCircular Indeterminate="true" Class="mt-4" />
@@ -84,6 +87,16 @@ else
         if (!result.Canceled && result.Data is string cookieStr)
         {
             await Workflow.AddAsync(cookieStr);
+            await LoadAccounts();
+        }
+    }
+
+    private async Task OpenQrLoginDialog()
+    {
+        var dialog = await DialogService.ShowAsync<QrLoginDialog>("QR Code Login");
+        var result = await dialog.Result;
+        if (!result.Canceled)
+        {
             await LoadAccounts();
         }
     }
