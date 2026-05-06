@@ -18,7 +18,6 @@ try
 {
     var builder = WebApplication.CreateBuilder(args);
 
-    builder.Configuration.AddJsonFile("config/cookies.json", optional: true, reloadOnChange: true);
     var sqliteConnStr = builder.Configuration.GetConnectionString("Sqlite");
     if (!string.IsNullOrEmpty(sqliteConnStr))
     {

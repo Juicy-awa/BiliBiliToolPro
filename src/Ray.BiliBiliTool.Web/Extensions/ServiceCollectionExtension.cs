@@ -7,6 +7,7 @@ using Ray.BiliBiliTool.DomainService.Extensions;
 using Ray.BiliBiliTool.Web.Auth;
 using Ray.BiliBiliTool.Web.Services;
 using Ray.BiliBiliTool.Web.Services.Pages.Admin;
+using Ray.BiliBiliTool.Web.Services.Pages.BiliAccount;
 using Ray.BiliBiliTool.Web.Services.Pages.Login;
 using Ray.BiliBiliTool.Web.Services.Pages.Schedules;
 
@@ -22,6 +23,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<ISchedulerPageWorkflow, SchedulerPageWorkflow>();
         services.AddScoped<ILogsDialogWorkflow, LogsDialogWorkflow>();
         services.AddScoped<IHistoryDialogWorkflow, HistoryDialogWorkflow>();
+        services.AddScoped<IBiliAccountPageWorkflow, BiliAccountPageWorkflow>();
 
         return services;
     }
