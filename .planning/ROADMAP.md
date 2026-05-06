@@ -43,9 +43,11 @@ Plans:
 5. All mutations write to SQLite and reload `IConfigurationRoot`
 6. Build 0 errors | existing tests still pass
 
+**Plans:** 2 plans
+
 Plans:
-- [ ] 18-01-PLAN.md — Account add/edit/delete operations
-- [ ] 18-02-PLAN.md — Account reorder and config reload
+- [ ] 18-01-PLAN.md — Account add/edit/delete with config reload (ACCT-03, ACCT-04, ACCT-05)
+- [ ] 18-02-PLAN.md — Account reorder with atomic key swap (ACCT-06)
 
 ### Phase 19: QR Code Login
 
