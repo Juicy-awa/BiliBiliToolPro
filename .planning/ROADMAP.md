@@ -65,7 +65,7 @@ Plans:
 **Plans:** 1 plan
 
 Plans:
-- [ ] 19-01-PLAN.md — QR code login in Web browser
+- [x] 19-01-PLAN.md — QR code login in Web browser
 
 <details>
 <summary>✅ v4.0.0.6 Web Layer Boundary Cleanup (Phases 13–16) — SHIPPED 2026-05-05</summary>

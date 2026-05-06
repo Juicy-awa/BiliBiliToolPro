@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-05-06)
 ## Current Position
 
 Milestone: v4.0.0.7 Bili Account Management
-Phase: 18-account-crud-operations — COMPLETE
-Status: Phase 18 done, ready for Phase 19
-Last activity: 2026-05-07 — Phase 18 plans 18-01, 18-02 executed (2/2 complete)
+Phase: 19-qr-code-login — COMPLETE
+Status: Phase 19 complete — QR login working in Web browser
+Last activity: 2026-05-07 — Phase 19 executed (1 plan, 2 tasks)
 
-Progress: [██████░░░░] 67% — Phase 18 complete (2/3 phases)
+Progress: [██████████] 100% — Phase 19 complete (all 3 phases shipped)
 
 ## Current Snapshot
 
@@ -28,7 +28,7 @@ Progress: [██████░░░░] 67% — Phase 18 complete (2/3 phases
 
 - [x] Plan and execute Phase 17: Account Storage Foundation
 - [x] Plan and execute Phase 18: Account CRUD Operations
-- [ ] Plan and execute Phase 19: QR Code Login
+- [x] Plan and execute Phase 19: QR Code Login
 - Investigate pre-existing test failure: `Daily_task_multi_account_wrapper_continues_after_account_failure` (deferred)
 - Revisit deferred notification adapter or port boundary when milestone scope permits
 
