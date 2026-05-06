@@ -1,9 +1,15 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Ray.BiliBiliTool.Agent;
 using Ray.BiliBiliTool.Config.SQLite;
+using Ray.BiliBiliTool.DomainService.Dtos;
+using Ray.BiliBiliTool.DomainService.Interfaces;
 
 namespace Ray.BiliBiliTool.Web.Services.Pages.BiliAccount;
 
-public class BiliAccountPageWorkflow(IConfiguration configuration) : IBiliAccountPageWorkflow
+public class BiliAccountPageWorkflow(
+    IConfiguration configuration,
+    ILoginDomainService loginDomainService
+) : IBiliAccountPageWorkflow
 {
     private readonly IConfigurationRoot _configurationRoot =
         configuration as IConfigurationRoot
@@ -100,6 +106,23 @@ public class BiliAccountPageWorkflow(IConfiguration configuration) : IBiliAccoun
         provider.BatchSet(swapDict);
         ReloadConfiguration();
         return Task.CompletedTask;
+    }
+
+    public Task<QrLoginGenerateResult> QrLoginGenerateAsync()
+    {
+        return loginDomainService.GenerateQrCodeWebAsync(CancellationToken.None);
+    }
+
+    public Task<QrLoginCheckResult> QrLoginPollAsync(string qrcodeKey)
+    {
+        return loginDomainService.CheckQrLoginAsync(qrcodeKey, CancellationToken.None);
+    }
+
+    public async Task QrLoginCompleteAsync(BiliCookie rawCookie)
+    {
+        // Per D-02: enrich cookie via SetCookieAsync, then save to SQLite
+        var enriched = await loginDomainService.SetCookieAsync(rawCookie, CancellationToken.None);
+        await AddAsync(enriched.CookieStr);
     }
 
     private SqliteConfigurationProvider? GetSqliteProvider()
