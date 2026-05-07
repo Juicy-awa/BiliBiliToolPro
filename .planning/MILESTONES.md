@@ -1,5 +1,47 @@
 # Milestones
 
+## v4.0.0.7 — Bili Account Management
+
+**Shipped:** 2026-05-07
+**Phases:** 3 (Phases 17–19) | **Plans:** 4 | **Commits:** 18
+
+### Delivered
+
+Added a Web-based "Bili Account" page for viewing, adding, editing, deleting, and reordering Bili accounts (cookies), backed by SQLite as the primary configuration source. QR code login lets maintainers add accounts without manually copying cookie strings. `cookies.json` retained as a lower-priority fallback so existing Console-host users are not broken.
+
+### Key Accomplishments
+
+1. **Account list view** — MudTable showing all accounts with UserId + cookie string (truncated with tooltip), loading spinner, empty state
+2. **Full CRUD operations** — Add (paste cookie), Edit (pre-filled textarea), Delete (confirmation dialog with re-keying), all writing to SQLite via `SqliteConfigurationProvider`
+3. **Account reorder** — Up/down arrow buttons with atomic key swap via `BatchSet` and boundary guards
+4. **QR code login** — `QrLoginDialog.razor` MudDialog with state machine (Generating → Scanning → Success/Failed/Expired), base64 PNG via QRCoder `PngByteQRCode`, polling (5s × 10 attempts), retry button, online URL fallback link
+5. **`IBiliAccountPageWorkflow` seam** — 8 methods across 3 phases following v4.0.0.6 workflow pattern; DI registered as Scoped in `ServiceCollectionExtension`
+6. **Cross-phase integration verified** — Build 0 errors, Architecture 5/5, Integration 7/7, Component 28/28, Characterization 3/4 (1 pre-existing)
+
+### Stats
+
+- Phases: 17–19 (3 phases)
+- Plans: 4 (17-01, 18-01, 18-02, 19-01)
+- Files changed: 36 (+2,965/−28)
+- Timeline: 2 days (2026-05-06 → 2026-05-07)
+- Git range: `2961266` → `0b390bb`
+- Build: 0 errors | ArchitectureTests: 5/5 | IntegrationTests: 7/7 | ComponentTests: 28/28 | CharacterizationTests: 3/4
+
+### Known Tech Debt
+
+- Pre-existing characterization test failure: `Login_flow_preserves_current_step_order_and_emits_diagnostics` (from Phase 5)
+- ARCH-04: Notification adapter/port boundary deferred (from Phase 6)
+- No VERIFICATION.md for any milestone phase (inline verification used; gsd-sdk unavailable)
+- No VALIDATION.md (Nyquist compliance not performed)
+
+### Archive
+
+- [v4.0.0.7-ROADMAP.md](milestones/v4.0.0.7-ROADMAP.md)
+- [v4.0.0.7-REQUIREMENTS.md](milestones/v4.0.0.7-REQUIREMENTS.md)
+- [v4.0.0.7-MILESTONE-AUDIT.md](milestones/v4.0.0.7-MILESTONE-AUDIT.md)
+
+---
+
 ## v4.0.0.5 — Agent DTO Reorganization
 
 **Shipped:** 2026-05-04

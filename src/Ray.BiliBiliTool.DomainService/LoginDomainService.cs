@@ -13,6 +13,7 @@ using Ray.BiliBiliTool.Agent.QingLong;
 using Ray.BiliBiliTool.Agent.QingLong.Dtos;
 using Ray.BiliBiliTool.Config.Options;
 using Ray.BiliBiliTool.Domain.Exceptions;
+using Ray.BiliBiliTool.DomainService.Dtos;
 using Ray.BiliBiliTool.DomainService.Interfaces;
 using Ray.BiliBiliTool.Infrastructure.Cookie;
 
@@ -306,6 +307,90 @@ public class LoginDomainService(
             await PrintIfSaveCookieFailAsync(ckInfo, cancellationToken);
             return false;
         }
+    }
+
+    public async Task<QrLoginGenerateResult> GenerateQrCodeWebAsync(
+        CancellationToken cancellationToken
+    )
+    {
+        var re = await passportApi.GenerateQrCode();
+        if (re.Code != 0)
+        {
+            throw new BiliBusinessException($"获取二维码失败：{re.ToJsonStr()}");
+        }
+
+        var url = re.Data.Url;
+
+        // Generate PNG QR code (no console output, per D-01)
+        var qrGenerator = new QRCodeGenerator();
+        var qrCodeData = qrGenerator.CreateQrCode(url, QRCodeGenerator.ECCLevel.L);
+        var pngQrCode = new PngByteQRCode(qrCodeData);
+        var pngBytes = pngQrCode.GetGraphic(20);
+        var base64 = Convert.ToBase64String(pngBytes);
+
+        var onlineUrl = GetOnlinePic(url);
+
+        return new QrLoginGenerateResult
+        {
+            QrImageBase64 = base64,
+            QrcodeKey = re.Data.Qrcode_key,
+            OnlineUrl = onlineUrl,
+        };
+    }
+
+    public async Task<QrLoginCheckResult> CheckQrLoginAsync(
+        string qrcodeKey,
+        CancellationToken cancellationToken
+    )
+    {
+        var check = await passportApi.CheckQrCodeHasScaned(qrcodeKey);
+        if (!check.IsSuccessStatusCode)
+        {
+            return new QrLoginCheckResult
+            {
+                Status = QrLoginStatus.Error,
+                Message = "检测接口异常",
+            };
+        }
+
+        var contentStr = await check.Content.ReadAsStringAsync(cancellationToken);
+        var content = JsonConvert.DeserializeObject<BiliApiResponse<TokenDto>>(contentStr);
+        if (content?.Code != 0)
+        {
+            return new QrLoginCheckResult
+            {
+                Status = QrLoginStatus.Error,
+                Message = $"检测接口异常：{check.ToJsonStr()}",
+            };
+        }
+
+        if (content.Data.Code == 86038) // 已失效
+        {
+            return new QrLoginCheckResult
+            {
+                Status = QrLoginStatus.Expired,
+                Message = content.Data.Message,
+            };
+        }
+
+        if (content.Data.Code == 0) // 扫描成功
+        {
+            IEnumerable<string> cookies = check
+                .Headers.SingleOrDefault(header => header.Key == "Set-Cookie")
+                .Value;
+
+            var cookieStr = CookieInfo.ConvertSetCkHeadersToCkStr(cookies);
+            var cookieInfo = CookieStrFactory<BiliCookie>.CreateNew(cookieStr);
+            cookieInfo.Check();
+
+            return new QrLoginCheckResult { Status = QrLoginStatus.Success, Cookie = cookieInfo };
+        }
+
+        return new QrLoginCheckResult
+        {
+            Status = QrLoginStatus.Waiting,
+            Message = content.Data.Message,
+        };
     }
 
     #region private
