@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -9,6 +9,7 @@ using Ray.BiliBiliTool.Agent.BiliBiliAgent.Interfaces;
 using Ray.BiliBiliTool.Agent.BiliBiliAgent.Services;
 using Ray.BiliBiliTool.Agent.HttpClientDelegatingHandlers;
 using Ray.BiliBiliTool.Agent.QingLong;
+using Ray.BiliBiliTool.Agent.Baihu;
 using Ray.BiliBiliTool.Config.Options;
 using Ray.BiliBiliTool.Infrastructure.Cookie;
 using Refit;
@@ -97,6 +98,24 @@ public static class ServiceCollectionExtension
                         >().CurrentValue.UserAgent
                     );
                     c.Timeout = BiliResiliencePolicies.HttpTimeout;
+                }
+            )
+            .AddPolicyHandler(BiliResiliencePolicies.ReadOnlyPolicy());
+
+        //baihu
+        var baihuHost = configuration["BA_URL"] ?? "http://localhost:8052";
+        services
+            .AddRefitClient<IBaihuApi>()
+            .ConfigureHttpClient(
+                (sp, c) =>
+                {
+                    c.BaseAddress = new Uri(baihuHost);
+                    c.DefaultRequestHeaders.Add(
+                        "User-Agent",
+                        sp.GetRequiredService<
+                            IOptionsMonitor<SecurityOptions>
+                        >().CurrentValue.UserAgent
+                    );
                 }
             )
             .AddPolicyHandler(BiliResiliencePolicies.ReadOnlyPolicy());

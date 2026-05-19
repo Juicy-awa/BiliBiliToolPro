@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Ray.BiliBiliTool.Agent;
 using Ray.BiliBiliTool.DomainService.Interfaces;
@@ -70,6 +70,13 @@ public abstract class BaseMultiAccountsAppService(
         if (platformType == PlatformType.QingLong)
         {
             await loginDomainService.SaveCookieToQinLongAsync(ckInfo, cancellationToken);
+            return;
+        }
+
+        //更新cookie到白虎env
+        if (platformType == PlatformType.Baihu)
+        {
+            await loginDomainService.SaveCookieToBaihuAsync(ckInfo, cancellationToken);
             return;
         }
 

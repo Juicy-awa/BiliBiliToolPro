@@ -102,6 +102,14 @@ public class LoginTaskCharacterizationTests
             throw new NotSupportedException();
         }
 
+        public Task<bool> SaveCookieToBaihuAsync(
+            BiliCookie ckInfo,
+            CancellationToken cancellationToken
+        )
+        {
+            throw new NotSupportedException();
+        }
+
         public Task<QrLoginGenerateResult> GenerateQrCodeWebAsync(
             CancellationToken cancellationToken
         )

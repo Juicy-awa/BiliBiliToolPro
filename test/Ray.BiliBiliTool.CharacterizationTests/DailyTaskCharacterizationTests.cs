@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -356,6 +356,14 @@ public class DailyTaskCharacterizationTests
         }
 
         public Task<bool> SaveCookieToQinLongAsync(
+            BiliCookie ckInfo,
+            CancellationToken cancellationToken
+        )
+        {
+            throw new NotSupportedException();
+        }
+
+        public Task<bool> SaveCookieToBaihuAsync(
             BiliCookie ckInfo,
             CancellationToken cancellationToken
         )
