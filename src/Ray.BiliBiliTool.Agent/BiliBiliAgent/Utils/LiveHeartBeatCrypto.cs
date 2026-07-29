@@ -44,6 +44,9 @@ public class LiveHeartBeatCrypto
             "HMACSHA256" => new HMACSHA256(Encoding.UTF8.GetBytes(key)),
             "HMACSHA1" => new HMACSHA1(Encoding.UTF8.GetBytes(key)),
             "HMACMD5" => new HMACMD5(Encoding.UTF8.GetBytes(key)),
+            "HMACSHA224" => new HMACSHA224(Encoding.UTF8.GetBytes(key)),
+            "HMACSHA512" => new HMACSHA512(Encoding.UTF8.GetBytes(key)),
+            "HMACSHA384" => new HMACSHA384(Encoding.UTF8.GetBytes(key)),
             _ => throw new ArgumentException($"Unsupported algorithm: {algorithmName}"),
         };
 
