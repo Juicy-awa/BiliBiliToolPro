@@ -1,6 +1,7 @@
-﻿using System.Net;
+using System.Net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Polly;
 using Polly.Extensions.Http;
@@ -80,26 +81,14 @@ public static class ServiceCollectionExtension
         services.AddBiliBiliClientApi<IVipBigPointApi>(BiliHosts.App, configApp);
         services.AddBiliBiliClientApi<IMallApi>(BiliHosts.Mall, configApp);
 
-        //qinglong
-        var qinglongHost = configuration["QL_URL"] ?? "http://localhost:5600";
-        services
-            .AddHttpApi<IQingLongApi>(o =>
-            {
-                o.HttpHost = new Uri(qinglongHost);
-                o.UseDefaultUserAgent = false;
-            })
-            .ConfigureHttpClient(
-                (sp, c) =>
-                {
-                    c.DefaultRequestHeaders.Add(
-                        "User-Agent",
-                        sp.GetRequiredService<
-                            IOptionsMonitor<SecurityOptions>
-                        >().CurrentValue.UserAgent
-                    );
-                }
-            )
-            .AddPolicyHandler(GetRetryPolicy());
+        //qinglong：OpenAPI（ql>=2.20.2 默认端口为 5700，旧版为 5600，客户端自动探测；
+        //也可通过环境变量 QL_URL 或 QingLongConfig:Url 显式指定，如 http://127.0.0.1:5700）
+        services.AddHttpClient("QingLong").AddPolicyHandler(GetRetryPolicy());
+        services.AddSingleton<IQingLongApi>(sp => new QingLongApiService(
+            sp.GetRequiredService<IHttpClientFactory>(),
+            sp.GetRequiredService<ILogger<QingLongApiService>>(),
+            configuration["QL_URL"] ?? configuration.GetSection("QingLongConfig")["Url"]
+        ));
 
         return services;
     }
