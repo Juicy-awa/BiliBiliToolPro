@@ -158,7 +158,10 @@ public class LiveDomainService(
                 {
                     logger.LogWarning(
                         "【天选时刻】获取分区 {area} 第 {page} 页直播间列表失败，B站返回 Code={code}，跳过该分区。",
-                        area.Name, i, reListResp.Code);
+                        area.Name,
+                        i,
+                        reListResp.Code
+                    );
                     break;
                 }
                 var reData = reListResp.Data;
@@ -167,27 +170,29 @@ public class LiveDomainService(
                 {
                     // v3 接口下天选标记：pendant_info["2"].pendent_id == 1432（"天选之旅"）
                     // pendant_info 形状偶发异常（[]/标量/null），改用 JsonElement 容忍解析，避免整轮反序列化崩溃
-                    if (item.Pendant_info == null
+                    if (
+                        item.Pendant_info == null
                         || item.Pendant_info.Value.ValueKind != JsonValueKind.Object
                         || !item.Pendant_info.Value.TryGetProperty("2", out var pendant)
                         || pendant.ValueKind != JsonValueKind.Object
                         || !pendant.TryGetProperty("pendent_id", out var pid)
                         || !pid.TryGetInt64(out var pidVal)
-                        || pidVal != 1432)
+                        || pidVal != 1432
+                    )
                         continue;
 
                     try
                     {
-                        logger.LogInformation(
-                            "【天选时刻】发现天选房间：{room}",
-                            item.Roomid);
+                        logger.LogInformation("【天选时刻】发现天选房间：{room}", item.Roomid);
                         await TryJoinTianXuan(item, ck);
                     }
                     catch (Exception ex)
                     {
                         logger.LogWarning(
                             "【天选时刻】检查房间 {room} 出错：{msg}",
-                            item.Roomid, ex.Message);
+                            item.Roomid,
+                            ex.Message
+                        );
                     }
                 }
 
@@ -482,7 +487,13 @@ public class LiveDomainService(
                 else
                     successCount++;
 
-                var delay = new Random().Next(2000, 4000);
+                var minIntervalMs =
+                    Math.Max(0, _liveFansMedalTaskOptions.SendDanmakuIntervalMinSeconds) * 1000;
+                var maxIntervalMs = Math.Max(
+                    minIntervalMs + 1000,
+                    _liveFansMedalTaskOptions.SendDanmakuIntervalMaxSeconds * 1000
+                );
+                var delay = new Random().Next(minIntervalMs, maxIntervalMs + 1);
                 await Task.Delay(delay);
             }
 
@@ -512,9 +523,16 @@ public class LiveDomainService(
         }
 
         var Now = () => new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds();
+        var heartbeatIntervalMs = Math.Max(30, _liveFansMedalTaskOptions.HeartBeatIntervalSeconds);
+        var hangupStartTime = Now();
+        var globalMaxMs =
+            _liveFansMedalTaskOptions.HeartBeatGlobalMaxMinutes > 0
+                ? (long)_liveFansMedalTaskOptions.HeartBeatGlobalMaxMinutes * 60 * 1000
+                : 0L;
 
         while (
-            infoList.Min(info =>
+            (globalMaxMs == 0 || Now() - hangupStartTime <= globalMaxMs)
+            && infoList.Min(info =>
                 info.FailedTimes >= _liveFansMedalTaskOptions.HeartBeatSendGiveUpThreshold
                     ? int.MaxValue
                     : info.HeartBeatCount
@@ -529,14 +547,10 @@ public class LiveDomainService(
 
                 string uuid = Guid.NewGuid().ToString();
                 var current = Now();
-                if (
-                    current - info.LastBeatTime
-                    <= (LiveFansMedalTaskOptions.HeartBeatInterval + 5) * 1000
-                )
+                if (current - info.LastBeatTime <= (heartbeatIntervalMs + 5) * 1000)
                 {
                     int sleepTime = (int)(
-                        (LiveFansMedalTaskOptions.HeartBeatInterval + 5) * 1000
-                        - (current - info.LastBeatTime)
+                        (heartbeatIntervalMs + 5) * 1000 - (current - info.LastBeatTime)
                     );
                     logger.LogDebug("【休眠】{time} 毫秒", sleepTime);
                     Thread.Sleep(sleepTime);
@@ -596,11 +610,24 @@ public class LiveDomainService(
                 if (heartBeatResult == null || heartBeatResult.Code != 0)
                 {
                     logger.LogError("【心跳包】直播间 {room} 发送失败", info.RoomId);
-                    logger.LogError(
-                        "【原因】{message}",
-                        heartBeatResult != null ? heartBeatResult.Message : ""
-                    );
+                    var failMessage = heartBeatResult != null ? heartBeatResult.Message : "";
+                    logger.LogError("【原因】{message}", failMessage);
                     info.FailedTimes += 1;
+
+                    // 风控/验证码类错误继续重试只会增加风险，直接放弃该直播间
+                    if (
+                        heartBeatResult is { Code: -352 or -509 or -412 }
+                        || failMessage.Contains("风控")
+                        || failMessage.Contains("验证")
+                    )
+                    {
+                        logger.LogWarning(
+                            "【心跳包】直播间 {room} 疑似触发风控(code={code})，放弃该直播间",
+                            info.RoomId,
+                            heartBeatResult?.Code
+                        );
+                        info.FailedTimes = _liveFansMedalTaskOptions.HeartBeatSendGiveUpThreshold;
+                    }
                     continue;
                 }
 
@@ -760,7 +787,10 @@ public class LiveDomainService(
         {
             if (!string.IsNullOrWhiteSpace(ck.SessData))
             {
-                logger.LogWarning("直播 Cookie(LIVE_BUVID)自动配置失败，将使用主 Cookie 继续：{message}", exception.Message);
+                logger.LogWarning(
+                    "直播 Cookie(LIVE_BUVID)自动配置失败，将使用主 Cookie 继续：{message}",
+                    exception.Message
+                );
                 return true;
             }
             logger.LogError("【配置直播Cookie】失败，放弃执行后续任务...");
