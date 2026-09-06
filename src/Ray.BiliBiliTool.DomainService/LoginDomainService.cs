@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -237,20 +237,22 @@ public class LoginDomainService(
             var token = await GetQingLongAuthTokenAsync();
             if (string.IsNullOrEmpty(token))
             {
-                throw new Exception("获取青龙token失败");
+                throw new Exception("获取青龙OpenAPI token失败，请检查上方日志中的原因");
             }
 
             var qlEnvList = await qingLongApi.GetEnvsAsync("Ray_BiliBiliCookies__", token);
             if (qlEnvList.Code != 200)
             {
-                throw new Exception($"查询环境变量失败：{qlEnvList.ToJsonStr()}");
+                throw new Exception(
+                    $"查询环境变量失败(code={qlEnvList.Code})：{qlEnvList.Message ?? qlEnvList.ToJsonStr()}"
+                );
             }
 
             logger.LogDebug(qlEnvList.Data.ToJsonStr());
             logger.LogDebug(ckInfo.ToString());
 
-            var list = qlEnvList
-                .Data.Where(x => x.name.StartsWith("Ray_BiliBiliCookies__"))
+            var list = (qlEnvList.Data ?? [])
+                .Where(x => x.name.StartsWith("Ray_BiliBiliCookies__"))
                 .ToList();
             var oldEnv = list.FirstOrDefault(x => x.value.Contains(ckInfo.UserId));
 
@@ -300,8 +302,9 @@ public class LoginDomainService(
             logger.LogInformation(addRe.Code == 200 ? "新增成功！" : addRe.ToJsonStr());
             return true;
         }
-        catch
+        catch (Exception ex)
         {
+            logger.LogError("保存cookie到青龙失败：{message}", ex.Message);
             await PrintIfSaveCookieFailAsync(ckInfo, cancellationToken);
             return false;
         }
@@ -404,37 +407,50 @@ public class LoginDomainService(
 
     #region qinglong
 
-    private async Task<string> GetQingLongAuthTokenAsync()
+    private async Task<string?> GetQingLongAuthTokenAsync()
     {
-        logger.LogWarning("使用OpenAPI鉴权");
-        if (
-            string.IsNullOrWhiteSpace(qingLongOptions.Value.ClientId)
-            || string.IsNullOrWhiteSpace(qingLongOptions.Value.ClientSecret)
-        )
+        logger.LogInformation("使用青龙 OpenAPI 鉴权（端口自动探测：5700 -> 5600）");
+        var clientId = qingLongOptions.Value.ClientId;
+        var clientSecret = qingLongOptions.Value.ClientSecret;
+        if (string.IsNullOrWhiteSpace(clientId) || string.IsNullOrWhiteSpace(clientSecret))
         {
-            logger.LogWarning("未配置青龙的ClientId和ClientSecret，无法自动获取token");
+            logger.LogWarning("未配置青龙 OpenAPI 的 ClientId/ClientSecret，无法自动持久化cookie");
+            logger.LogWarning(
+                "请在青龙[系统设置-应用设置]创建应用，并将生成的 ClientId/Secret 配置为环境变量："
+                    + "Ray_QingLongConfig__ClientId / Ray_QingLongConfig__ClientSecret"
+            );
             logger.LogWarning(
                 "教程：{qingDoc}",
                 "https://github.com/RayWangQvQ/BiliBiliToolPro/blob/main/qinglong/README.md"
             );
-            return "";
+            return null;
         }
 
-        var token = await qingLongApi.GetTokenAsync(
-            qingLongOptions.Value.ClientId!,
-            qingLongOptions.Value.ClientSecret!
-        );
+        var tokenRe = await qingLongApi.GetTokenAsync(clientId, clientSecret);
+        if (tokenRe.Code != 200 || tokenRe.Data is null)
+        {
+            logger.LogWarning(
+                "获取青龙 OpenAPI token 失败(code={code})：{message}",
+                tokenRe.Code,
+                tokenRe.Message
+            );
+            return null;
+        }
 
-        return $"{token.Data.token_type} {token.Data.token}";
+        return $"{tokenRe.Data.token_type} {tokenRe.Data.token}";
     }
 
     private Task PrintIfSaveCookieFailAsync(BiliCookie ckInfo, CancellationToken cancellationToken)
     {
-        logger.LogError("持久化失败，青龙版本高于2.18，请手动添加环境变量到青龙");
+        logger.LogError("cookie持久化到青龙失败，请按下方提示手动添加/更新环境变量：");
         logger.LogWarning("变量Key：{key}", "Ray_BiliBiliCookies__0");
         logger.LogWarning("变量值：{value}", ckInfo.CookieStr);
         logger.LogWarning(
             "如果Key已存在，请自行+1，如Ray_BiliBiliCookies__1，Ray_BiliBiliCookies__2..."
+        );
+        logger.LogWarning(
+            "若为OpenAPI鉴权失败：检查青龙[系统设置-应用设置]的 ClientId/Secret 是否已配置到环境变量；"
+                + "访问地址默认自动探测 5700/5600，也可用 QL_URL(如 http://127.0.0.1:5700)显式指定"
         );
         return Task.CompletedTask;
     }

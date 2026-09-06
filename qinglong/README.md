@@ -80,6 +80,10 @@
 
 青龙官方说明：https://qinglong.online/api/preparation
 
+> 兼容性说明：青龙 2.20.2+ 的 OpenAPI 端口由 5600 调整为 5700。本项目已自动适配：
+> 未显式配置时自动探测 5700 -> 5600；如需指定其他地址，可配置环境变量
+> `QL_URL`（如 `http://127.0.0.1:5700`）或 `Ray_QingLongConfig__Url`。
+
 #### 1.4.1. 新建 Application
 
 青龙 -> 系统设置 -> 应用设置，点击新建。
