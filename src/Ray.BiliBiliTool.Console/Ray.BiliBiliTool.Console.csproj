@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\common.props" />
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -73,16 +73,20 @@
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="Husky" BeforeTargets="Restore;CollectPackageReferences" Condition="'$(HUSKY)' != 0">
+    <!-- 青龙(qinglong)等部署环境可能没有 git，husky install 失败不应阻断构建；
+         开发者本机 git 正常时 hook 仍会照常安装。 -->
     <Exec
       Command="dotnet tool restore"
       StandardOutputImportance="Low"
       StandardErrorImportance="High"
+      IgnoreExitCode="true"
     />
     <Exec
       Command="dotnet husky install"
       StandardOutputImportance="Low"
       StandardErrorImportance="High"
       WorkingDirectory="..\.."
+      IgnoreExitCode="true"
     />
   </Target>
 </Project>
