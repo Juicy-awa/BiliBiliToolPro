@@ -13,9 +13,10 @@ public class LiveFansMedalTaskOptions : BaseConfigOptions
     public string DanmakuContent { get; set; } = "OvO";
 
     /// <summary>
-    /// 心跳包发送的个数 / 单个直播间挂机的时间，单位为分钟
+    /// 心跳包发送的个数 / 单个直播间挂机的时间。
+    /// 默认 30 个：按 60s 间隔约挂机 30 分钟
     /// </summary>
-    public int HeartBeatNumber { get; set; } = 70;
+    public int HeartBeatNumber { get; set; } = 30;
 
     /// <summary>
     /// 当心跳包发送连续失败多少次时放弃
