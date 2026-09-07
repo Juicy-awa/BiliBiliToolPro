@@ -13,10 +13,9 @@ public class LiveFansMedalTaskOptions : BaseConfigOptions
     public string DanmakuContent { get; set; } = "OvO";
 
     /// <summary>
-    /// 心跳包发送的个数 / 单个直播间挂机的时间，单位为分钟。
-    /// 按 B 站新规(粉丝牌每日观看时长亲密度)默认 25 分钟/房
+    /// 心跳包发送的个数 / 单个直播间挂机的时间，单位为分钟
     /// </summary>
-    public int HeartBeatNumber { get; set; } = 25;
+    public int HeartBeatNumber { get; set; } = 70;
 
     /// <summary>
     /// 当心跳包发送连续失败多少次时放弃
@@ -44,10 +43,11 @@ public class LiveFansMedalTaskOptions : BaseConfigOptions
     public int LikeNumber { get; set; } = 30;
 
     /// <summary>
-    /// 每个直播间发送弹幕次数。按 B 站新规(每日10条弹幕)默认 10；
-    /// 若不需要维持亲密度可调小以减少请求
+    /// 每个直播间发送弹幕次数。默认 1（安全）。
+    /// 注意：批量发送同一内容弹幕会被 B 站判定刷屏并触发限频/短时禁言，
+    /// 如需多发请配合不同的弹幕内容与较大的随机间隔，谨慎调大
     /// </summary>
-    public int SendDanmakuNumber { get; set; } = 10;
+    public int SendDanmakuNumber { get; set; } = 1;
 
     /// <summary>
     /// 弹幕发送失败多少次时放弃
@@ -55,15 +55,14 @@ public class LiveFansMedalTaskOptions : BaseConfigOptions
     public int SendDanmakugiveUpThreshold { get; set; } = 3;
 
     /// <summary>
-    /// 连续发送弹幕的随机间隔下限（秒），默认 3
+    /// 连续发送弹幕的随机间隔下限（秒），默认 2
     /// </summary>
-    public int SendDanmakuIntervalMinSeconds { get; set; } = 3;
+    public int SendDanmakuIntervalMinSeconds { get; set; } = 2;
 
     /// <summary>
-    /// 连续发送弹幕的随机间隔上限（秒），默认 8；
-    /// 单日多条弹幕时随机间隔可降低风控概率，可按需调大
+    /// 连续发送弹幕的随机间隔上限（秒），默认 4
     /// </summary>
-    public int SendDanmakuIntervalMaxSeconds { get; set; } = 8;
+    public int SendDanmakuIntervalMaxSeconds { get; set; } = 4;
 
     public override Dictionary<string, string> ToConfigDictionary()
     {
