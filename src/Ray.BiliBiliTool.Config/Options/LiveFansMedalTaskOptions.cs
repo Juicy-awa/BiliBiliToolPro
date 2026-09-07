@@ -34,10 +34,9 @@ public class LiveFansMedalTaskOptions : BaseConfigOptions
     public int HeartBeatIntervalSeconds { get; set; } = 60;
 
     /// <summary>
-    /// 本次"直播观看时长"任务整体挂机的时间上限（分钟），0 表示不限制。
-    /// 粉丝牌较多时避免单次任务过长，默认限制 2 小时
+    /// 本次"直播观看时长"任务整体挂机的时间上限（分钟），0 表示不限制（默认）
     /// </summary>
-    public int HeartBeatGlobalMaxMinutes { get; set; } = 120;
+    public int HeartBeatGlobalMaxMinutes { get; set; } = 0;
 
     /// <summary>
     /// 点赞次数，默认值为30（用于点亮粉丝勋章）
